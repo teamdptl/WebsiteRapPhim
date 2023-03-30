@@ -1,0 +1,17 @@
+{
+    "name": "huykh/website-rap-phim",
+    "description": "Website rap phim",
+    "autoload": {
+        "psr-4": {
+            "app\\core\\": "src/",
+            "app\\public\\": "public/"
+        }
+    },
+    "authors": [
+        {
+            "name": "huykhaduy",
+            "email": "huykhaduy@gmail.com"
+        }
+    ],
+    "require": {}
+}
