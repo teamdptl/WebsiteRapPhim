@@ -3,8 +3,8 @@
     "description": "Website rap phim",
     "autoload": {
         "psr-4": {
-            "app\\core\\": "src/",
-            "app\\public\\": "public/"
+            "core\\": "core/",
+            "app\\": "src/"
         }
     },
     "authors": [
@@ -13,5 +13,7 @@
             "email": "huykhaduy@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "twig/twig": "~3.0"
+    }
 }
