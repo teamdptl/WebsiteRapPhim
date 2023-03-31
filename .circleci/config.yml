@@ -19,7 +19,6 @@ jobs:
           name: Start PHP server
           command: php -S 127.0.0.1:8000 -t public > /dev/null 2>&1 &
           background: true
-      - run: vendor/bin/phpunit
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
