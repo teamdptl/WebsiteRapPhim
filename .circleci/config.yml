@@ -14,13 +14,12 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
-      - run:
-          name: "Run php app"
-          command: "php public/index.php"
+      - run: composer install
+      - run: php public/index.php
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  run-app-workflow:
     jobs:
       - serve-app
