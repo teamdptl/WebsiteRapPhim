@@ -16,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: "Run php app"
-          command: "php -S localhost:8000 -t ./public/"
+          command: "php ./public/index.php"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
