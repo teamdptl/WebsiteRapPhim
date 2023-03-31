@@ -2,5 +2,4 @@
 namespace core;
 
 class Model{
-
 }

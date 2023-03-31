@@ -7,9 +7,9 @@ abstract class Controller{
         $this->route_params = $params;
     }
 
+    // Cái hàm này chưa cần thiết, nó không có tác dụng gì cả
     public function __call($methodName, $args) {
         if (method_exists($this, $methodName)){
-//            call_user_func(array($this, $methodName), ...$args);
             $this->$methodName(...$args);
         }
         else {

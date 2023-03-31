@@ -81,7 +81,11 @@ class Router{
         $controller = "\app\controller\\".$controller;
         if (class_exists($controller)){
             $controller_object = new $controller($this->params);
-            $controller_object->$action($this->params);
+            try{
+                $controller_object->$action(...$this->params);
+            } catch (\ArgumentCountError $e){
+                throw new \Exception("Method $action has different arguments or don't exist in class " .get_class($this));
+            }
         }
         else {
             throw new \Exception("Class ".$controller." is not found in your project!");

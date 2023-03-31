@@ -11,6 +11,8 @@ $app->router->get('/hi', "example.html");
 
 $app->router->get('/', ["controller"=>"HomeController", "action"=>"homeAction"]);
 
+$app->router->get('/duy', ["controller"=>"HomeController", "action"=>"otherAction"]);
+
 $app->router->get('/page/{id:\d+}', function($id){
     echo "Bạn đang truy cập trang $id";
 });

@@ -17,4 +17,8 @@ class HomeController extends Controller
         $content .= "</ul>";
         View::renderTemplate("home.html", ["content" => $content]);
     }
+
+    public function otherAction($name){
+        View::renderTemplate("home.html", ["content" => "Duy chào bạn $name nha"]);
+    }
 }
