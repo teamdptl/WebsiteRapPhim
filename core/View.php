@@ -20,7 +20,7 @@ class View{
     public static function renderTemplate($template, $args = []){
         static $twig = null;
         if ($twig === null) {
-            $loader = new FilesystemLoader(dirname(__DIR__) . '\src\view\template\\');
+            $loader = new FilesystemLoader(dirname(__DIR__) . '/src/view/template/');
             $twig = new Environment($loader);
         }
         echo $twig->render($template, $args);
