@@ -22,7 +22,10 @@ class Application {
         try {
             $this->router->resolve();
         } catch (Exception $e) {
-            echo "Lỗi";
+            echo "<pre>";
+//            View::renderTempalte("error.html");
+            echo $e;
+            echo "</pre>";
         }
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
 namespace core;
-
-use Couchbase\PathNotFoundException;
-use http\Exception;
+use app\controller\HomeController;
 
 class Router{
 
@@ -61,34 +59,36 @@ class Router{
                 $this->resolveCallable($callback);
             }
             else if (is_array($callback)){
-                echo "Is array";
                 $this->resolveArray($callback);
             }
             else {
-                $this->resolveError($callback, "Callback is not supported");
+                throw new \Exception("Callback for $path(method: $method) is not found", 404);
             }
         }
         else {
-            $this->resolveError($callback, "Not found path");
+            throw new \Exception("Path not found", 404);
         }
-
-
     }
 
     protected function resolveString($callback){
-
+        View::render($callback);
     }
 
     protected function resolveArray($callback){
         $controller = $callback['controller'];
         $action = $callback['action'];
+        // Add namesapce to string
+        $controller = "\app\controller\\".$controller;
+        if (class_exists($controller)){
+            $controller_object = new $controller($this->params);
+            $controller_object->$action($this->params);
+        }
+        else {
+            throw new \Exception("Class ".$controller." is not found in your project!");
+        }
     }
 
     protected function resolveCallable($callback){
-        call_user_func($callback, $this->params);
-    }
-
-    protected function resolveError($callback, $error){
-        echo $error;
+        call_user_func($callback, ...$this->params);
     }
 }
