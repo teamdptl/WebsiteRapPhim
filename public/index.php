@@ -21,3 +21,4 @@ $app->router->get('/page/{id:\d+}', function($id){
 // Running and resolver
 $app->run();
 
+// Ok
