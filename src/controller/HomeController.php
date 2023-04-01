@@ -19,6 +19,6 @@ class HomeController extends Controller
     }
 
     public function otherAction($name){
-        View::renderTemplate("home.html", ["content" => "Duy chào bạn $name nha"]);
+        View::renderTemplate("home.html", ["content" => "Duy chào bạn $name nha hehehe"]);
     }
 }
