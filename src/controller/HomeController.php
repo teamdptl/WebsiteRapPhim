@@ -9,16 +9,23 @@ class HomeController extends Controller
     public function homeAction()
     {
         $content = "";
-        $data = ["Cat", "Dog", "Mouse", "Pig", "Kangaroo", "ChickenDinner"];
+        $animals = ["Cat", "Dog", "Mouse", "Pig", "Kangaroo", "ChickenDinner"];
         $content .= "<ul>";
-        foreach ($data as $d) {
-            $content .= "<li>$d</li>";
+        foreach ($animals as $ani) {
+            $content .= "<li>$ani</li>";
         }
         $content .= "</ul>";
-        View::renderTemplate("home.html", ["content" => $content]);
+        $isLogin = false;
+        View::renderTemplate("demo.html",
+            [
+                "content" => $content,
+                "animals"=> $animals,
+                "isLogin" => true,
+            ]
+        );
     }
 
     public function otherAction($name){
-        View::renderTemplate("home.html", ["content" => "<h1>Duy chào bạn $name nha hehehe</h1>"]);
+        View::renderTemplate("demo.html", ["content" => "<h1>Duy chào bạn $name nha hehehe</h1>"]);
     }
 }
