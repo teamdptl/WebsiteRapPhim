@@ -9,7 +9,7 @@ class HomeController extends Controller
     public function homeAction()
     {
         $content = "";
-        $data = ["Cat", "Dog", "Mouse", "Pig", "Kangaroo"];
+        $data = ["Cat", "Dog", "Mouse", "Pig", "Kangaroo", "Chicken"];
         $content .= "<ul>";
         foreach ($data as $d) {
             $content .= "<li>$d</li>";
