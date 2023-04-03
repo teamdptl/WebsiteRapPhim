@@ -19,7 +19,7 @@ class GlobalController
             1 => [
                 "navID" => 1,
                 "navContent" => "Trang chủ",
-                "navHref" => "/test"
+                "navHref" => "/"
             ],
             2 => [
                 "navID" => 2,

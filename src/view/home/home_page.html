@@ -1,6 +1,8 @@
 {% extends './template/root.html' %}
 {% block header %}
 <link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/carousel.css">
+<script src="/js/component/Carousel.js"></script>
 {% endblock %}
 
 {% block title %}
@@ -9,6 +11,7 @@ Trang chủ - Đặt vé xem phim online
 
 {% block body %}
     {{ navbar | raw }}
+    <movie-carousel></movie-carousel>
 {% endblock %}
 
 {% block js %}

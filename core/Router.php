@@ -61,6 +61,7 @@ class Router{
     }
 
     protected function matchRequire($arr, $url, $method){
+        if ($arr == null) return false;
         foreach ($arr[$method] as $path => $isRequire){
             if (preg_match($path, $url, $mathes) && $isRequire == true){
                 return true;

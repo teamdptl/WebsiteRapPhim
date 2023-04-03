@@ -8,14 +8,16 @@ use core\Application;
 $app = Application::init();
 
 $app->router->get('/hi', "example.html");
-
-$app->router->get('/', ["controller"=>"HomeController", "action"=>"homeAction"]);
-$app->router->get('/test', ["controller"=>"HomeController", "action"=>"homePageRender"]);
-
-$app->router->get('/{name:\w+}', ["controller"=>"HomeController", "action"=>"otherAction"]);
-
+$app->router->get('/test', ["controller"=>"HomeController", "action"=>"homeAction"]);
+$app->router->get('/', ["controller"=>"HomeController", "action"=>"homePageRender"]);
+$app->router->get('/name/{name:\w+}', ["controller"=>"HomeController", "action"=>"otherAction"]);
 $app->router->get('/page/{id:\d+}', function($id){
     echo "Bạn đang truy cập trang $id";
+});
+
+$app->router->get('/{error:\S+}', function($error){
+    echo "Bạn đang truy cập trang $error không tồn tại"."<br>";
+    echo "<a href='/'>Click vào đây để trở về</a>";
 });
 
 

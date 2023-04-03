@@ -1,0 +1,62 @@
+.carousel{
+    position: relative;
+    background-image: url("/assets/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.slider {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.slide {
+    transition: transform 0.5s ease;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0 6px 20px -2px, rgba(0, 0, 0, 0.3) 0px 3px 20px -3px;
+}
+
+.slide-left {
+    transform: translateX(50px) scale(0.7);
+}
+
+.slide.active {
+    transform: scale(1.0);
+}
+
+.slide-right {
+    transform: translateX(-50px) scale(0.7);
+}
+
+.slider img{
+    height: 450px;
+    width: 800px;
+    border-radius: 15px;
+}
+
+.arrow-icon{
+    position: absolute;
+    color: white;
+    background-color: #0275d8;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.arrow-right{
+    right: 30px;
+}
+
+.arrow-left{
+    left: 30px;
+}
