@@ -1,21 +1,35 @@
 <?php
 
 namespace core;
-use app\controller\HomeController;
+use app\controller\GlobalController;
 
 class Router{
 
     protected array $routes = [];
     protected array $params = [];
+    protected array $loginRequiredPath = [];
+    protected array $adminRequiredPath = [];
 
-    public function get($path, $callback){
+    public function get($path, $callback, $loginRequired = false, $adminRequired = false){
         $path = $this->convertToRegex($path);
         $this->routes['get'][$path] = $callback;
+        if ($loginRequired){
+            $this->loginRequiredPath['get'][$path] = true;
+        }
+        if ($adminRequired){
+            $this->adminRequiredPath['get'][$path] = true;
+        }
     }
 
-    public function post($path, $callback){
+    public function post($path, $callback, $loginRequired = false, $adminRequired = false){
         $path = $this->convertToRegex($path);
         $this->routes['post'][$path] = $callback;
+        if ($loginRequired){
+            $this->loginRequiredPath['get'][$path] = true;
+        }
+        if ($adminRequired){
+            $this->adminRequiredPath['get'][$path] = true;
+        }
     }
 
     // Chuyển path về regex
@@ -46,12 +60,31 @@ class Router{
         return null;
     }
 
+    protected function matchRequire($arr, $url, $method){
+        foreach ($arr[$method] as $path => $isRequire){
+            if (preg_match($path, $url, $mathes) && $isRequire == true){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isRequireLogin($url, $method){
+        return $this->matchRequire($this->loginRequiredPath,$url, $method);
+    }
+
+    public function isRequireAdmin($url, $method){
+        return $this->matchRequire($this->adminRequiredPath,$url, $method);
+    }
+
     public function resolve(){
+        // Init request user
         $method = Request::getMethod();
         $path = Request::getPath();
-//        $callback = $this->routes[$method][$path] ?? false;
         $callback = $this->match($path, $method);
         if (!is_null($callback)){
+            // Add middleware to all route
+            GlobalController::checkRequire($this->isRequireLogin($path, $method), $this->isRequireAdmin($path, $method));
             if (is_string($callback)){
                 $this->resolveString($callback);
             }

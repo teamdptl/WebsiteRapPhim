@@ -20,16 +20,25 @@ class View{
     public static function renderTemplate($template, $args = []){
         static $twig = null;
         if ($twig === null) {
-            $loader = new FilesystemLoader(dirname(__DIR__) . '/src/view/template/');
+            $loader = new FilesystemLoader(dirname(__DIR__) . '/src/view/');
             $twig = new Environment($loader);
         }
         echo $twig->render($template, $args);
     }
 
-    // Replace for PHP File Include
-    public static function includePHPView($view): string{
+    public static function renderTemplateStr($template, $args = []): string{
+        static $twig = null;
+        if ($twig === null) {
+            $loader = new FilesystemLoader(dirname(__DIR__) . '/src/view/');
+            $twig = new Environment($loader);
+        }
+        return $twig->render($template, $args);
+    }
+
+    // Replace for View File Include
+    public static function getViewContent($view): string{
         ob_start();
-        $file_path = dirname(__DIR__) . "/src/view/".$view.".php";
+        $file_path = dirname(__DIR__) . "/src/view/".$view;
         include $file_path;
         return ob_get_clean();
     }

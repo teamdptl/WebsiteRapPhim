@@ -1,0 +1,117 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 992px) {
+    html{
+        font-size: 14px;
+    }
+
+    .btn-action{
+        width: auto !important;
+    }
+}
+
+@media only screen and (max-width: 768px){
+    html{
+        font-size: 13px;
+    }
+
+    nav .dropdown-menu{
+        position: absolute !important;
+        transform: translateX(-50%) !important;
+        left: 50% !important;
+        min-width: 200px;
+    }
+
+    .navbar-nav{
+        gap: 10px;
+        margin-top: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-action{
+        max-width: 300px !important;
+        width: 100% !important;
+        min-width: 100px !important;
+        margin: 0 !important;
+    }
+}
+
+/*CSS dùng cho navbar và footer*/
+
+.font-inter{
+    font-family: 'Inter', sans-serif;
+}
+
+.font-weight-500{
+    font-weight: 500;
+}
+
+.font-size-small{
+    font-size: 1rem;
+}
+
+.outline-primary{
+    outline: 1px solid #0275d8;
+}
+
+.nav-item:hover > .nav-link{
+    color: #0275d8 !important;
+}
+
+.text-hidden{
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-action{
+    width: 100px;
+    gap: 10px;
+}
+
+.nav-link {
+    color: rgba(0,0,0,.9) !important;
+    position: relative;
+}
+
+.nav-item.active > .nav-link {
+    color: #0275d8 !important;
+}
+
+.nav-item.active > .nav-link::after{
+    content: "";
+    width: 80%;
+    height: 2px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    background-color: #0275d8;
+}
+
+.nav-item > .nav-link::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    background-color: #0275d8;
+    transform: translateX(-50%);
+    height: 2px;
+    width: 0;
+    transition: all 0.5s;
+}
+
+.nav-item:hover > .nav-link::after{
+    width: 80%;
+    transition: all 0.5s;
+}

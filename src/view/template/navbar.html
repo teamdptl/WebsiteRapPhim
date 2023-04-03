@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-md navbar-light bg-white py-3">
+    <div class="container">
+        <a class="navbar-brand me-auto text-primary font-weight-bold d-flex justify-content-center align-items-center" href="/">
+<!--            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/RAI_Cinema_Logo.svg/2560px-RAI_Cinema_Logo.svg.png" alt="Logo" style="width: 100px">-->
+            <span class="bg-primary text-white px-1 mr-1 rounded">
+                SGU
+            </span>
+            <span>
+                Cinema
+            </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav mx-auto align-items-center">
+                {% for nav in navItems %}
+                    {% if path == nav.navHref %}
+                <li class="nav-item active px-2">
+                    <a class="nav-link font-inter font-weight-500 font-size-small" href="{{nav.navHref}}">{{nav.navContent}}</a>
+                </li>
+                    {% else %}
+                <li class="nav-item px-2">
+                    <a class="nav-link font-inter font-weight-500 font-size-small" href="{{nav.navHref}}">{{nav.navContent}}</a>
+                </li>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+
+            <div class="navbar-nav ms-auto">
+                {% if user is not null %}
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm dropdown-toggle d-flex justify-content-center align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="bg-primary rounded-circle text-white d-flex justify-content-center align-items-center" style="width: 20px; height: 20px">D</span>
+                        <span class="font-weight-500 font-size-small text-hidden mx-2" style="max-width: 120px">{{ user.username }}</span>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-item user-select-none">
+                            <div class="text-hidden user-select-none" style="max-width: 120px">{{ user.isAdmin ? "Quản trị viên" : "Khách hàng" }}</div>
+                            <div class="text-hidden user-select-none" style="max-width: 150px; font-size: 0.9rem">{{ user.email }}</div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        {% if user.isAdmin == true %}
+                        <a class="dropdown-item" href="#">Thông tin tài khoản</a>
+                        <a class="dropdown-item" href="#"> Truy cập trang quản trị</a>
+                        {% else %}
+                        <a class="dropdown-item" href="#">Thông tin tài khoản</a>
+                        <a class="dropdown-item" href="#">Đơn hàng đã đặt</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Đăng xuất</a>
+                    </div>
+                </div>
+                {% else %}
+                <button class="btn text-primary outline-primary btn-sm mr-2 font-weight-500 btn-action" style="width: 100px">Đăng nhập</button>
+                <button class="btn btn-primary btn-sm font-weight-500 btn-action">Đăng kí</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
