@@ -20,14 +20,14 @@ $app->router->get('/phuc', function(){
     View::render('dangnhap.php', ["username"=> "Phuc"]);
 });
 
-$app->router->get('/signin', ['controller' => 'SigninController', 'action' => 'getSignPage']);
+$app->router->get('/signin', ['controller' => 'SignInController', 'action' => 'getSignPage']);
 
 $app->router->get('/{error:\S+}', function($error){
     echo "Bạn đang truy cập trang $error không tồn tại"."<br>";
     echo "<a href='/'>Click vào đây để trở về</a>";
 });
 
-$app->router->post('/signin', ["controller" => "SigninController", "action" => "validateLogin"]);
+$app->router->post('/signin', ["controller" => "SignInController", "action" => "validateLogin"]);
 
 // Running and resolver
 $app->run();
