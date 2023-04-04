@@ -99,7 +99,7 @@ Trang đăng nhập
         let email = $("#email").val();
         let password = $("#password").val();
         $.ajax({
-            url: "http://localhost:8000/signin",
+            url: "/signin",
             method: "POST",
             data: {
                 username: email,
