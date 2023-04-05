@@ -35,7 +35,7 @@
 }
 
 .owl-stage-outer{
-    padding: 4rem 0rem;
+    padding: 4rem 0;
     position: relative;
 }
 
@@ -87,4 +87,21 @@
 .owl-next{
     right: 30px;
     top: 50%;
+}
+
+@media screen and (max-width: 720px){
+    .hot-title::before{
+        content: "";
+        display: none;
+    }
+
+    .hot-title::after{
+        content: "";
+        display: none;
+    }
+
+    .owl-stage-outer{
+        padding: 2rem 0;
+        position: relative;
+    }
 }
