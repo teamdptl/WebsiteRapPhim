@@ -1,11 +1,11 @@
-<?php
+<?php 
 namespace app\controller;
 use core\Controller;
 use core\View;
 
-class SignInController extends Controller{
+class SignUpController extends Controller{
 
-    public function getSignPage(){
+    public function getSignUpPage(){
         $navbar = GlobalController::getNavbar();
 
         $listCinema =[
@@ -31,26 +31,33 @@ class SignInController extends Controller{
             
         ];
 
-        View::renderTemplate('signIn/signIn_page.html',[
+        View::renderTemplate('signUp/signUp_page.html',[
             "navbar" => $navbar,
             "listCinema" => $listCinema
         ]);
       
     }
 
-    public function validateLogin(){
+    public function validateLogup(){
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $fullname = $_POST['fullname'];
 
-        // $user = User::where("usernmae == $username AND password == $password");
-        // if ($user == null) echo "Sai mat khau hoac ten dang nhap"
-        // else "Thanh cong";
+        $patternEmail = '/^[a-z]+[a-z-_\.0-9]{2,}@[a-z]+[a-z-_\.0-9]{2,}\.[a-z]{2,}$/';
+        $patternPassword = '/[\dA-Za-z]{8,}/';
+        $patternFullname = '/[ A-Za-z]{4,}/';
 
-        $defaultUsername = "phuc";
-        $defaultPassword = "123";
+        //Check 
+        $checkEmail = preg_match($patternEmail, $username);
+        $checkPassWord = preg_match($patternPassword, $password);
+        $checkFullname = preg_match($patternFullname, $fullname);
 
-        if ($defaultUsername == $username && $defaultPassword == $password)
+        if($checkEmail && $checkPassWord && $checkFullname){
             echo "Thành công";
-        else echo "Thất bại";
+        }else echo "Thất bại";
+
+        // if($checkEmail && $checkPassWord){
+        //     echo "Thành công";
+        // }else echo "Thất bại";
     }
 }

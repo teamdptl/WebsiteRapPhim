@@ -1,0 +1,119 @@
+{% extends './template/root.html' %}
+{% block header %}
+<link rel="stylesheet" href="/css/signin.css">
+<link rel="stylesheet" href="/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/css/owl.theme.default.min.css">
+{% endblock %}
+
+{% block title %}
+Trang đăng ký
+{% endblock %}
+
+{% block body %}
+{{ navbar | raw }}
+<div class="container_signIn">
+    <div id="container_left">
+        <div class="container_left_mid">
+            <div class="login">
+                    <h1 class="login_header" >Chào mừng đến CGV</h1>
+                    <div style="text-align: center; margin-bottom: 20px;">Rạp phim xin chào ạ, mời bạn nhập thông tin</div>
+                    <!-- <button class="login_social">
+                        <i class="fa fa-google login_social_icon"></i>
+                        <span class="login_social_text">Log in with google</span>
+                    </button>
+                    <div class="login_or"><span>Or</span></div> -->
+
+                    <form action="/signup" id="form" class="login_form" autocomplete="off" method="POST">
+                        <label for="fullname" class="login_label">Họ tên</label>
+                        <input type="text" id="fullname" name="fullname" class="login_component login_input" placeholder="Ví dụ: Nguyễn Văn Ạ">
+                        <label for="email" class="login_label" >Email</label>
+                        <input type="text" id="email" name="username" class="login_component login_input" placeholder="Ví dụ: ThanhDanh@gmail.com">
+                        <label for="password" class="login_label">Mật khẩu</label>
+                        <input type="password" id="password" name="password" class="login_component login_input" placeholder="Ví dụ: 12345678">
+                        
+                        <div class="form_item_other">
+                            <div class="checkBox">
+                                <input type="checkbox" id="RememberMeCheckBox">
+                                <label for="RememberMeCheckBox">Tôi đồng ý với điều khoản</label>
+                            </div>
+                         
+                        </div>
+                        <button id="btnLogUp" class="login_component login_already" type="submit">Đăng ký</button>
+                    </form>
+                    <p class="signup">
+                        <span>Bạn đã có tài khoản ?</span>
+                        <a href="login.php" class="login_sigin_link">Đăng nhập</a>
+                    </p>
+            </div>
+        </div>
+        <!-- <div class="container_left_footer"></div> -->
+    </div>
+
+    <div id="container_right">
+        <section class="slider owl-carousel owl-theme">
+            {% for cinema in listCinema %}
+             <div class="slider-item" style="background-image: url('{{ cinema.url }}')">
+                <div class="wraper">
+                    <div class="slider-item-text">
+                        <p><span style="font-weight: bold; font-size: 40px;">Tên phim: {{ cinema.title }}</span></p> 
+                            <p style="font-weight: bold; font-size: 25px;">{{cinema.year}} | Mã phim | 2h 10m</p>
+                            <br />
+                        <p>Thể loại: giật giật, đáng ghét</p>
+                    </div>
+                </div>
+             </div>
+            {% endfor %}
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script src="/js/owl.carousel.min.js"></script>
+<script>
+    $(document).ready(function(){
+         $(".owl-carousel").owlCarousel();
+    });
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        margin:10,
+        nav:true,
+        autoplay:true,
+        autoTimeout:4000,
+        responsive:{
+            0:{
+                items:1
+            },
+            600:{
+                items:1
+            },
+            1000:{
+                items:1
+            }
+        }
+    });
+
+    $('#form').submit(false);
+
+    $("#btnLogUp").click((e)=>{
+        e.preventDefault();
+        let fullname = $("#fullname").val();
+        let email = $("#email").val();
+        let password = $("#password").val();
+        $.ajax({
+            url: "/signup",
+            method: "POST",
+            data: {
+                fullname: fullname,
+                username: email,
+                password: password,
+            },
+            success: function(res){
+                alert(res);
+            },
+            
+        })
+    })
+</script>
+{% endblock %}

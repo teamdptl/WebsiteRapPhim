@@ -21,6 +21,7 @@ $app->router->get('/phuc', function(){
 });
 
 $app->router->get('/signin', ['controller' => 'SignInController', 'action' => 'getSignPage']);
+$app->router->get('/signup', ['controller' => 'SignUpController', 'action' => 'getSignUpPage']);
 
 $app->router->get('/{error:\S+}', function($error){
     echo "Bạn đang truy cập trang $error không tồn tại"."<br>";
@@ -28,6 +29,7 @@ $app->router->get('/{error:\S+}', function($error){
 });
 
 $app->router->post('/signin', ["controller" => "SignInController", "action" => "validateLogin"]);
+$app->router->post('/signup', ["controller" => "SignUpController", "action" => "validateLogup"]);
 
 // Running and resolver
 $app->run();

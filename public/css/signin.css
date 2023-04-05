@@ -80,12 +80,12 @@
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
     border: 0;
-    background-color: #cf1616;
+    background-color: #0275d8;
     display: flex;
     align-items: center;
     cursor: pointer;
     outline: none;
-    box-shadow: 0 5px 20px 10px rgba(207, 22, 22, 0.1); 
+    box-shadow: 0 5px 20px 10px rgba(22, 68, 207, 0.1); 
 }
 
 .login_social_icon{
@@ -96,7 +96,7 @@
     display: flex;
     align-items: center;
     justify-content:   center;
-    color:#cf1616;
+    color:#0275d8;
     font-size: 20px;
 
 }
@@ -157,7 +157,7 @@
 }
 
 .login_already{
-    background-color: #cf1616;
+    background-color: #0275d8;
     color:white;
     font-weight: bold;
     font-size: 16px;
@@ -228,7 +228,7 @@
 }
 
 .owl-dot.active span{
-    background-color: red!important;
+    background-color: #0275d8!important;
 }
 /*----------------------------CSS silder content-----------------------------------*/
 
