@@ -1,62 +1,90 @@
-.carousel{
+/*------------------- Carousel Header JS -----------------*/
+.hot-title{
+    font-size: 1.5rem;
+    font-weight: 500;
     position: relative;
+}
+
+.hot-title::before{
+    content: "";
+    width: 50%;
+    height: 3px;
+    position: absolute;
+    left: -55%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+}
+
+.hot-title::after{
+    content: "";
+    width: 50%;
+    height: 3px;
+    position: absolute;
+    right: -55%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+}
+
+.carousel-container{
     background-image: url("/assets/background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-.slider {
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.slide {
-    transition: transform 0.5s ease;
+.owl-stage-outer{
+    padding: 4rem 0rem;
     position: relative;
-    border-radius: 15px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0 6px 20px -2px, rgba(0, 0, 0, 0.3) 0px 3px 20px -3px;
 }
 
-.slide-left {
-    transform: translateX(50px) scale(0.7);
+.owl-item{
+    /*width: 400px;*/
+    /*max-height: 375px;*/
+    border-radius: 20px;
+    transition: all 0.8s;
 }
 
-.slide.active {
-    transform: scale(1.0);
+.img{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
 }
 
-.slide-right {
-    transform: translateX(-50px) scale(0.7);
+.owl-item.center{
+    transform: scale(1.2) !important;
+    transition: all 0.8s;
 }
 
-.slider img{
-    height: 450px;
-    width: 800px;
-    border-radius: 15px;
-}
-
-.arrow-icon{
+.owl-prev, .owl-next{
     position: absolute;
-    color: white;
-    background-color: #0275d8;
+    background-color: #0275d8 !important;
     width: 40px;
     height: 40px;
-    border-radius: 40px;
+    color: white !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.3rem;
-    top: 50%;
+    border-radius: 40px;
     transform: translateY(-50%);
-    cursor: pointer;
+    outline: none !important;
 }
 
-.arrow-right{
-    right: 30px;
+.owl-prev > span, .owl-next >span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-59%);
+    font-size: 40px;
 }
 
-.arrow-left{
+.owl-prev{
     left: 30px;
+    top: 50%;
+}
+
+.owl-next{
+    right: 30px;
+    top: 50%;
 }

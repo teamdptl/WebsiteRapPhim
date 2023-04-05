@@ -2,7 +2,10 @@
 {% block header %}
 <link rel="stylesheet" href="/css/home.css">
 <link rel="stylesheet" href="/css/carousel.css">
-<script src="/js/component/Carousel.js"></script>
+<link rel="stylesheet" href="/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/css/owl.theme.default.min.css">
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/component/CarouselHeader.js"></script>
 {% endblock %}
 
 {% block title %}
@@ -11,7 +14,7 @@ Trang chủ - Đặt vé xem phim online
 
 {% block body %}
     {{ navbar | raw }}
-    <movie-carousel></movie-carousel>
+    <carousel-header list="{{ listMovie }}"></carousel-header>
 {% endblock %}
 
 {% block js %}

@@ -20,6 +20,7 @@ class Carousel extends ParentHTML {
             description: "Hello world",
         }
     ];
+    tempList = [];
 
     render(){
         let htmlContent = '';
@@ -147,7 +148,11 @@ class Carousel extends ParentHTML {
     }
 
     connectedCallback(){
-        // this.list = this.get("list");
+        // this.list = );
+        // console.log(this.get("list")));
+        this.tempList = JSON.parse(this.get("list"));
+        this.removeAttribute("list");
+        console.log(this.tempList);
         this.render();
     }
 }

@@ -15,7 +15,6 @@ class HomeController extends Controller
             $content .= "<li>$ani</li>";
         }
         $content .= "</ul>";
-        $isLogin = false;
         View::renderTemplate("/template/demo.html",
             [
                 "content" => $content,
@@ -31,30 +30,33 @@ class HomeController extends Controller
 
     public function homePageRender(){
         $navbar = GlobalController::getNavbar();
+        $listMovie = self::getCarousel();
         View::renderTemplate("/home/home_page.html",
             [
                 "navbar" => $navbar,
+                "listMovie" => json_encode($listMovie),
             ]
         );
     }
 
     protected function getCarousel(){
         $arr = [
-            1 => [
+            [
+                "id" => 0,
+                "link" => "https://cdnmedia.baotintuc.vn/Upload/DmtgOUlHWBO5POIHzIwr1A/files/2022/11/07/Black-Adam-07112022.jpg",
+                "type" => "image",
+            ],
+            [
                 "id" => 1,
-                "link" => "https://bloganchoi.com/wp-content/uploads/2023/02/demon-slayer-season-3-release-date.jpg",
+                "link" => "https://talkfirst.vn/wp-content/uploads/2022/06/describe-your-favorite-movie-avengers-endgame-1024x576.jpg",
                 "type" => "image",
             ],
-            2 => [
+            [
                 "id" => 2,
-                "link" => "https://genk.mediacdn.vn/2019/12/2/photo-1-1575269616397390734337.jpg",
-                "type" => "image",
-            ],
-            3 => [
-                "id" => 3,
-                "link" => "https://img.tapimg.net/market/images/dc0604212a746b2f231f2cd1c675ae57.jpeg?imageView2/2/w/720/h/720/q/80/format/jpg/interlace/1/ignore-error/1",
+                "link" => "https://bloganchoi.com/wp-content/uploads/2023/02/demon-slayer-season-3-release-date.jpg",
                 "type" => "image",
             ]
         ];
+        return $arr;
     }
 }
