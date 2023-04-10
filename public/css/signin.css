@@ -280,8 +280,8 @@
  .eye_signup,  .eye_signup {
     position: absolute;
     right: 10px;
-    top: 70%;
-    transform: translateY(-70%);
+    top: 75%;
+    transform: translateY(-75%);
     cursor: pointer;
     color: #0275d8;
 }
