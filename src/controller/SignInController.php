@@ -2,8 +2,12 @@
 namespace app\controller;
 use core\Controller;
 use core\View;
+use app\model\User;
+
 
 class SignInController extends Controller{
+
+    
 
     public function getSignPage(){
         $navbar = GlobalController::getNavbar();
@@ -42,15 +46,12 @@ class SignInController extends Controller{
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        // $user = User::where("usernmae == $username AND password == $password");
-        // if ($user == null) echo "Sai mat khau hoac ten dang nhap"
-        // else "Thanh cong";
+        $user = User::where("email = '$username' AND passwords =  '$password'");
+        if ($user == null) echo "Sai mat khau hoac ten dang nhap";
+        else echo "Thanh cong";
 
-        $defaultUsername = "phuc";
-        $defaultPassword = "123";
 
-        if ($defaultUsername == $username && $defaultPassword == $password)
-            echo "Thành công";
-        else echo "Thất bại";
+        
+       
     }
 }

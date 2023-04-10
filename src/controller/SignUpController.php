@@ -49,8 +49,8 @@ class SignUpController extends Controller{
 
         //Check 
         $checkEmail = preg_match($patternEmail, $username);
-        $checkPassWord = preg_match($patternPassword, $password);
-        $checkFullname = preg_match($patternFullname, $fullname);
+        // $checkPassWord = preg_match($patternPassword, $password);
+        // $checkFullname = preg_match($patternFullname, $fullname);
 
         if($checkEmail && $checkPassWord && $checkFullname){
             echo "Thành công";
