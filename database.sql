@@ -149,7 +149,11 @@ CREATE TABLE EMPLOYEE(
     address char(200),
     gender char(10),
     date_join timestamp,
+<<<<<<< Updated upstream
     birth_day timestamp,
+=======
+    birth_day timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+>>>>>>> Stashed changes
     accountID INT,
     roleID INT
 );

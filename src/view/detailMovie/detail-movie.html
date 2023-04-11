@@ -1,0 +1,22 @@
+{% extends './template/root.html'%}
+{% block header %}
+<link rel="stylesheet" href="/css/moviesTag.css">
+<link rel="stylesheet" href="/css/movies.css">
+<script src="/js/component/Movies.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+{% endblock %}
+
+{% block title %}
+Trang chủ - Đặt vé xem phim online
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    {{ navbar | raw }}
+    <h1> {{name}}</h1>
+</div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
