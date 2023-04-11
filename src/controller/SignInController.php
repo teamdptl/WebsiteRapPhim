@@ -46,7 +46,7 @@ class SignInController extends Controller{
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $user = User::where("email = :username AND password = :password", compact('username', 'password'));
+        $user = User::where("email = :username AND passwords = :password", compact('username', 'password'));
         var_dump($user);
 
         if ($user == null){
