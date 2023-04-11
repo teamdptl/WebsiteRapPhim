@@ -3,8 +3,6 @@
 <link rel="stylesheet" href="/css/signin.css">
 <link rel="stylesheet" href="/css/owl.carousel.min.css">
 <link rel="stylesheet" href="/css/owl.theme.default.min.css">
-<link rel="stylesheet" href="/css/otp.css">
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 {% endblock %}
 
 {% block title %}
@@ -17,8 +15,8 @@ Trang đăng ký
     <div id="container_left">
         <div class="container_left_mid">
             <div class="login">
-                    <h1 class="login_header" >Đăng ký tài khoản</h1>
-                    <div style="text-align: center; margin-bottom: 19px;">Rạp phim xin chào ạ, mời bạn nhập thông tin</div>
+                    <h1 class="login_header" >Chào mừng đến CGV</h1>
+                    <div style="text-align: center; margin-bottom: 20px;">Rạp phim xin chào ạ, mời bạn nhập thông tin</div>
                     <!-- <button class="login_social">
                         <i class="fa fa-google login_social_icon"></i>
                         <span class="login_social_text">Log in with google</span>
@@ -30,16 +28,9 @@ Trang đăng ký
                         <input type="text" id="fullname" name="fullname" class="login_component login_input" placeholder="Ví dụ: Nguyễn Văn Ạ">
                         <label for="email" class="login_label" >Email</label>
                         <input type="text" id="email" name="username" class="login_component login_input" placeholder="Ví dụ: ThanhDanh@gmail.com">
-                        <div class="hehe">
-                            <label for="password" class="login_label">Mật khẩu</label>
-                            <input type="password" id="password" name="password" class="login_component login_input" placeholder="Ví dụ: 12345678">
-                            <i class="fa-solid fa-eye eye_signup" id="show_password"></i>
-                        </div>
-                        <div class="hehe">
-                            <label for="password_record" class="login_label">Nhập lại mật khẩu</label>
-                            <input type="password" id="password_record" name="password_record" class="login_component login_input" placeholder="Ví dụ: 12345678">
-                            <i class="fa-solid fa-eye eye_signup" id="show_password_record"></i>
-                        </div>
+                        <label for="password" class="login_label">Mật khẩu</label>
+                        <input type="password" id="password" name="password" class="login_component login_input" placeholder="Ví dụ: 12345678">
+                        
                         <div class="form_item_other">
                             <div class="checkBox">
                                 <input type="checkbox" id="RememberMeCheckBox">
@@ -75,38 +66,11 @@ Trang đăng ký
         </section>
     </div>
 </div>
-
-
-
-<div id="myModal" class="modal">
-<div class="container_otp">
-  
-    <i class=" bx bxs-check-shield header_otp "></i>
-  
-  <h4>Enter OTP Code</h4>
-  <form action="#">
-    <div class="input-field_otp">
-      <input class="input_otp" type="number" />
-      <input class="input_otp" type="number" disabled />
-      <input class="input_otp" type="number" disabled />
-      <input class="input_otp" type="number" disabled />
-      <input class="input_otp" type="number" disabled />
-    </div>
-    <span class="input-field_otp" style="margin-top: 12px;">Không nhận được otp <a href="#">Gửi lại</a></span>
-    <button id="btnConfirm">Verify OTP</button>
-  </form>
-</div>
-</div>
-
-
-
 {% endblock %}
 
 
 {% block js %}
 <script src="/js/owl.carousel.min.js"></script>
-<script src="/js/otp.js"></script>
-<script src="/js/showpass.js"></script>
 <script>
     $(document).ready(function(){
          $(".owl-carousel").owlCarousel();
@@ -137,7 +101,6 @@ Trang đăng ký
         let fullname = $("#fullname").val();
         let email = $("#email").val();
         let password = $("#password").val();
-        let password_record = $("#password_record").val();
         $.ajax({
             url: "/signup",
             method: "POST",
@@ -145,15 +108,10 @@ Trang đăng ký
                 fullname: fullname,
                 username: email,
                 password: password,
-                password_record: password_record
             },
             success: function(res){
                 alert(res);
             },
-            error: function(res){
-
-            },
-            
             
         })
     })

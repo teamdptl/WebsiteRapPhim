@@ -18,7 +18,7 @@ Trang đăng nhập
                     <h1 class="login_header" >Chào mừng đến CGV</h1>
                     <div style="text-align: center; margin-bottom: 20px;">Rạp phim xin chào ạ, mời bạn nhập thông tin</div>
                     <button class="login_social">
-                        <i class="fa-brands fa-google login_social_icon"></i>
+                        <i class="fa fa-google login_social_icon"></i>
                         <span class="login_social_text">Log in with google</span>
                     </button>
                     <div class="login_or"><span>Or</span></div>
@@ -27,11 +27,8 @@ Trang đăng nhập
                         <label for="email" class="login_label" >Email</label>
                         <input type="text" id="email" name="username" class="login_component login_input" placeholder="Ví dụ: ThanhDanh@gmail.com">
                         <label for="password" class="login_label">Mật khẩu</label>
-                        <div class="hehe">
-                            <input type="password" id="password" name="password" class="login_component login_input" placeholder="Ví dụ: 12345678">
-                            <i class="fa-solid fa-eye" id="show_password"></i>
-                        </div>
-                     
+                        <input type="password" id="password" name="password" class="login_component login_input" placeholder="Ví dụ: 12345678">
+                        
                         <div class="form_item_other">
                             <div class="checkBox">
                                 <input type="checkbox" id="RememberMeCheckBox">
@@ -43,7 +40,7 @@ Trang đăng nhập
                     </form>
                     <p class="signup">
                         <span>Bạn chưa có tài khoản ?</span>
-                        <a href="./signUp/signUp_page.html" class="login_sigin_link">Đăng ký</a>
+                        <a href="signup.php" class="login_sigin_link">Đăng ký</a>
                     </p>
             </div>
         </div>
@@ -72,7 +69,6 @@ Trang đăng nhập
 
 {% block js %}
 <script src="/js/owl.carousel.min.js"></script>
-<script src="/js/showpass.js"></script>
 <script>
     $(document).ready(function(){
          $(".owl-carousel").owlCarousel();
