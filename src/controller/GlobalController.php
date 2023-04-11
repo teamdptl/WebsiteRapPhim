@@ -9,6 +9,7 @@ class GlobalController
 {
 
     public static function getNavbar(){
+        session_start();
         $user = null;
         $user = [
             "username" => "Huỳnh Khánh Duy",

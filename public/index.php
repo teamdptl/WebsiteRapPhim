@@ -4,6 +4,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use core\Application;
 use app\model\Movie;
+use app\model\User;
 use core\View;
 // Initialize application
 $app = Application::init();
@@ -23,6 +24,10 @@ $app->router->get('/phuc', function(){
 $app->router->get('/signin', ['controller' => 'SignInController', 'action' => 'getSignPage']);
 $app->router->get('/signup', ['controller' => 'SignUpController', 'action' => 'getSignUpPage']);
 
+$app->router->get('/movies', ["controller" => "MoviesController", "action" => "getMoviesPage"]);
+
+$app->router->get('/movies/{name:\w+}', ["controller" => "DetailMovieController", "action" => "getDetailMoviePage"]);
+    
 $app->router->get('/{error:\S+}', function($error){
     echo "Bạn đang truy cập trang $error không tồn tại"."<br>";
     echo "<a href='/'>Click vào đây để trở về</a>";
@@ -30,6 +35,7 @@ $app->router->get('/{error:\S+}', function($error){
 
 $app->router->post('/signin', ["controller" => "SignInController", "action" => "validateLogin"]);
 $app->router->post('/signup', ["controller" => "SignUpController", "action" => "validateLogup"]);
+
 
 // Running and resolver
 $app->run();
