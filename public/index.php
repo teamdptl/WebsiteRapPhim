@@ -4,6 +4,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use core\Application;
 use app\model\Movie;
+use app\model\User;
 use core\View;
 // Initialize application
 $app = Application::init();
