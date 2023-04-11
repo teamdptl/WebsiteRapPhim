@@ -1,0 +1,27 @@
+.title-later-movies{
+    opacity: 60%; 
+    cursor: pointer;
+    width: 16%;
+}
+.title-later-movies:active  {
+   animation: backOutRight 1s forwards;
+}
+.title-later-movies:hover  {
+    animation: changeColor 1s forwards;
+ }
+@keyframes changeColor {
+    from {color: black;}
+    to {color: rgb(0, 47, 255);}
+  }
+select{
+    background-color: rgb(233 233 233);
+    width: 15%;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.btn{
+height: 35px;
+margin-right: 10px;
+}

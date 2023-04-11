@@ -1,0 +1,82 @@
+.film-component-container {
+    height: auto;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+   
+}
+movie-tag{
+    width: 182px;
+    display: block;
+    text-align: center;
+    margin: 0 20px;
+
+}
+
+
+.film-component-container-picture {
+    height: 260px;
+    width: 100%;
+    position: relative;
+}
+
+.film-component-container-picture img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.film-component-title {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    height: 45px;
+    text-align: left;
+}
+
+.film-component-btn button {
+    width: 55%;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #E64545;
+    margin: 10px 0;
+    color: white;
+    padding: 5px;
+    border: #E64545;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+}
+.film-component-btn button:active {
+    animation: bounce 0.5s forwards;
+}
+
+
+.film-component-component{
+    width: 100%;
+}
+.film-component-type{
+    font-size: 12px;
+    opacity: 0.9;
+
+
+}
+.film-component-container-age{
+    background-color: #ffffff;
+    position: absolute;
+    color: #ff0000;
+    top: 5%;
+    right: 5%;
+    border-radius: 5px;
+    display: flex;
+    align-self: center;
+    padding: 4px 8px;
+   
+}
+.film-component-container-age label{
+  margin: 0 auto;
+  font-weight: 500;
+}
