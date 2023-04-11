@@ -1,7 +1,6 @@
 const inputs = document.querySelectorAll(".input_otp");
 var btnConfirm = document.getElementById("btnConfirm");
 var modal = document.getElementById("myModal");
-var btnLogUp = document.getElementById("btnLogUp");
 
 // iterate over all inputs
 inputs.forEach((input, index1) => {
@@ -57,7 +56,23 @@ window.onclick = function(event) {
   }
 }
 
-//Dùng để mở otp
-btnLogUp.onclick = function() {
-  modal.style.display = "flex";
+const getOTPString = () =>{
+  let otp = ""
+  inputs.forEach(item => otp += item.value);
+  return otp;
 }
+
+$("#btnConfirm").click((e)=>{
+  e.preventDefault();
+  $.ajax({
+    url: "/signup/otp",
+    method: "POST",
+    data: {
+      otp: getOTPString(),
+      email: $("#email").val()
+    },
+    success: function(response) {
+      console.log(JSON.parse(response));
+    }
+  })
+})
