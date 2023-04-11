@@ -77,7 +77,7 @@ abstract class Model implements ICurdData {
         return $stmt->execute(["id"=>$id]);
     }
 
-    public static function where(string $whereClause): bool|array
+    public static function where(string $whereClause, array $parameters = []): bool|array
     {
         $conn = Database::getConnection();
         if ($whereClause == "")
@@ -85,7 +85,7 @@ abstract class Model implements ICurdData {
         $sql = "SELECT * FROM " .static::$tableName . " WHERE " .$whereClause;
         $stmt = $conn->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
-        $stmt->execute();
+        $stmt->execute($parameters);
         return $stmt->fetchAll();
     }
 
