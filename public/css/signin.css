@@ -208,6 +208,9 @@
     right: 0;
 }
 
+.owl-nav{
+    margin: 0 !important;
+}
 
 .owl-dots{
     position: absolute;
