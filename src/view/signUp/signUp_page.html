@@ -137,6 +137,7 @@ Trang đăng ký
         let fullname = $("#fullname").val();
         let email = $("#email").val();
         let password = $("#password").val();
+        let password_record = $("#password_record").val();
         $.ajax({
             url: "/signup",
             method: "POST",
@@ -144,10 +145,15 @@ Trang đăng ký
                 fullname: fullname,
                 username: email,
                 password: password,
+                password_record: password_record
             },
             success: function(res){
                 alert(res);
             },
+            error: function(res){
+
+            },
+            
             
         })
     })
