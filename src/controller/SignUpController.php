@@ -86,9 +86,10 @@ class SignUpController extends Controller{
         else if(!$checkPassWord){
             $message = "Ít nhất phải có 8 kí tự";
         }
-
+        
         else {
-          $users = User::where("email = '$email' "); // trả về 1 mảng oject
+        //   $users = User::where("email = '$email' "); // trả về 1 mảng oject
+        $users = User::where("email = :email ", compact('email'));
           if($users == null){
             $randomOTP = $this->generateRandomString();
             $_SESSION["sign_up_otp"] = $randomOTP;
