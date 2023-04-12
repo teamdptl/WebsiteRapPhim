@@ -47,7 +47,7 @@ Trang chủ - Đặt vé xem phim online
     <hr>
     <div class=" d-flex justify-content-sm-around justify-content-center flex-wrap justify-content-lg-start">
         {% for movie in listMovie %}
-        <movie-tag link="{{ movie.link }}" name="{{movie.name}}" type="{{movie.type}}"></movie-tag>
+        <movie-tag link="{{ movie.link }}" name="{{movie.name}}" type="{{movie.type}}" id="{{movie.id}}"></movie-tag>
         {% endfor %}
     </div>
 </div>
