@@ -6,7 +6,9 @@ class Movies extends ParentHTML {
         let link = this.getAttribute("link");
         let name = this.getAttribute("name");
         let type = this.getAttribute("type");
+        let id = this.getAttribute("id");
         var content = `
+        <a href="/movies/${id}" style = "color :black;    text-decoration-line: none;">
         <div class="film-component-container-picture" class="">
             <img src="${link}" alt="">
             <div class="film-component-container-age">
@@ -24,7 +26,8 @@ class Movies extends ParentHTML {
             ${type}
             </label>
         </div>
-        <div class="film-component-btn" onclick="click()"><button>
+        </a>
+        <div class="film-component-btn" onclick="buyTicket()"><button>
         <i class="fa-regular fa-cart-shopping fa-spin-pulse " "></i>
                 MUA VÉ
             </button></div> `
