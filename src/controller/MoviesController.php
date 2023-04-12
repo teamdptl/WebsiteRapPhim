@@ -49,7 +49,7 @@ class MoviesController extends Controller{
                 "name" => "RockManX4"
             ],
             [
-                "id" => 4,
+                "id" => 5,
                 "link" => "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/61z1wH3roMS._AC_UF894,1000_QL80_.jpg",
                 "type" => "Hành Động , Hài Hước",
                 "name" => "RockManX4"
