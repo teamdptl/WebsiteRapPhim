@@ -86,9 +86,10 @@ class SignUpController extends Controller{
         else if(!$checkPassWord){
             $message = "Ít nhất phải có 8 kí tự";
         }
-
+        
         else {
-          $users = User::where("email = '$email' "); // trả về 1 mảng oject
+        //   $users = User::where("email = '$email' "); // trả về 1 mảng oject
+        $users = User::where("email = :email ", compact('email'));
           if($users == null){
             $randomOTP = $this->generateRandomString();
             $_SESSION["sign_up_otp"] = $randomOTP;
@@ -124,13 +125,13 @@ class SignUpController extends Controller{
         }
         if($email == $_SESSION["sign_up_email"] && time() <  $_SESSION["sign_up_timeout"] && $_SESSION["sign_up_otp"] == $otp ){
             $user = new User();
-            $user->username = $_SESSION["sign_up_email"];
+            $user->fullname = $_SESSION["sign_up_fullname"];
             $user->password = $_SESSION["sign_up_password"];
             $user->email = $_SESSION["sign_up_email"];
-            $user->phone = "";
+            // $user->phone = "";
             $user->is_active = true;
-            $user->is_admin = false;
-            $user->is_verify = true;
+            // $user->is_admin = false;
+            // $user->is_verify = true;
             $user->created_at = date_create_from_format('m/d/Y h:i:s', date('m/d/Y h:i:s', time()))->format('Y-m-d H:i:s');
             $user->permissionID = NULL;
             // public int $userID;
