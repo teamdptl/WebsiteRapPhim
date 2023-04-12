@@ -1,0 +1,29 @@
+.title {
+    font-weight: bold;
+}
+
+.time-showing::before {
+    content: "";
+    width: 25%;
+    height: 3px;
+    position: absolute;
+    right: 60%;
+    bottom: 40%;
+    background-color: rgb(4, 49, 251);
+}
+
+.time-showing::after {
+    content: "";
+    width: 25%;
+    height: 3px;
+    position: absolute;
+    left: 60%;
+    bottom: 40%;
+
+    background-color: rgb(4, 49, 251);
+}
+
+.time-showing {
+    position: relative;
+    padding-top: 30px;
+}
