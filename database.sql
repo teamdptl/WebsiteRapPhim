@@ -137,6 +137,7 @@ ALTER TABLE FEATURE_PERMISSION ADD CONSTRAINT FK_FEATURE FOREIGN KEY  (featureID
 CREATE TABLE USER(
     userID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     email char(200) unique not null,
+    fullName char(255), 
     userPassword char(200) not null,
     isActive boolean,
     createAt timestamp,
