@@ -6,6 +6,7 @@ use core\Application;
 use app\model\Movie;
 use app\model\User;
 use core\View;
+
 // Initialize application
 $app = Application::init();
 session_start();
@@ -37,6 +38,8 @@ $app->router->get('/{error:\S+}', function($error){
 $app->router->post('/signin', ["controller" => "SignInController", "action" => "validateLogin"]);
 $app->router->post('/signup', ["controller" => "SignUpController", "action" => "validateLogup"]);
 $app->router->post('/signup/otp', ["controller" => "SignUpController", "action" => "validateOTP"]);
+
+$app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 
 // Running and resolver
 $app->run();

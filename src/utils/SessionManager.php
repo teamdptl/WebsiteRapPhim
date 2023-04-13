@@ -2,7 +2,7 @@
 
 namespace app\utils;
 
-class SessionUtils
+class SessionManager
 {
     private string $signUpEmail = "signUpEmail";
     private string $sigUpFullName = "sigUpFullName";
@@ -23,7 +23,7 @@ class SessionUtils
             //tiến hành gán giá trị
             $this->setSession($this->$key, $value);
         } else {
-            die('Không tồn tại thuộc tính trong class Session Utils');
+            die("Không tồn tại thuộc tính $key trong class SessionManager");
         }
     }
 
@@ -39,15 +39,18 @@ class SessionUtils
             //tiến hành lấy giá trị
             return $this->getSession($this->$key);
         } else {
-            die('Không tồn tại thuộc tính trong class Session Utils');
+            die("Không tồn tại thuộc tính $key trong class SessionManager");
         }
     }
 
     protected function getSession(string $key){
-        return $_SESSION[$key];
+        if (isset($_SESSION[$key])){
+            return $_SESSION[$key];
+        }
+        return null;
     }
 
-    protected function setSession(string $key, string $value){
+    protected function setSession(string $key, ?string $value){
         $_SESSION[$key] = $value;
     }
 

@@ -15,15 +15,16 @@ showPasswordBtn.addEventListener('click', function () {
   }
 });
 
-
-showPasswordRecordBtn.addEventListener('click', function () {
-  if (passwordRecordInput.type === 'password') {
-    passwordRecordInput.type = 'text';
-    showPasswordRecordBtn.classList.remove('fa-eye');
-    showPasswordRecordBtn.classList.add('fa-eye-slash');
-  } else {
-    passwordRecordInput.type = 'password';
-    showPasswordRecordBtn.classList.remove('fa-eye-slash');
-    showPasswordRecordBtn.classList.add('fa-eye');
-  }
-});
+if (showPasswordRecordBtn){
+  showPasswordRecordBtn.addEventListener('click', function () {
+    if (passwordRecordInput.type === 'password') {
+      passwordRecordInput.type = 'text';
+      showPasswordRecordBtn.classList.remove('fa-eye');
+      showPasswordRecordBtn.classList.add('fa-eye-slash');
+    } else {
+      passwordRecordInput.type = 'password';
+      showPasswordRecordBtn.classList.remove('fa-eye-slash');
+      showPasswordRecordBtn.classList.add('fa-eye');
+    }
+  });
+}

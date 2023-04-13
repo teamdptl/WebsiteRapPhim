@@ -2,7 +2,9 @@
 namespace app\controller;
 use core\Controller;
 use core\View;
+use core\Request;
 use app\model\User;
+use app\utils\SessionManager;
 
 
 class SignInController extends Controller{
@@ -10,6 +12,12 @@ class SignInController extends Controller{
     
 
     public function getSignPage(){
+        // Kiem tra da login chua 
+        if (Request::$user != null){
+            Request::redirect("/");
+            return;
+        }
+
         $navbar = GlobalController::getNavbar();
 
         $listCinema =[
@@ -43,22 +51,20 @@ class SignInController extends Controller{
     }
 
     public function validateLogin(){
+        
         $username = $_POST['username'];
         $password = $_POST['password'];
-
-        $user = User::where("email = :username AND passwords = :password", compact('username', 'password'));
-        var_dump($user);
+        $user = User::where("email = :username AND userPassword = :password", compact('username', 'password'));
 
         if ($user == null){
             echo "Sai mat khau hoac ten dang nhap";
             return;
-        } 
+        }
 
-     
-        
-
+        $session = new SessionManager();
         if(!isset($_SESSION["userID"])){
-            $_SESSION["userID"] = $user[0]["userID"];
+            // echo $_SESSION["userID"] = $user[0]["userID"];
+            $session->signInUserID = $user[0]->userID;
         }
         
       

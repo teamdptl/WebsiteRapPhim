@@ -2,6 +2,9 @@
 
 namespace core;
 use app\controller\GlobalController;
+use core\Request;
+use app\model\User;
+use app\utils\SessionManager;
 
 class Router{
 
@@ -84,8 +87,18 @@ class Router{
         $path = Request::getPath();
         $callback = $this->match($path, $method);
         if (!is_null($callback)){
+            // Add user to request
+            $session = new SessionManager();
+            if ($session->signInUserID != null){
+                $user = User::find($session->signInUserID);
+                if ($user != null){
+                    Request::$user = $user;
+                    // echo "Ban da dang nhap voi email ".$user->email;
+                }
+                    
+            }
             // Add middleware to all route
-            GlobalController::checkRequire($this->isRequireLogin($path, $method), $this->isRequireAdmin($path, $method));
+            // GlobalController::checkRequire($this->isRequireLogin($path, $method), $this->isRequireAdmin($path, $method));
             if (is_string($callback)){
                 $this->resolveString($callback);
             }
