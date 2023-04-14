@@ -1,0 +1,48 @@
+.custom-round{
+    border-radius: 0.5rem !important;
+}
+
+.movie-item{
+    /*flex: 1 1 0;*/
+    width: 0;
+    flex-basis: calc((100% - 30*4px) / 5);
+    flex-shrink: 0;
+}
+
+.text-movie-title{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-section{
+    border-radius: 20px;
+}
+
+@media only screen and (max-width: 992px) {
+    .movie-item{
+        flex-basis: calc((100% - 30*3px) / 4);
+        flex-shrink: 0;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .movie-item{
+        flex-basis: calc((100% - 30*2px) / 3);
+        flex-shrink: 0;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .movie-item{
+        flex-basis: calc((100% - 30*1px) / 2);
+        flex-shrink: 0;
+    }
+}
+
+@media only screen and (max-width: 312px) {
+    .movie-item{
+        flex-basis: 100%;
+        flex-shrink: 0;
+    }
+}

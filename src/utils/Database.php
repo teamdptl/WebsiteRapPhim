@@ -26,4 +26,16 @@ abstract class Database{
     public static function close($conn){
         $conn = null;
     }
+
+    public static function runQuery($query){
+        $conn = Database::getConnection();
+        $isRun = $conn->query($query);
+        if ($isRun == false){
+            echo "(x) Run failed query: $query";
+        }
+        else {
+            echo "(v) Run successfully query: $query";
+        }
+        $conn = null;
+    }
 }

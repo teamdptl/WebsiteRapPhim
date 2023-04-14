@@ -203,3 +203,63 @@ CREATE TABLE RATING(
 
 ALTER TABLE RATING ADD CONSTRAINT FK_MOVIE FOREIGN KEY (movieID) REFERENCES MOVIE(movieID) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE RATING ADD CONSTRAINT FK_USER FOREIGN KEY (userID) REFERENCES USER(userID) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO CATEGORY VALUES (28, "Hành động"),
+                            (12, "Phiêu lưu"),
+                            (16, "Hoạt hình"),
+                            (35, "Hài hước"),
+                            (80, "Tội phạm"),
+                            (99, "Tài liệu"),
+                            (18, "Drama"),
+                            (10751, "Gia đình"),
+                            (14, "Fantasy"),
+                            (36, "Lịch sử"),
+                            (27, "Kinh dị"),
+                            (10402, "Nhạc kịch"),
+                            (9648, "Bí ẩn"),
+                            (10749, "Lãng mạng"),
+                            (878, "Khoa học viễn tưởng"),
+                            (10770, "Truyền hình"),
+                            (53, "Gây cấn"),
+                            (10752, "Chiến tranh"),
+                            (37, "Miền tây");
+
+INSERT INTO PROVINCE VALUES (1, "Hồ Chí Minh"),
+                            (2, "Hà Nội"),
+                            (3, "Tây Ninh");
+
+INSERT INTO CINEMA VALUES (1, "SGU Cinema Nguyễn Trãi", "65 Nguyễn Trãi, Phường 2, Quận 5, Thành phố Hồ Chí Minh", "https://goo.gl/maps/C4McnC9i8Tqapm4r9", 1),
+                          (2, "SGU Cinema An Dương Vương", "273 An Dương Vương, Phường 3, Quận 5, Thành phố Hồ Chí Minh", "https://goo.gl/maps/YGcCnGBDPmfFxHJg6", 1),
+                          (3, "SGU Cinema Thủ Đức", "Tầng 5, TTTM Vincom Thủ Đức, 216 Võ Văn Ngân, Phường Bình Thọ, Quận Thủ Đức", "https://goo.gl/maps/ZeDJCrpSbLBvtCo47", 1),
+                          (4, "SGU Cinema Âu Dương Lân", "141 Âu Đương Lân, Phường 2, Quận 8, Thành phố Hồ Chí Minh", "https://goo.gl/maps/nDykg5fdBnvn5x4d6", 1),
+                          (5, "SGU Cinema Bình Tân", "1 Đường Số 17A, Bình Trị Đông B, Bình Tân, Thành phố Hồ Chí Minh", "https://goo.gl/maps/A6FfVF39D7NAJsHEA", 1),
+                          (6, "SGU Cinema Huỳnh Tấn Phát", "1362 Huỳnh Tấn Phát, Phú Mỹ, Quận 7, Thành phố Hồ Chí Minh", "https://goo.gl/maps/hW1V1EKQiSTydARN6", 1),
+                          (7, "SGU Cinema Cầu Giấy", "222 Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội", "https://goo.gl/maps/7BNEpNvt7WfVwGAE7", 2),
+                          (8, "SGU Cinema Nhà Bạn Tuấn", "Khu thương mại Mai Anh, A3, 2 Trường Chinh, Khu phố 6, Tây Ninh", "https://goo.gl/maps/2apdJyPLcYMxbp4r6", 3);
+
+INSERT INTO ROOM VALUES (1, "Phòng 1", 10, 15, 1),
+                        (2, "Phòng 2", 15, 40, 1),
+                        (3, "Phòng 3", 5, 15, 1),
+
+                        (4, "Phòng 1", 12, 40, 2),
+                        (5, "Phòng 2", 8, 18, 2),
+                        (6, "Phòng 3", 10, 30, 2),
+
+                        (7, "Phòng 1", 8, 18, 3),
+                        (8, "Phòng 2", 8, 18, 3),
+
+                        (9, "Phòng 1", 8, 20, 4),
+                        (10, "Phòng 2", 8, 20, 4),
+
+                        (11, "Phòng 1", 10, 16, 5),
+                        (12, "Phòng 2", 10, 16, 5),
+
+                        (13, "Phòng 1", 7, 16, 6),
+                        (14, "Phòng 2", 7, 20, 6),
+
+                        (15, "Phòng 1", 10, 25, 7),
+                        (16, "Phòng 2", 10, 30, 7),
+
+                        (17, "Phòng 1", 6, 15, 8),
+                        (18, "Phòng 2", 8, 20, 8);
+
