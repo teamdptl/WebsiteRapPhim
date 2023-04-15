@@ -113,4 +113,21 @@ abstract class Model implements ICurdData {
     {
         return static::$namespace.static::$className;
     }
+
+    public function hasList($class): bool|array
+    {
+        $conn = Database::getConnection();
+        $primaryKey = static::$primaryKey;
+        $whereClause = $primaryKey ." = :" .$primaryKey;
+        $sql = "SELECT * FROM " .$class::$tableName . " WHERE " .$whereClause;
+        $stmt = $conn->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $class::getClassName());
+        $stmt->execute([$primaryKey => $this->$primaryKey]);
+        return $stmt->fetchAll();
+    }
+
+    public function belongTo($class){
+        $primaryKey = static::$primaryKey;
+        return $class::find($this->$primaryKey);
+    }
 }
