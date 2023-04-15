@@ -1,5 +1,6 @@
 .title {
     font-weight: bold;
+    width: 33%;
 }
 
 .time-showing::before {
@@ -19,11 +20,13 @@
     position: absolute;
     left: 60%;
     bottom: 40%;
-
     background-color: rgb(4, 49, 251);
 }
 
 .time-showing {
     position: relative;
     padding-top: 30px;
+}
+.btn{
+    width: 25%;
 }

@@ -11,67 +11,119 @@ Trang chủ - Đặt vé xem phim online
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid "
-    style="background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d4a185f5-ebf3-434f-80ba-c42b90fef4b0/devncdu-ce90d71b-f03e-4c99-8a0c-104dbc7c627f.png/v1/fill/w_1920,h_1036,q_80,strp/alien_planet_by_thelizardsoup_devncdu-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTAzNiIsInBhdGgiOiJcL2ZcL2Q0YTE4NWY1LWViZjMtNDM0Zi04MGJhLWM0MmI5MGZlZjRiMFwvZGV2bmNkdS1jZTkwZDcxYi1mMDNlLTRjOTktOGEwYy0xMDRkYmM3YzYyN2YucG5nIiwid2lkdGgiOiI8PTE5MjAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.kzxgyXKniKSQw12ba2QdVLKuy4ccoksybZEr5z_8lnk);background-size: cover;padding-bottom: 30px;">
-    <div class="container">
+<div class="container-fluid " style="padding: 0px;">
+    <div class="container-fluid" style="position: relative;">
         {{ navbar | raw }}
-        <div class="movie-name col-12" style="color: white;">
-            <h1>{{movieDetail.name}}</h1>
+        <div class="movie-name col-12 p-0 " style="background-color: black; height: 450px;">
+            <img style="width: 100%;" src="\assets\test-background.jpg" alt="">
         </div>
-        <div class="d-flex">
-            <div style="padding: 0px " class="col-5 linkImage">
-                <img style="width: 85% " src="{{movieDetail.linkImage}}" alt="">
-            </div>
-            <div class="col-7 movie-content d-flex justify-content-evenly flex-column" style="padding-top:30px ;background: #000000a6;color: white;">
-                <h3>{{movieDetail.name}}</h3>
-                <div>
-                    <p style="line-height: 30px;">{{movieDetail.content}}</p>
-                </div>
-                <table style="width:100%;height: 50%;line-height: 50px;">
-                    <tr>
-                        <td class="title">Phân Loại :</td>
-                        <td  style="font-size: 18px;font-weight: bold;color: yellow;">Phim dành cho lứa tuổi {{movieDetail.age}}</td>
-                    </tr>
-                    <tr>
-                        <td class="title">Đạo diễn :</td>
-                        <td>
-                         {{ movieDetail.director }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="title">Diễn viên :</td>
-                        <td>  {{ movieDetail.actor }}</td>
-                    </tr>
-                    <tr>
-                        <td class="title">Thể loại :</td>
-                        <td>{{movieDetail.type}}</td>
-                    </tr>
-                    <tr>
-                        <td class="title">Khởi chiếu :</td>
-                        <td>{{movieDetail.time}}</td>
-                    </tr>
-                    <tr>
-                        <td class="title">Thời lượng :</td>
-                        <td>122 phút</td>
-                    </tr>
-                    <tr>
-                        <td class="title">Ngôn ngữ :</td>
-                        <td>{{movieDetail.language}}</td>
-                    </tr>
-                </table>
-                <div style="text-align:right">
-                    <button style="width: 20%;" type="button" class=" btn btn-danger"><div class="bi bi-ticket">Mua vé</div></button>
-                    <button style="width: 20%;" type="button" class="btn btn-primary">Xem trailer</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        <div class="movie-name col-12 p-0 " style="background-color: white; height: 400px;">
 
-    
+        </div>
+        <div class="d-flex flex-md-row flex-column col-md-10 "
+            style="position: absolute;top: 40%;right:8%;background: #ffffff;padding: 0;border-radius: 10px;">
+            <div class="w-100 d-flex">
+                <div style="padding: 30px;" class="col-8">
+                    <!-- <button type="button" class="btn btn-primary" style="width: 15%;">Rating</button> -->
+                    <div class="d-flex justify-content-between align-item-center position-relative">
+                        <div class="fa fa-star fa-2xl"
+                            style="color: rgb(255 233 24);position: absolute;top: 0;rotate: 30deg;">
+                            5
+                        </div>
+                        <div class="w-100 d-flex flex-row justify-content-end">
+                            <button style="width:15%;margin-left: 10px;" class="btn btn-primary">Mua vé</button>
+                            <button style="width:15%;margin-left: 10px;" class="btn btn-primary"> xem Trailer </button>
+                        </div>
+
+                    </div>
+                    <h1 style="font-size: 6rem;padding-bottom: 50px;"> {{movieDetail.title}}</h1>
+                    <p style="padding-bottom: 40px;font-size: 18px;">Lorem ipsum dolor sit amet consectetur adipisicing
+                        elit. Veniam dolorum accusamus ad commodi fuga repudiandae esse officia quas molestias modi,
+                        sequi reiciendis unde autem neque iusto reprehenderit molestiae culpa aperiam laborum tempore,
+                        nobis asperiores. Tenetur dolorum aliquid omnis consequatur reiciendis ea dolores quo voluptatem
+                        error architecto perspiciatis earum repudiandae asperiores minus praesentium natus ut
+                        accusantium fugit repellat, illum aut. Ea repellendus nostrum dolorem quis et incidunt magnam
+                        veritatis similique aliquam vel ipsa ut dolore, porro, animi quas laudantium tempore reiciendis
+                        quia nemo in eligendi. Vero exercitationem earum possimus. Dolore commodi eveniet dignissimos ea
+                        quam beatae labore minima odio dolorem doloribus?</p>
+                    <div class="d-flex" style="font-size: 16px;">
+                        <table style="width: 50%;line-height: 30px;">
+                            <tr>
+                                <td class="title">
+                                    Ngôn ngữ
+                                </td>
+                                <td>
+                                    {{movieDetail.movie_language}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">
+                                    Thể loại
+                                </td>
+                                <td>
+                                    test
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="title">
+                                    Thời lượng
+                                </td>
+                                <td>
+                                    {{movieDetail.during_time}} phút
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width: 50%;">
+                            <tr>
+
+                                <td class="title">
+                                    Diễn viên
+                                </td>
+                                <td>
+                                    {{movieDetail.actor}}
+                                </td>
+                            </tr>
+                            <tr>
+
+
+                                <td class="title">
+                                    Đạo diễn
+                                </td>
+                                <td>
+                                    {{movieDetail.director}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">
+
+                                    Ngày khởi chiếu
+                                </td>
+                                <td>
+                                    {{movieDetail.start_show }}
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+                <div class=" d-flex flex-column col-4" style="background-color: black;padding: 0;border-radius: 10px">
+
+                    <div>
+                       
+                        <img style="width:100%;border-radius: 10px;" src="{{movieDetail.poster_link}}">
+                       
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
-<div class="container">
-    <h2 class="time-showing" style="width:100%; text-align : center">Suất chiếu</h2>
-</div>
+
 {% endblock %}
 
 {% block js %}

@@ -53,12 +53,9 @@ class SignInController extends Controller{
             echo "Sai mat khau hoac ten dang nhap";
             return;
         } 
-
-     
-        
-
         if(!isset($_SESSION["userID"])){
-            $_SESSION["userID"] = $user[0]["userID"];
+             $_SESSION["userID"] = $user[0]["userID"];
+            
         }
         
       

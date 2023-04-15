@@ -17,7 +17,7 @@ abstract class Model implements ICurdData {
     {
         $conn = Database::getConnection();
         $sql = "SELECT * FROM " .static::$tableName. " WHERE ". static::$primaryKey ." = :id";
-        echo $sql;
+        
         $stmt = $conn->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
         $stmt->execute(["id"=>$id]);
