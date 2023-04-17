@@ -6,6 +6,8 @@ use core\Application;
 use app\model\Movie;
 use app\model\User;
 use core\View;
+use app\model\Booking;
+use app\model\FeaturePermission;
 
 // Initialize application
 $app = Application::init();
@@ -42,7 +44,10 @@ $app->router->post('/signup/otp', ["controller" => "SignUpController", "action" 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 
 // Running and resolver
-$app->run();
+// $app->run();
 
 // $movie = Movie::find("movie100");
 // var_dump($movie);
+
+FeaturePermission::find("perID1", "actionID1");
+// echo $findFunc;
