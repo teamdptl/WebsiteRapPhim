@@ -4,6 +4,8 @@ use core\Controller;
 use core\View;
 use app\model\User;
 use app\utils\Mail;
+use app\utils\SessionManager;
+use app\utils\Constant;
 
 class SignUpController extends Controller{
 
@@ -86,18 +88,28 @@ class SignUpController extends Controller{
         else if(!$checkPassWord){
             $message = "Ít nhất phải có 8 kí tự";
         }
-
+        
         else {
-          $users = User::where("email = '$email' "); // trả về 1 mảng oject
+        //   $users = User::where("email = '$email' "); // trả về 1 mảng oject
+        $users = User::where("email = :email ", compact('email'));
           if($users == null){
             $randomOTP = $this->generateRandomString();
-            $_SESSION["sign_up_otp"] = $randomOTP;
-            $_SESSION["sign_up_email"] = $email;
-            $_SESSION["sign_up_password"] = $password;
-            $_SESSION["sign_up_fullname"] = $fullname;
-            $_SESSION["sign_up_timeout"] = time() + 5*60*1000;
+            // $_SESSION["sign_up_otp"] = $randomOTP;
+            // $_SESSION["sign_up_email"] = $email;
+            // $_SESSION["sign_up_password"] = $password;
+            // $_SESSION["sign_up_fullname"] = $fullname;
+            // $_SESSION["sign_up_timeout"] = time() + 5*60*1000;
+            $session = new SessionManager();
+            $session->signUpOTP = $randomOTP;
+            $session->signUpEmail = $email;
+            $session->signUpPassword = $password;
+            $session->signUpOTPTimeOut = time() + Constant::$otpTimeOut;
+            $session->sigUpFullName = $fullname;
+
+
             $status = 1;
-            $message = "OTP la ".$_SESSION["sign_up_otp"]." va email: ".$_SESSION["sign_up_email"];
+            // $message = "OTP la ".$_SESSION["sign_up_otp"]." va email: ".$_SESSION["sign_up_email"];
+            $message = "OTP la ".$session->signUpOTP." va email: ".$session->signUpEmail;
             // Mail::send($email, "OTP của bạn", "OTP là $randomOTP", "OTP là $randomOTP");
 
           }
@@ -116,22 +128,32 @@ class SignUpController extends Controller{
     }
 
     public function validateOTP(){
+        $session = new SessionManager();
         $email = $_POST['email'];
         $otp = $_POST["otp"];
-        if (!isset($_SESSION["sign_up_email"]) || !isset($_SESSION["sign_up_otp"])){
+        // if (!isset($_SESSION["sign_up_email"]) || !isset($_SESSION["sign_up_otp"])){
+        //     $this->jsonSignUpResponse(0, "Email hoặc OTP không tồn tại!");
+        //     return;
+        // }
+        if ($session->signUpEmail == null || $session->signUpOTP == null){
             $this->jsonSignUpResponse(0, "Email hoặc OTP không tồn tại!");
             return;
         }
-        if($email == $_SESSION["sign_up_email"] && time() <  $_SESSION["sign_up_timeout"] && $_SESSION["sign_up_otp"] == $otp ){
+
+        // if($email == $_SESSION["sign_up_email"] && time() <  $_SESSION["sign_up_timeout"] && $_SESSION["sign_up_otp"] == $otp ){
+        if($email == $session->signUpEmail && time() <  $session->signUpOTPTimeOut && $session->signUpOTP ){
             $user = new User();
-            $user->username = $_SESSION["sign_up_email"];
-            $user->password = $_SESSION["sign_up_password"];
-            $user->email = $_SESSION["sign_up_email"];
-            $user->phone = "";
-            $user->is_active = true;
-            $user->is_admin = false;
-            $user->is_verify = true;
-            $user->created_at = date_create_from_format('m/d/Y h:i:s', date('m/d/Y h:i:s', time()))->format('Y-m-d H:i:s');
+            // $user->fullname = $_SESSION["sign_up_fullname"];
+            // $user->password = $_SESSION["sign_up_password"];
+            // $user->email = $_SESSION["sign_up_email"];
+            $user->fullName = $session->sigUpFullName;
+            $user->userPassword = $session->signUpPassword;
+            $user->email = $session->signUpEmail;
+            // $user->phone = "";
+            $user->isActive = true;
+            // $user->is_admin = false;
+            // $user->is_verify = true;
+            $user->createAt = date_create_from_format('m/d/Y h:i:s', date('m/d/Y h:i:s', time()))->format('Y-m-d H:i:s');
             $user->permissionID = NULL;
             // public int $userID;
             // public string $username;
@@ -147,7 +169,10 @@ class SignUpController extends Controller{
             $this->jsonSignUpResponse(1, "OTP đúng! Đã tạo user thành công");
         }
         else {
-            $this->jsonSignUpResponse(1, "OTP sai!");
+            if (time() <  $session->signUpOTPTimeOut){
+                $this->jsonSignUpResponse(1, "OTP hết hạn!");
+            }
+            else $this->jsonSignUpResponse(1, "OTP sai!");
         }
     }
 

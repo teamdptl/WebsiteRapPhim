@@ -33,7 +33,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm dropdown-toggle d-flex justify-content-center align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="bg-primary rounded-circle text-white d-flex justify-content-center align-items-center" style="width: 20px; height: 20px">D</span>
-                        <span class="font-weight-500 font-size-small text-hidden mx-2" style="max-width: 120px">{{ user.username }}</span>
+                        <span class="font-weight-500 font-size-small text-hidden mx-2" style="max-width: 120px">{{ user.fullName }}</span>
                     </button>
 
                     <div class="dropdown-menu dropdown-menu-right">
@@ -50,12 +50,19 @@
                         <a class="dropdown-item" href="#">Đơn hàng đã đặt</a>
                         {% endif %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Đăng xuất</a>
+                        <form  id="logout" method="POST" action="/logout">
+                            <a class="dropdown-item" href="javascript:{}" onclick='$("#logout").submit()' >Đăng xuất</a>
+                        </form>
+                        
                     </div>
                 </div>
                 {% else %}
-                <button class="btn text-primary outline-primary btn-sm mr-2 font-weight-500 btn-action" style="width: 100px">Đăng nhập</button>
-                <button class="btn btn-primary btn-sm font-weight-500 btn-action">Đăng kí</button>
+                <button class="btn text-primary outline-primary btn-sm mr-2 font-weight-500 btn-action" style="width: 100px">
+                    <a href="/signin" class="text-decoration-none w-100">Đăng nhập</a>
+                </button>
+                <button class="btn btn-primary btn-sm font-weight-500 btn-action">
+                    <a href="/signup" class="text-white text-decoration-none w-100">Đăng kí</a>
+                </button>
                 {% endif %}
             </div>
         </div>

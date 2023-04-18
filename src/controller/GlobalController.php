@@ -2,19 +2,17 @@
 
 namespace app\controller;
 
-use Core\Request;
+use core\Request;
 use core\View;
 
 class GlobalController
 {
 
     public static function getNavbar(){
-        $user = null;
-        $user = [
-            "username" => "Huỳnh Khánh Duy",
-            "email" => "huykhaduy@gmail.com",
-            "isAdmin" => true,
-        ];
+        $user = Request::$user;
+        if ($user != null){
+            $user->isAdmin = false;
+        }
         $navItems = [
             1 => [
                 "navID" => 1,

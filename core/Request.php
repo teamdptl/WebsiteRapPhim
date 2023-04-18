@@ -7,7 +7,7 @@ use app\model\User;
 class Request {
     public static string $GET = "get";
     public static string $POST = "post";
-    public static User $user;
+    public static ?User $user = null;
 
     public static function getMethod(): string {
         return strtolower($_SERVER['REQUEST_METHOD']);
