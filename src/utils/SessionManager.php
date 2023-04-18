@@ -5,7 +5,7 @@ namespace app\utils;
 class SessionManager
 {
     private string $signUpEmail = "signUpEmail";
-    private string $sigUpFullName = "sigUpFullName";
+    private string $signUpFullName = "signUpFullName";
     private string $signUpPassword = "signUpPassword";
     private string $signUpOTP = "signUpOTP";
     private string $signUpOTPTimeOut = "signUpOTPTimeOut";
