@@ -87,7 +87,7 @@ Trang đăng ký
         <input class="input_otp" type="number" disabled />
         <input class="input_otp" type="number" disabled />
         </div>
-        <span class="input-field_otp" id="sendBackOtp" style="margin-top: 12px; display: none;">Không nhận được otp <a href="#">Gửi lại</a></span>
+        <span class="input-field_otp" id="sendBackOtp" style="margin-top: 12px; display: none;">Không nhận được otp <a href="#" id="otpAgain">Gửi lại</a></span>
         <button id="btnConfirm">Verify OTP</button>
     </form>
     </div>
@@ -110,7 +110,7 @@ Trang đăng ký
 
 {% block js %}
 <script src="/js/owl.carousel.min.js"></script>
-<script src="/js/otp.js"></script>
+<script src="/js/signup/otp.js"></script>
 <script src="/js/showpass.js"></script>
 <script>
     $(document).ready(function(){
@@ -137,7 +137,7 @@ Trang đăng ký
 
     $('#form').submit(false);
 
-    $("#btnLogUp").click((e)=>{
+    $("#btnLogUp, #otpAgain") .click((e)=>{
         e.preventDefault();
         let fullname = $("#fullname").val();
         let email = $("#email").val();

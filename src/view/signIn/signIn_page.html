@@ -1,6 +1,7 @@
 {% extends './template/root.html' %}
 {% block header %}
 <link rel="stylesheet" href="/css/signin.css">
+<link rel="stylesheet" href="/css/otp.css">
 <link rel="stylesheet" href="/css/owl.carousel.min.css">
 <link rel="stylesheet" href="/css/owl.theme.default.min.css">
 {% endblock %}
@@ -67,11 +68,33 @@ Trang đăng nhập
         </section>
     </div>
 </div>
+
+<div id="myModal" class="modal">
+    <div class="container_otp">
+    
+        <i class=" bx bxs-check-shield header_otp "></i>
+    
+    <h4>Enter OTP Code</h4>
+    <form action="#">
+        <div class="input-field_otp">
+        <input class="input_otp" type="number" />
+        <input class="input_otp" type="number" disabled />
+        <input class="input_otp" type="number" disabled />
+        <input class="input_otp" type="number" disabled />
+        <input class="input_otp" type="number" disabled />
+        </div>
+        <span class="input-field_otp" id="sendBackOtp" style="margin-top: 12px; display: none;">Không nhận được otp <a href="#">Gửi lại</a></span>
+        <button id="btnConfirm">Verify OTP</button>
+    </form>
+    </div>
+</div>
+
 {% endblock %}
 
 
 {% block js %}
 <script src="/js/owl.carousel.min.js"></script>
+
 <script src="/js/showpass.js"></script>
 <script>
     $(document).ready(function(){
