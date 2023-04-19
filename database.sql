@@ -5,7 +5,7 @@ USE MOVIE_BOOKING;
 SET time_zone = '+07:00';
 
 CREATE TABLE PROVINCE(
-    provinceID INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    provinceID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     provinceName CHAR(200)
 );
 
@@ -45,13 +45,16 @@ CREATE TABLE MOVIE(
     movieName CHAR(255),
     movieDes TEXT,
     posterLink CHAR(255),
+    landscapePoster CHAR(255),
     trailerLink CHAR(255),
     movieDirectors CHAR(255),
     movieActors CHAR(255),
     duringTime INT,
     dateRelease TIMESTAMP,
-    movieLanguage CHAR(100),
-    tagID INT
+    movieLanguage CHAR(255),
+    isFeatured boolean,
+    tagID INT,
+    isDeleted boolean
 );
 
 ALTER TABLE MOVIE ADD CONSTRAINT FK_MovieTag FOREIGN KEY (tagID) REFERENCES TAG(tagID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -70,7 +73,8 @@ CREATE TABLE SHOWTIME(
     timeStart TIMESTAMP,
     duringTime int,
     roomID int,
-    movieID int
+    movieID int,
+    isDeleted boolean,
 );
 
 ALTER TABLE SHOWTIME ADD CONSTRAINT FK_ShowRoom FOREIGN KEY (roomID) REFERENCES ROOM(roomID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -78,7 +82,8 @@ ALTER TABLE SHOWTIME ADD CONSTRAINT FK_ShowCinema FOREIGN KEY (movieID) REFERENC
 
 CREATE TABLE SEAT_TYPE(
     seatType INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    typeName CHAR(100)
+    typeName CHAR(100),
+    seatSlot INT,
 );
 
 CREATE TABLE SEAT(
@@ -97,7 +102,8 @@ CREATE TABLE DISCOUNT(
     discountValue CHAR(20) NOT NULL,
     startTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     endTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    note TEXT
+    note CHAR(255),
+    isDeleted boolean
 );
 
 CREATE TABLE SHOWTIME_PRICE(
@@ -105,6 +111,7 @@ CREATE TABLE SHOWTIME_PRICE(
     seatType INT NOT NULL,
     ticketPrice BIGINT NOT NULL,
     discountID INT,
+    isDeleted boolean,
     PRIMARY KEY(showID, seatType)
 );
 
@@ -136,12 +143,13 @@ ALTER TABLE FEATURE_PERMISSION ADD CONSTRAINT FK_FEATURE FOREIGN KEY  (featureID
 
 CREATE TABLE USER(
     userID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    email char(200) unique not null,
-    fullName char(255), 
+    fullName char(255),
     userPassword char(200) not null,
+    email char(200) unique not null,
     isActive boolean,
     createAt timestamp,
-    permissionID INT
+    permissionID INT,
+    isDeleted boolean
 );
 
 ALTER TABLE USER ADD CONSTRAINT FK_USER_PERMISS FOREIGN KEY (permissionID) REFERENCES GROUP_PERMISSION(permissionID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -162,7 +170,8 @@ CREATE TABLE FOOD(
     foodName CHAR(255),
     foodPrice BIGINT,
     foodDescription CHAR(255),
-    discountID INT
+    discountID INT,
+    isDeleted boolean
 );
 
 ALTER TABLE FOOD ADD CONSTRAINT FK_Food_Discount FOREIGN KEY (discountID) REFERENCES DISCOUNT(discountID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -199,10 +208,19 @@ CREATE TABLE RATING(
     userID INT NOT NULL,
     ratingScore INT,
     ratingTime timestamp DEFAULT CURRENT_TIMESTAMP,
-)
+    PRIMARY KEY (movieID, userID)
+);
 
-ALTER TABLE RATING ADD CONSTRAINT FK_MOVIE FOREIGN KEY (movieID) REFERENCES MOVIE(movieID) ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE RATING ADD CONSTRAINT FK_USER FOREIGN KEY (userID) REFERENCES USER(userID) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE RATING ADD CONSTRAINT FK_MOVIE_RATE FOREIGN KEY (movieID) REFERENCES MOVIE(movieID) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE RATING ADD CONSTRAINT FK_USER_RATE FOREIGN KEY (userID) REFERENCES USER(userID) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE NAVBAR(
+    navbarID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    navbarTitle CHAR(255),
+    navbarHref CHAR(255),
+);
+
+ALTER TABLE CAROUSEL ADD CONSTRAINT FK_CAROUSEL_MOVIE FOREIGN KEY (movieID) REFERENCES MOVIE(movieID) ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO CATEGORY VALUES (28, "Hành động"),
                             (12, "Phiêu lưu"),
