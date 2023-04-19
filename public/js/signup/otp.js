@@ -1,6 +1,7 @@
 const inputs = document.querySelectorAll(".input_otp");
 var btnConfirm = document.getElementById("btnConfirm");
 var modal = document.getElementById("myModal");
+var sendBackOtp = document.getElementById("sendBackOtp");
 
 // iterate over all inputs
 inputs.forEach((input, index1) => {
@@ -73,6 +74,50 @@ $("#btnConfirm").click((e)=>{
     },
     success: function(response) {
       console.log(JSON.parse(response));
+      let data =  JSON.parse(response);
+
+      if(data.status == 3 ){
+        Swal.fire({
+          icon: 'error',
+          title: 'Vui lòng nhập lại',
+          text: data.message,
+      })
+      }
+
+      if(data.status == 1){
+        inputs.forEach((input) => { 
+          input.value = "";
+          const nextInput = input.nextElementSibling;
+          if (nextInput) {
+            nextInput.disabled = true;
+          }
+        });
+        btnConfirm.classList.remove("active");
+        modal.style.display = "none";
+        $.ajax({
+          url: "/signin",
+          method: "POST",
+          data: {
+              email: data.email,
+              password: data.password,
+          },
+          success: function(res){
+              console.log(res);
+              location.reload();
+          },
+          
+      })
+        location.reload();
+      }
+
+      if(data.status == 4 ){
+        Swal.fire({
+          icon: 'error',
+          title: 'Vui lòng nhấn gửi lại OTP',
+          text: data.message,
+      });
+      sendBackOtp.style.display = 'flex';
+      }
     }
   })
 })

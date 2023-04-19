@@ -19,12 +19,7 @@ Trang đăng ký
             <div class="login">
                     <h1 class="login_header" >Đăng ký tài khoản</h1>
                     <div style="text-align: center; margin-bottom: 19px;">Rạp phim xin chào ạ, mời bạn nhập thông tin</div>
-                    <!-- <button class="login_social">
-                        <i class="fa fa-google login_social_icon"></i>
-                        <span class="login_social_text">Log in with google</span>
-                    </button>
-                    <div class="login_or"><span>Or</span></div> -->
-
+                   
                     <form action="/signup" id="form" class="login_form" autocomplete="off" method="POST">
                         <label for="fullname" class="login_label">Họ tên</label>
                         <input type="text" id="fullname" name="fullname" class="login_component login_input" placeholder="Ví dụ: Nguyễn Văn Ạ">
@@ -92,7 +87,7 @@ Trang đăng ký
         <input class="input_otp" type="number" disabled />
         <input class="input_otp" type="number" disabled />
         </div>
-        <span class="input-field_otp" style="margin-top: 12px;">Không nhận được otp <a href="#">Gửi lại</a></span>
+        <span class="input-field_otp" id="sendBackOtp" style="margin-top: 12px; display: none;">Không nhận được otp <a href="#" id="otpAgain">Gửi lại</a></span>
         <button id="btnConfirm">Verify OTP</button>
     </form>
     </div>
@@ -115,7 +110,7 @@ Trang đăng ký
 
 {% block js %}
 <script src="/js/owl.carousel.min.js"></script>
-<script src="/js/otp.js"></script>
+<script src="/js/signup/otp.js"></script>
 <script src="/js/showpass.js"></script>
 <script>
     $(document).ready(function(){
@@ -142,7 +137,7 @@ Trang đăng ký
 
     $('#form').submit(false);
 
-    $("#btnLogUp").click((e)=>{
+    $("#btnLogUp, #otpAgain") .click((e)=>{
         e.preventDefault();
         let fullname = $("#fullname").val();
         let email = $("#email").val();
@@ -155,7 +150,7 @@ Trang đăng ký
             method: "POST",
             data: {
                 fullname: fullname,
-                username: email,
+                email: email,
                 password: password,
                 password_record: password_record
             },
@@ -165,14 +160,12 @@ Trang đăng ký
                 //Dùng để mở otp
                 if(data.status == 1){
                     $("#myModal").css("display", "flex");
-                    
                 }
                 else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Vui lòng nhập lại',
                         text: data.message,
-                        
                     })
                 }
 

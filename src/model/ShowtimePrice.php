@@ -10,6 +10,6 @@ class ShowtimePrice extends Model{
 
     public int $showID;
     public int $seatType;
-    public long $ticketPrice;
+    public int $ticketPrice;
     public ?int $discountID;
 }

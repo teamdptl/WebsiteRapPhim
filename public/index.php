@@ -38,6 +38,7 @@ $app->router->get('/{error:\S+}', function($error){
 $app->router->post('/signin', ["controller" => "SignInController", "action" => "validateLogin"]);
 $app->router->post('/signup', ["controller" => "SignUpController", "action" => "validateLogup"]);
 $app->router->post('/signup/otp', ["controller" => "SignUpController", "action" => "validateOTP"]);
+$app->router->post('/signin/otp', ["controller" => "SignInController", "action" => "validateOTP"]);
 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 

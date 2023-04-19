@@ -6,11 +6,19 @@ use app\model\User;
 use app\utils\Mail;
 use app\utils\SessionManager;
 use app\utils\Constant;
+use core\Request;
 
 class SignUpController extends Controller{
 
     public function getSignUpPage(){
         $navbar = GlobalController::getNavbar();
+
+
+        if (Request::$user != null){
+            Request::redirect("/");
+            return;
+        }
+
 
         $listCinema =[
             [
@@ -53,7 +61,7 @@ class SignUpController extends Controller{
     }
 
     public function validateLogup(){
-        $email = $_POST['username'];
+        $email = $_POST['email'];
         $password = $_POST['password'];
         $passwordRecord = $_POST['password_record'];
         $fullname = $_POST['fullname'];
@@ -65,53 +73,48 @@ class SignUpController extends Controller{
         //Check 
         $checkEmail = preg_match($patternEmail, $email);
         $checkPassWord = preg_match($patternPassword, $password);
-        $checkPassWordRecord = preg_match($patternPassword, $password);
         $checkFullname = preg_match($patternFullname, $fullname);
         
         $status = 0;
         $message = "Thành công";
 
         if(!$checkFullname){
-            // echo "Ít nhất phải có 4 kí tự";
             $message = "Ít nhất phải có 4 kí tự";
         }
-
         else if(!$checkEmail){
-            // echo "Bạn nhập không đúng định dạng Email";
             $message = "Bạn nhập không đúng định dạng Email";
         }
         else if($password!==$passwordRecord){
-            // echo "Không trùng mật khẩu";
             $message = "Không trùng mật khẩu";
         }
-
         else if(!$checkPassWord){
             $message = "Ít nhất phải có 8 kí tự";
         }
-        
         else {
         //   $users = User::where("email = '$email' "); // trả về 1 mảng oject
         $users = User::where("email = :email ", compact('email'));
           if($users == null){
-            $randomOTP = $this->generateRandomString();
-            // $_SESSION["sign_up_otp"] = $randomOTP;
-            // $_SESSION["sign_up_email"] = $email;
-            // $_SESSION["sign_up_password"] = $password;
-            // $_SESSION["sign_up_fullname"] = $fullname;
-            // $_SESSION["sign_up_timeout"] = time() + 5*60*1000;
+           
             $session = new SessionManager();
+
+            if (!isset($session->signUpOTP) && time() < $session->signUpOTPTimeOut) {
+                $randomOTP = $session->signUpOTP;
+            } else {
+                $randomOTP = $this->generateRandomString(); 
+            }
+            
             $session->signUpOTP = $randomOTP;
             $session->signUpEmail = $email;
             $session->signUpPassword = $password;
             $session->signUpOTPTimeOut = time() + Constant::$otpTimeOut;
-            $session->sigUpFullName = $fullname;
-
+            $session->signUpFullName = $fullname;
+            
 
             $status = 1;
             // $message = "OTP la ".$_SESSION["sign_up_otp"]." va email: ".$_SESSION["sign_up_email"];
             $message = "OTP la ".$session->signUpOTP." va email: ".$session->signUpEmail;
+            // $message ="OTP la ".$session->signUpOTP;
             // Mail::send($email, "OTP của bạn", "OTP là $randomOTP", "OTP là $randomOTP");
-
           }
           else
             $message = "Bi trung email";
@@ -120,10 +123,12 @@ class SignUpController extends Controller{
         $this->jsonSignUpResponse($status, $message);
     }
 
-    public function jsonSignUpResponse($status = 0, $message = ""){
+    public function jsonSignUpResponse($status = 0, $message = "", $email = "", $password = ""){
         echo json_encode([
             "status" => $status,
             "message" => $message,
+            "email" => $email,
+            "password" => $password
         ]);
     }
 
@@ -139,41 +144,32 @@ class SignUpController extends Controller{
             $this->jsonSignUpResponse(0, "Email hoặc OTP không tồn tại!");
             return;
         }
+        
+        if (time() > $session->signUpOTPTimeOut && $session->signUpOTP == $otp){
+            $this->jsonSignUpResponse(4, "OTP hết hạn!");
+        }else{
+            if($session->signUpOTP !== $otp){
+                $this->jsonSignUpResponse(3, "OTP sai!");
+                return;
+            }
+    
+        }
 
+        
         // if($email == $_SESSION["sign_up_email"] && time() <  $_SESSION["sign_up_timeout"] && $_SESSION["sign_up_otp"] == $otp ){
-        if($email == $session->signUpEmail && time() <  $session->signUpOTPTimeOut && $session->signUpOTP ){
+        if($email == $session->signUpEmail && time() < $session->signUpOTPTimeOut && $session->signUpOTP ){
             $user = new User();
-            // $user->fullname = $_SESSION["sign_up_fullname"];
-            // $user->password = $_SESSION["sign_up_password"];
-            // $user->email = $_SESSION["sign_up_email"];
-            $user->fullName = $session->sigUpFullName;
+            $user->fullName = $session->signUpFullName;
             $user->userPassword = $session->signUpPassword;
             $user->email = $session->signUpEmail;
-            // $user->phone = "";
             $user->isActive = true;
-            // $user->is_admin = false;
-            // $user->is_verify = true;
             $user->createAt = date_create_from_format('m/d/Y h:i:s', date('m/d/Y h:i:s', time()))->format('Y-m-d H:i:s');
             $user->permissionID = NULL;
-            // public int $userID;
-            // public string $username;
-            // public string $password;
-            // public string $email;
-            // public string $phone;
-            // public bool $is_active;
-            // public bool $is_admin;
-            // public bool $is_verify;
-            // public string $created_at;
-            // public ?int $permissionID;
             User::save($user);
-            $this->jsonSignUpResponse(1, "OTP đúng! Đã tạo user thành công");
+            $this->jsonSignUpResponse(1, "OTP đúng! Đã tạo user thành công", $user->email, $user->userPassword);
+            
         }
-        else {
-            if (time() <  $session->signUpOTPTimeOut){
-                $this->jsonSignUpResponse(1, "OTP hết hạn!");
-            }
-            else $this->jsonSignUpResponse(1, "OTP sai!");
-        }
+       
     }
 
 

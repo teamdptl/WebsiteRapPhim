@@ -52,9 +52,9 @@ class SignInController extends Controller{
 
     public function validateLogin(){
         
-        $username = $_POST['username'];
+        $email = $_POST['email'];
         $password = $_POST['password'];
-        $user = User::where("email = :username AND userPassword = :password", compact('username', 'password'));
+        $user = User::where("email = :email AND userPassword = :password", compact('email', 'password'));
 
         if ($user == null){
             echo "Sai mat khau hoac ten dang nhap";
