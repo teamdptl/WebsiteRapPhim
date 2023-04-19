@@ -8,7 +8,7 @@ class ParentHTML extends HTMLElement{
     }
 
     connectedCallback(){
-        this.render();
+
     }
 
     render() {
