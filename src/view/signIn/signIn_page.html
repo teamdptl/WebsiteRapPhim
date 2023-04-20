@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="/css/otp.css">
 <link rel="stylesheet" href="/css/owl.carousel.min.css">
 <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
 {% endblock %}
 
 {% block title %}
@@ -38,7 +40,7 @@ Trang đăng nhập
                                 <input type="checkbox" id="RememberMeCheckBox">
                                 <label for="RememberMeCheckBox">Ghi nhớ tôi</label>
                             </div>
-                            <a href="#" >Bạn cần trợ giúp?</a>
+                            <a href="#" id="needHelp" >Bạn cần trợ giúp?</a>
                         </div>
                         <button id="btnLogin" class="login_component login_already" type="submit">Đăng nhập</button>
                     </form>
@@ -89,12 +91,47 @@ Trang đăng nhập
     </div>
 </div>
 
+<div id="myModalChangePassword" class="modalChangePassword">
+    <div class="container_otp">
+        <i class="bx bxs-key header_otp" ></i>
+    <h4>Đổi mật khẩu</h4>
+
+    <form action="#">
+        <div class="input-field_changePassword">
+        <label for="emailChangePassword" class="login_label" >Email</label>
+        <input type="text" id="emailChangePassword" name="emailChangePassword" class="login_component login_input" placeholder="Ví dụ: ThanhDanh@gmail.com">
+        <label for="passwordChangePassword" class="login_label">Mật khẩu</label>
+        <div class="hehe">
+            <input type="password" id="passwordChangePassword" name="passwordChangePassword" class="login_component login_input" placeholder="Ví dụ: 12345678">
+            <i class="fa-solid fa-eye" id="show_password"></i>
+        </div>
+        <label for="passwordChangePasswordRecord" class="login_label">Nhập lại mật khẩu</label>
+        <div class="hehe">
+            <input type="password" id="passwordChangePasswordRecord" name="passwordChangePasswordRecord" class="login_component login_input" placeholder="Ví dụ: 12345678">
+            <i class="fa-solid fa-eye" id="show_password_record"></i>
+        </div>
+        </div>
+        <button id="btnConfirmOTP" class="login_component login_already" type="submit">Xác nhận OTP</button>
+    </form>
+    </div>
+</div>
+
+<div id="loadingModal" class="modal">    
+    <div class="container_otp">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <h4>Đang gửi yêu cầu ...</h4>
+    </div>
+    
+</div>
+
 {% endblock %}
 
 
 {% block js %}
 <script src="/js/owl.carousel.min.js"></script>
-
+<script src="/js/signin/otpSignIn.js"></script>
 <script src="/js/showpass.js"></script>
 <script>
     $(document).ready(function(){
@@ -119,7 +156,51 @@ Trang đăng nhập
         }
     });
 
+
+    $("#needHelp").click((e)=>{
+        $("#myModalChangePassword").css("display", "flex");
+    });
+
     $('#form').submit(false);
+
+    $("btnConfirmOTP").click((e)=>{
+        e.preventDefault();
+        let emailChangePassword = $("#emailChangePassword").val();
+        let passwordChangePassword = $("#passwordChangePassword").val();
+        let passwordChangePasswordRecord = $("#passwordChangePasswordRecord").val();
+        $("#loadingModal").css("display", "flex");
+
+        $.ajax({
+            url: "/signin/changePassword",
+            method: "POST",
+            data: {
+                emailChangePassword: emailChangePassword,
+                passwordChangePassword: passwordChangePassword,
+                passwordChangePasswordRecord: passwordChangePasswordRecord
+            },
+            success: function(res){
+                let data = JSON.parse(res);
+
+                if(data.status == 1){
+                    $("#myModal").css("display", "flex");
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Vui lòng nhập lại',
+                        text: data.message,
+                    })
+                }
+
+                $("#loadingModal").css("display", "none");
+            },
+            error: function(res){
+                $("#loadingModal").css("display", "none");
+            },
+            
+        })
+
+    });
 
     $("#btnLogin").click((e)=>{
         e.preventDefault();
