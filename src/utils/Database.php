@@ -15,7 +15,7 @@ abstract class Database{
     private static int $port = 3306;
     private static string $username = "root";
     private static string $password = "";
-    private static string $database = "movie_booking";
+    private static string $database = "MOVIE_BOOKING";
 
     public static function getConnection(): ?PDO {
         $conn = new PDO("mysql:host=".self::$hostname.";dbname=".self::$database.";port=".self::$port, self::$username, self::$password);
