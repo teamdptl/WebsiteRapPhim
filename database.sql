@@ -158,7 +158,8 @@ CREATE TABLE BOOKING(
     bookName char(255),
     bookEmail CHAR(255),
     bookTime TIMESTAMP,
-    userID INT
+    userID INT,
+    isDeleted boolean
 );
 
 ALTER TABLE BOOKING ADD CONSTRAINT FK_BookingUSER FOREIGN KEY (userID) REFERENCES USER(userID) ON DELETE SET NULL ON UPDATE CASCADE;
