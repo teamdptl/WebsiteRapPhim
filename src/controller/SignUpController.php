@@ -145,7 +145,7 @@ class SignUpController extends Controller{
             return;
         }
         
-        if (time() > $session->signUpOTPTimeOut && $session->signUpOTP == $otp){
+        if (time() > $session->signUpOTPTimeOut){
             $this->jsonSignUpResponse(4, "OTP hết hạn!");
         }else{
             if($session->signUpOTP !== $otp){
