@@ -39,6 +39,8 @@ $app->router->post('/signin', ["controller" => "SignInController", "action" => "
 $app->router->post('/signup', ["controller" => "SignUpController", "action" => "validateLogup"]);
 $app->router->post('/signup/otp', ["controller" => "SignUpController", "action" => "validateOTP"]);
 $app->router->post('/signin/otp', ["controller" => "SignInController", "action" => "validateOTP"]);
+$app->router->post('/signin/changePassword', ["controller" => "SignInController", "action" => "validateChangePassword"]);
+
 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 
