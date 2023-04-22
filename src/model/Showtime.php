@@ -14,4 +14,5 @@ class Showtime extends Model{
     public int $duringTime;
     public ?int $roomID;
     public ?int $movieID;
+    public bool $isDeleted;
 }

@@ -13,4 +13,5 @@ class Discount extends Model{
     public string $startTime;
     public string $endTime;
     public string $note;
+    public bool $isDeleted;
 }

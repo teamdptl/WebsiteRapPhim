@@ -18,7 +18,7 @@ class User extends Model
     public bool $isActive;
     public string $createAt;
     public ?int $permissionID;
-
+    public bool $isDeleted;
     
 }
 
