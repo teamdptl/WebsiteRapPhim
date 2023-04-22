@@ -1,0 +1,31 @@
+.custom-round{
+    border-radius: 0.5rem !important;
+}
+
+.movie-section{
+    border-radius: 20px;
+    border: 1px solid #e3e7eb;
+}
+
+.text-watch-more{
+    font-weight: 500;
+}
+
+.event-border{
+    border-radius: 20px;
+    border-width: 2px !important;
+}
+
+.event-content{
+    gap: 30px;
+    padding: 40px 30px 25px 30px;
+}
+
+.event-item{
+    flex-basis: calc((100% - 30*2px)/3);
+}
+
+a{
+    text-decoration: none !important;
+}
+

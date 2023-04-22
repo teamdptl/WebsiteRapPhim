@@ -1,11 +1,13 @@
 {% extends './template/root.html' %}
 {% block header %}
 <link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/movieItem.css">
 <link rel="stylesheet" href="/css/carousel.css">
 <link rel="stylesheet" href="/css/owl.carousel.min.css">
 <link rel="stylesheet" href="/css/owl.theme.default.min.css">
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/component/CarouselHeader.js"></script>
+<script src="/js/component/MovieTag.js"></script>
 {% endblock %}
 
 {% block title %}
@@ -15,6 +17,250 @@ Trang chủ - Đặt vé xem phim online
 {% block body %}
     {{ navbar | raw }}
     <carousel-header list="{{ listMovie }}"></carousel-header>
+    <div class="container">
+        <div class="movie-section mt-4 px-5 py-4 bg-light">
+            <div class="movie-section-header d-flex justify-content-between align-items-center mb-3">
+                <h4><i class="bi bi-tv text-success"></i> Phim đang chiếu</h4>
+                <a class="text-decoration-none text-watch-more" href="/movies">Xem thêm <i class="bi bi-three-dots-vertical"></i></a>
+            </div>
+            <div class="movie-section-body d-flex flex-no-wrap position-relative" style="gap: 30px 30px; overflow-x: hidden">
+<!--                <div class="next-movie-section position-absolute" style="top: 50%; right: 0;">-->
+<!--                    <i class="bi bi-arrow-right"></i>-->
+<!--                </div>-->
+<!--                <div class="prev-movie-section position-absolute" style="top: 50%; left: 0;">-->
+<!--                    <i class="bi bi-arrow-left"></i>-->
+<!--                </div>-->
+<!--                <div class="movie-item">-->
+<!--                    <div class="img-container position-relative">-->
+<!--                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gRlfFcpPdjREQ3lgeuAuB10gfbR.jpg" style="width: 100%; height: 100%">-->
+<!--                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">-->
+<!--                            18+-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <h5 class="mt-3 mb-0 text-movie-title">Anh em mario</h5>-->
+<!--                    <p class="text-muted">Hành động, hài hước</p>-->
+<!--                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">-->
+<!--                        <i class="bi bi-cart3 mr-1"></i>-->
+<!--                        Mua vé-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="movie-item">-->
+<!--                    <div class="img-container position-relative">-->
+<!--                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/jGmC7aMqoLU0ALRKHkz3pQVV1pg.jpg" style="width: 100%; height: 100%">-->
+<!--                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">-->
+<!--                            18+-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <h5 class="mt-3 mb-0 text-movie-title">Avatar: Dòng chảy của</h5>-->
+<!--                    <p class="text-muted">Hành động, hài hước</p>-->
+<!--                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">-->
+<!--                        <i class="bi bi-cart3 mr-1"></i>-->
+<!--                        Mua vé-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="movie-item">-->
+<!--                    <div class="img-container position-relative">-->
+<!--                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1AiVQ2ybXKUYgxJ9buJLWNpdTZs.jpg" style="width: 100%; height: 100%">-->
+<!--                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">-->
+<!--                            18+-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <h5 class="mt-3 mb-0 text-movie-title">Trận chiến thời tiền sử</h5>-->
+<!--                    <p class="text-muted">Hành động, hài hước</p>-->
+<!--                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">-->
+<!--                        <i class="bi bi-cart3 mr-1"></i>-->
+<!--                        Mua vé-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="movie-item">-->
+<!--                    <div class="img-container position-relative">-->
+<!--                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/dKjjVuPawiREBYjREb3U5SCtfrt.jpg" style="width: 100%; height: 100%">-->
+<!--                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">-->
+<!--                            18+-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <h5 class="mt-3 mb-0 text-movie-title">Mèo đi cảnh</h5>-->
+<!--                    <p class="text-muted">Hành động, hài hước</p>-->
+<!--                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">-->
+<!--                        <i class="bi bi-cart3 mr-1"></i>-->
+<!--                        Mua vé-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="movie-item">-->
+<!--                    <div class="img-container position-relative">-->
+<!--                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/67ztbGkhtltymsqElMnrfWujsY3.jpg" style="width: 100%; height: 100%">-->
+<!--                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">-->
+<!--                            18+-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <h5 class="mt-3 mb-0 text-movie-title">Chúa hề Shazam</h5>-->
+<!--                    <p class="text-muted">Hành động, hài hước</p>-->
+<!--                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">-->
+<!--                        <i class="bi bi-cart3 mr-1"></i>-->
+<!--                        Mua vé-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="movie-item">-->
+<!--                    <div class="img-container position-relative">-->
+<!--                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gRlfFcpPdjREQ3lgeuAuB10gfbR.jpg" style="width: 100%; height: 100%">-->
+<!--                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">-->
+<!--                            18+-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <h5 class="mt-3 mb-0 text-movie-title">Anh em mario</h5>-->
+<!--                    <p class="text-muted">Hành động, hài hước</p>-->
+<!--                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">-->
+<!--                        <i class="bi bi-cart3 mr-1"></i>-->
+<!--                        Mua vé-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="movie-item">-->
+<!--                    <div class="img-container position-relative">-->
+<!--                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/67ztbGkhtltymsqElMnrfWujsY3.jpg" style="width: 100%; height: 100%">-->
+<!--                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">-->
+<!--                            18+-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <h5 class="mt-3 mb-0 text-movie-title">Chúa hề Shazam</h5>-->
+<!--                    <p class="text-muted">Hành động, hài hước</p>-->
+<!--                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">-->
+<!--                        <i class="bi bi-cart3 mr-1"></i>-->
+<!--                        Mua vé-->
+<!--                    </a>-->
+<!--                </div>-->
+                <movie-tag id="1" link="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/67ztbGkhtltymsqElMnrfWujsY3.jpg" category='["Hành động", "Hài hước"]' name="Anh em Super Mario" tag="16+"></movie-tag>
+            </div>
+        </div>
+
+        <div class="movie-section mt-4 px-5 py-4 bg-light">
+            <div class="movie-section-header d-flex justify-content-between align-items-center mb-3">
+                <h4><i class="bi bi-hourglass-split text-warning"></i> Phim sắp chiếu</h4>
+                <a class="text-decoration-none text-watch-more" href="/movies">Xem thêm <i class="bi bi-three-dots-vertical"></i></a>
+            </div>
+            <div class="movie-section-body d-flex flex-no-wrap" style="gap: 30px 30px; overflow-x: hidden">
+                <div class="movie-item">
+                    <div class="img-container position-relative">
+                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gRlfFcpPdjREQ3lgeuAuB10gfbR.jpg" style="width: 100%; height: 100%">
+                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">
+                            18+
+                        </div>
+                    </div>
+                    <h5 class="mt-3 mb-0 text-movie-title">Anh em mario</h5>
+                    <p class="text-muted">Hành động, hài hước</p>
+                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">
+                        <i class="bi bi-cart3 mr-1"></i>
+                        Mua vé
+                    </a>
+                </div>
+                <div class="movie-item">
+                    <div class="img-container position-relative">
+                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/jGmC7aMqoLU0ALRKHkz3pQVV1pg.jpg" style="width: 100%; height: 100%">
+                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">
+                            18+
+                        </div>
+                    </div>
+                    <h5 class="mt-3 mb-0 text-movie-title">Avatar: Dòng chảy của</h5>
+                    <p class="text-muted">Hành động, hài hước</p>
+                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">
+                        <i class="bi bi-cart3 mr-1"></i>
+                        Mua vé
+                    </a>
+                </div>
+                <div class="movie-item">
+                    <div class="img-container position-relative">
+                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1AiVQ2ybXKUYgxJ9buJLWNpdTZs.jpg" style="width: 100%; height: 100%">
+                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">
+                            18+
+                        </div>
+                    </div>
+                    <h5 class="mt-3 mb-0 text-movie-title">Trận chiến thời tiền sử</h5>
+                    <p class="text-muted">Hành động, hài hước</p>
+                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">
+                        <i class="bi bi-cart3 mr-1"></i>
+                        Mua vé
+                    </a>
+                </div>
+                <div class="movie-item">
+                    <div class="img-container position-relative">
+                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gRlfFcpPdjREQ3lgeuAuB10gfbR.jpg" style="width: 100%; height: 100%">
+                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">
+                            18+
+                        </div>
+                    </div>
+                    <h5 class="mt-3 mb-0 text-movie-title">Anh em mario</h5>
+                    <p class="text-muted">Hành động, hài hước</p>
+                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">
+                        <i class="bi bi-cart3 mr-1"></i>
+                        Mua vé
+                    </a>
+                </div>
+                <div class="movie-item">
+                    <div class="img-container position-relative">
+                        <img class="custom-round" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gRlfFcpPdjREQ3lgeuAuB10gfbR.jpg" style="width: 100%; height: 100%">
+                        <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">
+                            18+
+                        </div>
+                    </div>
+                    <h5 class="mt-3 mb-0 text-movie-title">Anh em mario</h5>
+                    <p class="text-muted">Hành động, hài hước</p>
+                    <a class="btn text-white font-weight custom-round w-100" style="background-color: #E64545" href="/movies">
+                        <i class="bi bi-cart3 mr-1"></i>
+                        Mua vé
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-section mt-5">
+            <div class="event-border border border-primary position-relative">
+                <div class="event-header position-absolute bg-primary px-4 py-2 custom-round" style="top: 0; left: 50%; transform: translate(-50%,-50%)">
+                    <h5 class="mb-0 text-white">Khuyến mãi - Sự kiện</h5>
+                </div>
+                <div class="event-more position-absolute bg-primary rounded-circle text-white d-flex justify-content-center align-items-center" style="font-size: 1.2rem;width: 30px; height: 30px; bottom: 0;left: 50%; transform: translate(-50%, 50%)">
+                    <a><i class="bi bi-chevron-down"></i></a>
+                </div>
+                <div class="event-content d-flex">
+                    <div class="event-item">
+                        <div class="event-image">
+                            <img src="https://www.cgv.vn/media/wysiwyg/2023/042023/U22_N_O_Apr_496x267.png" class="w-100 h-100 custom-round">
+                        </div>
+                        <div class="event-name mt-3">
+                            <h6>Giảm giá cho người dưới 22 tuổi đang là sinh viên, học sinh</h6>
+                        </div>
+                        <div class="event-date text-muted">
+                            11/06/2023
+                        </div>
+                    </div>
+
+                    <div class="event-item">
+                        <div class="event-image">
+                            <img src="https://www.cgv.vn/media/wysiwyg/2023/042023/U22_N_O_Apr_496x267.png" class="w-100 h-100 custom-round">
+                        </div>
+                        <div class="event-name mt-3">
+                            <h6>Giảm giá cho người dưới 22 tuổi đang là sinh viên, học sinh</h6>
+                        </div>
+                        <div class="event-date text-muted">
+                            11/06/2023
+                        </div>
+                    </div>
+
+                    <div class="event-item">
+                        <div class="event-image">
+                            <img src="https://www.cgv.vn/media/wysiwyg/2023/042023/U22_N_O_Apr_496x267.png" class="w-100 h-100 custom-round">
+                        </div>
+                        <div class="event-name mt-3">
+                            <h6>Giảm giá cho người dưới 22 tuổi đang là sinh viên, học sinh</h6>
+                        </div>
+                        <div class="event-date text-muted">
+                            11/06/2023
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">Footer</div>
+    </div>
 {% endblock %}
 
 {% block js %}

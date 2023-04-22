@@ -11,7 +11,7 @@ class CarouselHeader extends ParentHTML{
             }).join(" ");
             htmlContent = `
                     <div class="carousel-container">
-                        <div class="d-flex justify-content-center algin-items-center pt-3">
+                        <div class="d-flex justify-content-center algin-items-center pt-4 pb-1">
                             <span class="text-uppercase py-0 hot-title text-white text-center">Phim nổi bật trong tuần</span>
                         </div>
                         <div class="owl-carousel pb-4">

@@ -5,7 +5,7 @@ USE MOVIE_BOOKING;
 SET time_zone = '+07:00';
 
 CREATE TABLE PROVINCE(
-    provinceID INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    provinceID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     provinceName CHAR(200)
 );
 
@@ -45,13 +45,16 @@ CREATE TABLE MOVIE(
     movieName CHAR(255),
     movieDes TEXT,
     posterLink CHAR(255),
+    landscapePoster CHAR(255),
     trailerLink CHAR(255),
     movieDirectors CHAR(255),
     movieActors CHAR(255),
     duringTime INT,
     dateRelease TIMESTAMP,
-    movieLanguage CHAR(100),
-    tagID INT
+    movieLanguage CHAR(255),
+    isFeatured boolean,
+    tagID INT,
+    isDeleted boolean
 );
 
 ALTER TABLE MOVIE ADD CONSTRAINT FK_MovieTag FOREIGN KEY (tagID) REFERENCES TAG(tagID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -70,7 +73,8 @@ CREATE TABLE SHOWTIME(
     timeStart TIMESTAMP,
     duringTime int,
     roomID int,
-    movieID int
+    movieID int,
+    isDeleted boolean
 );
 
 ALTER TABLE SHOWTIME ADD CONSTRAINT FK_ShowRoom FOREIGN KEY (roomID) REFERENCES ROOM(roomID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -97,7 +101,8 @@ CREATE TABLE DISCOUNT(
     discountValue CHAR(20) NOT NULL,
     startTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     endTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    note TEXT
+    note CHAR(255),
+    isDeleted boolean
 );
 
 CREATE TABLE SHOWTIME_PRICE(
@@ -105,6 +110,7 @@ CREATE TABLE SHOWTIME_PRICE(
     seatType INT NOT NULL,
     ticketPrice BIGINT NOT NULL,
     discountID INT,
+    isDeleted boolean,
     PRIMARY KEY(showID, seatType)
 );
 
@@ -136,12 +142,13 @@ ALTER TABLE FEATURE_PERMISSION ADD CONSTRAINT FK_FEATURE FOREIGN KEY  (featureID
 
 CREATE TABLE USER(
     userID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    email char(200) unique not null,
-    fullName char(255), 
+    fullName char(255),
     userPassword char(200) not null,
+    email char(200) unique not null,
     isActive boolean,
     createAt timestamp,
-    permissionID INT
+    permissionID INT,
+    isDeleted boolean
 );
 
 ALTER TABLE USER ADD CONSTRAINT FK_USER_PERMISS FOREIGN KEY (permissionID) REFERENCES GROUP_PERMISSION(permissionID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -151,7 +158,8 @@ CREATE TABLE BOOKING(
     bookName char(255),
     bookEmail CHAR(255),
     bookTime TIMESTAMP,
-    userID INT
+    userID INT,
+    isDeleted boolean
 );
 
 ALTER TABLE BOOKING ADD CONSTRAINT FK_BookingUSER FOREIGN KEY (userID) REFERENCES USER(userID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -162,7 +170,8 @@ CREATE TABLE FOOD(
     foodName CHAR(255),
     foodPrice BIGINT,
     foodDescription CHAR(255),
-    discountID INT
+    discountID INT,
+    isDeleted boolean
 );
 
 ALTER TABLE FOOD ADD CONSTRAINT FK_Food_Discount FOREIGN KEY (discountID) REFERENCES DISCOUNT(discountID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -199,7 +208,76 @@ CREATE TABLE RATING(
     userID INT NOT NULL,
     ratingScore INT,
     ratingTime timestamp DEFAULT CURRENT_TIMESTAMP,
-)
+    PRIMARY KEY (movieID, userID)
+);
 
-ALTER TABLE RATING ADD CONSTRAINT FK_MOVIE FOREIGN KEY (movieID) REFERENCES MOVIE(movieID) ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE RATING ADD CONSTRAINT FK_USER FOREIGN KEY (userID) REFERENCES USER(userID) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE RATING ADD CONSTRAINT FK_MOVIE_RATE FOREIGN KEY (movieID) REFERENCES MOVIE(movieID) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE RATING ADD CONSTRAINT FK_USER_RATE FOREIGN KEY (userID) REFERENCES USER(userID) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- CREATE TABLE NAVBAR(
+--     navbarID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     navbarTitle CHAR(255),
+--     navbarHref CHAR(255),
+--     isDeleted boolean
+-- );
+
+INSERT INTO CATEGORY VALUES (28, "Hành động"),
+                            (12, "Phiêu lưu"),
+                            (16, "Hoạt hình"),
+                            (35, "Hài hước"),
+                            (80, "Tội phạm"),
+                            (99, "Tài liệu"),
+                            (18, "Drama"),
+                            (10751, "Gia đình"),
+                            (14, "Fantasy"),
+                            (36, "Lịch sử"),
+                            (27, "Kinh dị"),
+                            (10402, "Nhạc kịch"),
+                            (9648, "Bí ẩn"),
+                            (10749, "Lãng mạng"),
+                            (878, "Khoa học viễn tưởng"),
+                            (10770, "Truyền hình"),
+                            (53, "Gây cấn"),
+                            (10752, "Chiến tranh"),
+                            (37, "Miền tây");
+
+INSERT INTO PROVINCE VALUES (1, "Hồ Chí Minh"),
+                            (2, "Hà Nội"),
+                            (3, "Tây Ninh");
+
+INSERT INTO CINEMA VALUES (1, "SGU Cinema Nguyễn Trãi", "65 Nguyễn Trãi, Phường 2, Quận 5, Thành phố Hồ Chí Minh", "https://goo.gl/maps/C4McnC9i8Tqapm4r9", 1),
+                          (2, "SGU Cinema An Dương Vương", "273 An Dương Vương, Phường 3, Quận 5, Thành phố Hồ Chí Minh", "https://goo.gl/maps/YGcCnGBDPmfFxHJg6", 1),
+                          (3, "SGU Cinema Thủ Đức", "Tầng 5, TTTM Vincom Thủ Đức, 216 Võ Văn Ngân, Phường Bình Thọ, Quận Thủ Đức", "https://goo.gl/maps/ZeDJCrpSbLBvtCo47", 1),
+                          (4, "SGU Cinema Âu Dương Lân", "141 Âu Đương Lân, Phường 2, Quận 8, Thành phố Hồ Chí Minh", "https://goo.gl/maps/nDykg5fdBnvn5x4d6", 1),
+                          (5, "SGU Cinema Bình Tân", "1 Đường Số 17A, Bình Trị Đông B, Bình Tân, Thành phố Hồ Chí Minh", "https://goo.gl/maps/A6FfVF39D7NAJsHEA", 1),
+                          (6, "SGU Cinema Huỳnh Tấn Phát", "1362 Huỳnh Tấn Phát, Phú Mỹ, Quận 7, Thành phố Hồ Chí Minh", "https://goo.gl/maps/hW1V1EKQiSTydARN6", 1),
+                          (7, "SGU Cinema Cầu Giấy", "222 Trần Duy Hưng, Trung Hoà, Cầu Giấy, Hà Nội", "https://goo.gl/maps/7BNEpNvt7WfVwGAE7", 2),
+                          (8, "SGU Cinema Nhà Bạn Tuấn", "Khu thương mại Mai Anh, A3, 2 Trường Chinh, Khu phố 6, Tây Ninh", "https://goo.gl/maps/2apdJyPLcYMxbp4r6", 3);
+
+INSERT INTO ROOM VALUES (1, "Phòng 1", 10, 15, 1),
+                        (2, "Phòng 2", 15, 40, 1),
+                        (3, "Phòng 3", 5, 15, 1),
+
+                        (4, "Phòng 1", 12, 40, 2),
+                        (5, "Phòng 2", 8, 18, 2),
+                        (6, "Phòng 3", 10, 30, 2),
+
+                        (7, "Phòng 1", 8, 18, 3),
+                        (8, "Phòng 2", 8, 18, 3),
+
+                        (9, "Phòng 1", 8, 20, 4),
+                        (10, "Phòng 2", 8, 20, 4),
+
+                        (11, "Phòng 1", 10, 16, 5),
+                        (12, "Phòng 2", 10, 16, 5),
+
+                        (13, "Phòng 1", 7, 16, 6),
+                        (14, "Phòng 2", 7, 20, 6),
+
+                        (15, "Phòng 1", 10, 25, 7),
+                        (16, "Phòng 2", 10, 30, 7),
+
+                        (17, "Phòng 1", 6, 15, 8),
+                        (18, "Phòng 2", 8, 20, 8);
+
+# Cần thêm insert của ghế vào nữa
