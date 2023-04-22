@@ -11,6 +11,11 @@ class SessionManager
     private string $signUpOTPTimeOut = "signUpOTPTimeOut";
     private string $signInUserID = "signInUserID";
 
+    private string $signInEmailChangePassword = "signInEmailChangePassword";
+    private string $signInChangePassword = "signInChangePassword";
+    private string $signInOTP = "signInOTP";
+    private string $signInOTPTimeOut = "signInOTPTimeOut";
+
     // Cách dùng:
     // $session = new SessionUtils();
     // $session->signUpEmail = "phuc123@gmail.com";
