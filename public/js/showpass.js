@@ -2,6 +2,10 @@ var showPasswordBtn = document.getElementById('show_password');
 var showPasswordRecordBtn = document.getElementById('show_password_record');
 var passwordInput = document.getElementById('password');
 var passwordRecordInput = document.getElementById('password_record');
+var passwordChangePassword = document.getElementById('passwordChangePassword');
+var passwordChangePasswordRecord = document.getElementById('passwordChangePasswordRecord');
+
+
 
 showPasswordBtn.addEventListener('click', function () {
   if (passwordInput.type === 'password') {

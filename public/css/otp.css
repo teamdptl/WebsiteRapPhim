@@ -60,6 +60,22 @@
   text-align: center;
   border: 1px solid #ddd;
 }
+
+.input-field_changePassword{
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.input-field_changePassword input {
+  height: 40px;
+  width: 420px;
+  border-radius: 10px;
+  outline: none;
+  font-size: 1.125rem;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
 .input-field_otp input:focus {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
@@ -115,3 +131,24 @@
   justify-content: center;
   background: #c1c5d2;
 } */
+
+
+/*Change Password*/
+.modalChangePassword {
+  
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(220, 226, 229, 0.633); /* Black w/ opacity */
+}
+
+#btnConfirmOTP {
+  margin-top: 35px;
+}
