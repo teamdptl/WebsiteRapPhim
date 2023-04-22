@@ -1,8 +1,9 @@
 {% extends './template/root.html'%}
 {% block header %}
 <link rel="stylesheet" href="/css/moviesTag.css">
+<link rel="stylesheet" href="/css/movieItem.css">
 <link rel="stylesheet" href="/css/movies.css">
-<script src="/js/component/Movies.js"></script>
+<script src="/js/component/MovieTag.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 {% endblock %}
 
@@ -47,7 +48,7 @@ Trang chủ - Đặt vé xem phim online
     <hr>
     <div class=" d-flex justify-content-sm-around justify-content-center flex-wrap justify-content-lg-start">
         {% for movie in listMovie %}
-        <movie-tag link="{{ movie.poster_link }}" name="{{movie.title}}" type="test" id="{{movie.movieID}}"></movie-tag>
+        <movie-tag link="{{ movie.posterLink }}" name="{{movie.movieName}}" tag="test" id="{{movie.movieID}}" category='["Hành động", "Hài hước"]'></movie-tag>
         {% endfor %}
     </div>
 </div>

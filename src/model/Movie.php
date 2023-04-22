@@ -17,7 +17,7 @@ class Movie extends Model
     public string $movieDes;
     public string $posterLink;
     public string $landscapeLink;
-    public string $trailerLink;
+    // public string $trailerLink;
     public string $movieDirectors;
     public string $movieActors;
     public int $duringTime;
