@@ -18,7 +18,7 @@ abstract class Model implements ICurdData {
     const ONLY_DELETED_OBJ = 3; // get object which has isdeleted = true
 
     // Return object $className
-    public static function find(...$ids)
+    public static function find($option = 1, ...$ids)
     {
         //Check if number of primary key < number of input id
         if(count(static::$primaryKey) < count($ids)){
@@ -30,11 +30,10 @@ abstract class Model implements ICurdData {
         $containerArr = self::getWhereClauseAndRefferenceArray($ids);
         $whereClause = $containerArr["whereClause"];
         $arr = $containerArr['refArray'];
+
+        $whereClause = self::handleWhereClause($option, $whereClause);
         $sql = "SELECT * FROM " .static::$tableName. " WHERE ".$whereClause;
-        // echo "This is addition SQL: " .$containerArr["whereClause"];
-        // echo "This array save key and value of primary key: " .json_encode($containerArr['refArray']) ."\n";   
-        // echo "This is sql: " .$sql;
-        // return true;
+        // echo $sql ."\n";
         $stmt = $conn->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
         $stmt->execute($arr);
@@ -42,14 +41,49 @@ abstract class Model implements ICurdData {
     }
 
     // Return array if it success else return bool
-    public static function findAll(): array|bool
+    public static function findAll($option): array|bool
     {
         $conn = Database::getConnection();
-        $sql = "SELECT * FROM " .static::$tableName;
+        $whereClause = self::handleWhereClause($option, '');
+        $sql = "SELECT * FROM " .static::$tableName .' WHERE ' .$whereClause;
+        // echo $sql;
+        // return true;
         $stmt = $conn->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    protected static function handleWhereClause($option, $whereClause):string{
+
+        $clause = '';
+        //Check if isdeleted exist
+        if(property_exists(self::getClassName(), 'isDeleted')){
+
+            //check if where clause != ''
+            if($whereClause != ''){
+                $whereClause .= ' and ';
+            }
+
+            //Check option to find object
+            switch ($option) {
+                case 1:
+                    $clause = $whereClause .'isDeleted = false';
+                    break;
+
+                case 2:
+                    $clause = $whereClause .'1';   
+                    break; 
+
+                case 3:
+                    $clause = $whereClause .'isDeleted = true';
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        return $clause;
     }
 
     // Return index > 0 if insert successfully and 0 for primary key's type is string
@@ -99,7 +133,7 @@ abstract class Model implements ICurdData {
         return $stmt->execute($arr);
     }
 
-    public static function delete(...$ids): bool
+    public static function delete($softDelete = true, ...$ids): bool
     {
         //Check if number of primary key < number of input id
         if(count(static::$primaryKey) < count($ids)){
@@ -107,15 +141,40 @@ abstract class Model implements ICurdData {
             return false;
         }
 
+        //Check property isDeleted exist
+        if(property_exists(self::getClassName(), 'isDeleted') && $softDelete == true){
+            return self::softDelete();
+        }
+
         $conn = Database::getConnection();
         $containerArr = self::getWhereClauseAndRefferenceArray($ids);
         $whereClause = $containerArr["whereClause"];
         $arr = $containerArr['refArray'];
         $sql = "DELETE FROM " .static::$tableName. " WHERE ". $whereClause;
+        // echo $sql;
+        // return true;
         $stmt = $conn->prepare($sql);
         return $stmt->execute($arr);
     }
 
+    protected static function softDelete(...$ids): bool
+    {
+        //Check if number of primary key < number of input id
+        if(count(static::$primaryKey) < count($ids)){
+            // echo "Số lượng id nhiều hơn số lượng khóa chính của bảng " .static::$tableName ."(PK: ".implode(", ",static::$primaryKey).")";
+            return false;
+        }
+
+        // $conn = Database::getConnection();
+        $containerArr = self::getWhereClauseAndRefferenceArray($ids);
+        $whereClause = $containerArr["whereClause"];
+        $arr = $containerArr['refArray'];
+        $sql = "UPDATE " .static::$tableName. " SET isDeleted = true WHERE ". $whereClause;
+        echo $sql;
+        return true;
+        // $stmt = $conn->prepare($sql);
+        // return $stmt->execute($arr);
+    }
     public static function where(string $whereClause, array $parameters = []): bool|array
     {
         $conn = Database::getConnection();

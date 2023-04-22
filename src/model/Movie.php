@@ -23,6 +23,7 @@ class Movie extends Model
     public int $duringTime;
     public string $dateRelease;
     public string $movieLanguage;
-    public ?int $categoryID;
+    public bool $isFeatured;
     public ?int $tagID;
+    public bool $isDeleted;
 }

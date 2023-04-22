@@ -13,5 +13,5 @@ class FeaturePermission extends Model{
     public int $actionName;
     public bool $isActive;
     public string $webPath;
-    
+    public bool $isDeleted;
 }

@@ -14,4 +14,5 @@ class Food extends Model{
     public long $foodPrice;
     public string $foodDescription;
     public ?int $discountID;
+    public bool $isDeleted;
 }
