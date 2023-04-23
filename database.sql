@@ -54,7 +54,8 @@ CREATE TABLE MOVIE(
     movieLanguage CHAR(255),
     isFeatured boolean,
     tagID INT,
-    isDeleted boolean
+    isDeleted boolean,
+    externalID INT
 );
 
 ALTER TABLE MOVIE ADD CONSTRAINT FK_MovieTag FOREIGN KEY (tagID) REFERENCES TAG(tagID) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -220,6 +221,11 @@ ALTER TABLE RATING ADD CONSTRAINT FK_USER_RATE FOREIGN KEY (userID) REFERENCES U
 --     navbarHref CHAR(255),
 --     isDeleted boolean
 -- );
+
+INSERT INTO TAG VALUES (1, "P", 0),
+                       (2, "16+", 16),
+                       (3, "13+", 13),
+                       (4, "18+", 18);
 
 INSERT INTO CATEGORY VALUES (28, "Hành động"),
                             (12, "Phiêu lưu"),

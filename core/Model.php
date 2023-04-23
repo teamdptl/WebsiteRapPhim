@@ -56,7 +56,7 @@ abstract class Model implements ICurdData {
 
     protected static function handleWhereClause($option, $whereClause):string{
 
-        $clause = '';
+        $clause = $whereClause;
         //Check if isdeleted exist
         if(property_exists(self::getClassName(), 'isDeleted')){
 

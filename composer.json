@@ -17,6 +17,17 @@
         "twig/twig": "~3.0",
         "phpmailer/phpmailer": "^6.8",
         "ext-pdo": "*",
-      "ext-curl": "*"
+      "ext-curl": "*",
+        "php-tmdb/api": "^4.1",
+        "symfony/event-dispatcher": "^6.2",
+        "guzzlehttp/guzzle": "^7.5",
+        "symfony/cache": "^6.2",
+        "monolog/monolog": "^3.3",
+        "nyholm/psr7": "^1.7"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }
