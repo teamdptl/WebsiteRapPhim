@@ -1,7 +1,7 @@
 {% extends './template/root.html' %}
 
 {% block header %}
-
+<link rel="stylesheet" href="/css/profile.css">
 {% endblock %}
 
 {% block title %}
@@ -9,7 +9,46 @@ Hồ sơ người dùng
 {% endblock %}
 
 {% block body %}
-{{ content }}
+    {{ navbar | raw }}
+<!--    {{ content }}-->
+    <div id="profile">
+<!--        <div class="profile-background bg-primary">-->
+<!--            <div class="profile-header-section container position-relative">-->
+<!--                <span class="profile-avatar rounded-circle bg-warning d-flex justify-content-center align-items-center position-absolute">-->
+<!--                    Duy-->
+<!--                </span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="profile-content-background bg-success" style="width: 100%; height: 300px">-->
+
+<!--        </div>-->
+        <div class="profile-header bg-primary">
+<!--            <h5 class="text-center pt-3">Thông tin tài khoản</h5>-->
+            <div class="profile-header-bg container position-relative">
+                <div class="absolute-group position-absolute d-flex">
+                    <span class="profile-avatar rounded-circle bg-warning d-flex justify-content-center align-items-center">
+                            Duy
+                    </span>
+<!--                    <div class="position-absolute profile-name">-->
+<!--                        <h5>Huỳnh Khánh Duy</h5>-->
+<!--                        <p class="text-muted my-0">huykhaduy@gmail.com</p>-->
+<!--                        <p>Ngày tham gia: 24/06/2021</p>-->
+<!--                    </div>-->
+
+                </div>
+
+            </div>
+        </div>
+        <div class="profile-body bg-white">
+            <div class="profile-body-bg container position-relative">
+                <div>
+                    <h5>Huỳnh Khánh Duy</h5>
+                    <p class="text-muted my-0">huykhaduy@gmail.com</p>
+                    <p>Ngày tham gia: 24/06/2021</p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
