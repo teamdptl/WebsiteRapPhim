@@ -12,4 +12,5 @@ class ShowtimePrice extends Model{
     public int $seatType;
     public int $ticketPrice;
     public ?int $discountID;
+    public bool $isDeleted;
 }

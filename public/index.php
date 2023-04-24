@@ -6,6 +6,9 @@ use core\Application;
 use app\model\Movie;
 use app\model\User;
 use core\View;
+use app\model\Booking;
+use core\Model;
+use app\model\FeaturePermission;
 
 // Initialize application
 $app = Application::init();
@@ -39,6 +42,8 @@ $app->router->post('/signin', ["controller" => "SignInController", "action" => "
 $app->router->post('/signup', ["controller" => "SignUpController", "action" => "validateLogup"]);
 $app->router->post('/signup/otp', ["controller" => "SignUpController", "action" => "validateOTP"]);
 $app->router->post('/signin/otp', ["controller" => "SignInController", "action" => "validateOTP"]);
+$app->router->post('/signin/changePassword', ["controller" => "SignInController", "action" => "validateChangePassword"]);
+
 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 
@@ -47,3 +52,18 @@ $app->run();
 
 // $movie = Movie::find("movie100");
 // var_dump($movie);
+
+// Movie::find(Model::UN_DELETED_OBJ, 'mID1');
+// Movie::find(Model::ALL_OBJ, 'mID1');
+// Movie::find(Model::ONLY_DELETED_OBJ, 'mID1');
+// Movie::find(8,'mID1');
+
+// Booking::find(9, 'bk01');
+
+// FeaturePermission::delete('permissionID1', 'featureID1', 'actionID');
+// FeaturePermission::softDelete('permissionID1', 'featureID1', 'actionID');
+
+// Movie::findAll(Model::UN_DELETED_OBJ);
+// Movie::findAll(Model::ALL_OBJ);
+// Movie::findAll(Model::ONLY_DELETED_OBJ);
+
