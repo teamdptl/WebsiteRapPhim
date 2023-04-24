@@ -28,7 +28,7 @@ class Movies extends ParentHTML {
         </div>
         </a>
         <div class="film-component-btn" onclick="buyTicket()"><button>
-        <i class="fa-regular fa-cart-shopping fa-spin-pulse " "></i>
+        <i class="bi bi-cart2"></i>
                 MUA VÉ
             </button></div> `
         this.innerHTML = content;

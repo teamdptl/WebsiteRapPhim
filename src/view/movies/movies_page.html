@@ -12,8 +12,9 @@ Trang chủ - Đặt vé xem phim online
 {% endblock %}
 
 {% block body %}
+{{ navbar | raw }}
 <div class="container">
-    {{ navbar | raw }}
+    
     <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">Tên Phim</span>
@@ -25,9 +26,9 @@ Trang chủ - Đặt vé xem phim online
         <div class="d-flex align-items-end container">
             <select name="type" id="type">
               <option value="volvo"> Thể loại</option>
-              <option value="saab">Saab</option>
-              <option value="opel">Opel</option>
-              <option value="audi">Audi</option>
+              {% for cate in listCategory %}
+              <option value="{{cate.cateName}}">{{cate.cateName}}</option>
+              {% endfor %}
             </select>
             <select name="country" id="country">
               <option value="volvo">Quốc gia</option>
