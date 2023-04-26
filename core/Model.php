@@ -83,6 +83,10 @@ abstract class Model implements ICurdData {
                     break;
             }
         }
+
+        if ($clause == ""){
+            $clause = " 1 " ; 
+        }
         return $clause;
     }
 
@@ -99,6 +103,8 @@ abstract class Model implements ICurdData {
         $sql = "INSERT INTO " .static::$tableName. " VALUES ($additionSQL)";
         // echo $sql ."\n";
         // echo json_encode($arr);
+        echo $sql;
+        var_dump($arr);
         $stmt = $conn->prepare($sql);
         if ($stmt->execute($arr) == true){
             return $conn->lastInsertId();
@@ -181,6 +187,15 @@ abstract class Model implements ICurdData {
         if ($whereClause == "")
             return self::findAll();
         $sql = "SELECT * FROM " .static::$tableName . " WHERE " .$whereClause;
+        $stmt = $conn->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
+        $stmt->execute($parameters);
+        return $stmt->fetchAll();
+    }
+
+    public static function query(string $sql, array $parameters = []): bool|array
+    {
+        $conn = Database::getConnection();
         $stmt = $conn->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
         $stmt->execute($parameters);

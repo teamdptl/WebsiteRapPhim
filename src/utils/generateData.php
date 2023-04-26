@@ -59,12 +59,12 @@ while ($currentPage <= $maxPage ){
         $dbMovie->externalID = $movieDetails->getId();
         // Lấy video trailer
         foreach ($movieDetails->getVideos() as $trailer) {
-            $dbMovie->trailerLink = $trailer->getUrl();
+            $dbMovie->trailerLink = $trailer->getKey();
             break;
         }
         // Gắn default video
         if ($dbMovie->trailerLink == ""){
-            $dbMovie->trailerLink = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+            $dbMovie->trailerLink = "dQw4w9WgXcQ";
         }
 
         // Lấy danh sách 2 diễn viên đầu tiên

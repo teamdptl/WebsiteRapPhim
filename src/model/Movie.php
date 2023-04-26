@@ -16,7 +16,7 @@ class Movie extends Model
     public string $movieName = "";
     public string $movieDes = "";
     public string $posterLink = "";
-    public string $landscapeLink = "";
+    public string $landscapePoster = "";
     public string $trailerLink = "";
     public string $movieDirectors = "";
     public string $movieActors = "";

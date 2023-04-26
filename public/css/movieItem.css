@@ -1,7 +1,10 @@
 .custom-round{
     border-radius: 0.5rem !important;
+    
 }
-
+ .movie-item img {
+    aspect-ratio: 6/9;
+ }
 .movie-item{
     /*flex: 1 1 0;*/
     width: 0;

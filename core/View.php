@@ -3,8 +3,12 @@
 namespace core;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use  buzzingpixel\twigswitch\SwitchTwigExtension;
 
 class View{
+   
+    
+    
     // Render from file
     public static function render($view, $args = []){
         extract($args, EXTR_SKIP);
@@ -22,6 +26,7 @@ class View{
         if ($twig === null) {
             $loader = new FilesystemLoader(dirname(__DIR__) . '/src/view/');
             $twig = new Environment($loader);
+           
         }
         echo $twig->render($template, $args);
     }
