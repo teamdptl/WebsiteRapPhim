@@ -155,12 +155,7 @@ Trang đăng ký
                 password_record: password_record
             },
             success: function(res){
-                $("#loadingModal").css("display", "none");
-                try {
-                    let data =  JSON.parse(res);
-                } catch (error) {
-                    console.log(error);
-                }
+                let data =  JSON.parse(res);
                 console.log(data);
                 //Dùng để mở otp
                 if(data.status == 1){
@@ -174,7 +169,7 @@ Trang đăng ký
                     })
                 }
 
-                
+                $("#loadingModal").css("display", "none");
 
 
             },

@@ -66,6 +66,12 @@ class SignUpController extends Controller{
         $passwordRecord = $_POST['password_record'];
         $fullname = $_POST['fullname'];
 
+        $fullnameLength = strlen($fullname);
+        $emailLength = strlen($email);
+        $passwordLength = strlen($password);
+        $passwordRecordLength = strlen($passwordRecord);
+
+
         $patternEmail = '/^[a-z]+[a-z-_\.0-9]{2,}@[a-z]+[a-z-_\.0-9]{2,}\.[a-z]{2,}$/';
         $patternPassword = '/[\dA-Za-z]{8,255}/';
         $patternFullname = '/[ A-Za-z]{4,255}/';
@@ -78,18 +84,31 @@ class SignUpController extends Controller{
         $status = 0;
         $message = "Thành công";
 
-        if(!$checkFullname){
+        if($fullnameLength==0){
+            $message = "Vui lòng nhập họ và tên";
+        }
+        else if(!$checkFullname){
             $message = "Ít nhất phải có 4 kí tự";
+        }
+        else if($emailLength==0){
+            $message = "Vui lòng nhập email";
         }
         else if(!$checkEmail){
             $message = "Bạn nhập không đúng định dạng Email";
         }
-        else if($password!==$passwordRecord){
-            $message = "Không trùng mật khẩu";
+        else if($passwordLength==0){
+            $message = "Vui lòng nhập mật khẩu";
         }
         else if(!$checkPassWord){
             $message = "Ít nhất phải có 8 kí tự";
         }
+        else if($passwordRecordLength==0){
+            $message = "Vui lòng nhập lại mật khẩu";
+        }
+        else if($password!==$passwordRecord){
+            $message = "Không trùng mật khẩu";
+        }
+        
         else {
         //   $users = User::where("email = '$email' "); // trả về 1 mảng oject
         $users = User::where("email = :email ", compact('email'));
