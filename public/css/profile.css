@@ -10,6 +10,10 @@
 
 .profile-header{
     border-radius: 15px 15px 0 0;
+    background-image: url('https://img.freepik.com/free-vector/graduation-blue-background_23-2149354160.jpg?w=900&t=st=1683178504~exp=1683179104~hmac=893e50488add91bc98ef0e8fd9502f6934cb59ff55c8e6e38affe6bbf1af2d21');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .profile-body{
@@ -47,3 +51,4 @@
     bottom: 20px;
     transform: translateY(80%);
 }
+
