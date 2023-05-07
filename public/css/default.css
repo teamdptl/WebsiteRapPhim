@@ -44,6 +44,11 @@ html {
         min-width: 100px !important;
         margin: 0 !important;
     }
+
+    .navbar-collapse{
+        box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+        background: white;
+    }
 }
 
 /*CSS dùng cho navbar và footer*/

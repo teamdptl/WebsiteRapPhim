@@ -8,7 +8,7 @@ class MovieTag extends ParentHTML{
         let html = `
             <a class="movie-item" href="/movies/${this.id}">
                     <div class="img-container position-relative">
-                        <img class="custom-round" src="${this.link}" style="width: 100%; height: 100%">
+                        <img class="custom-round" src="${this.link}" style="width: 100%">
                         <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">
                             ${this.tag}
                         </div>

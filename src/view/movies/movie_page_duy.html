@@ -1,0 +1,121 @@
+{% extends './template/root.html'%}
+{% block header %}
+<link rel="stylesheet" href="/css/movie_page_duy.css">
+<link rel="stylesheet" href="/css/movieItem.css">
+<script src="/js/component/MovieTag.js"></script>
+<link href="/css/nouislider.min.css" rel="stylesheet">
+<script src="/js/nouislider.min.js"></script>
+{% endblock %}
+
+{% block title %}
+Tìm kiếm phim - SGU Cinema
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    {{ navbar | raw }}
+    <div class="search-group mt-4 d-flex justify-content-center flex-column align-items-center">
+        <ul class="nav mb-4">
+            <li class="nav-item active">
+                <a class="nav-link active" aria-current="page" href="#">Phim đang chiếu</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Phim sắp chiếu</a>
+            </li>
+        </ul>
+        <div class="d-flex align-items-center fw-bold mb-3" style="gap: 20px">
+            <div class="input-group">
+                <span class="input-group-text bg-light">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input id="text-box" type="text" name="" id="search-input" class="form-control search-box" placeholder="Tìm kiếm tên phim" aria-describedby="helpId">
+                <button type="button" class="btn btn-primary ml-2 round" id="btn-search-text">
+                    Tìm kiếm
+                </button>
+                <button type="button" class="btn btn-outline-primary ml-0 ml-sm-2" data-toggle="collapse" data-target="#myCollapse">
+                    <i class="bi bi-caret-down-fill"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="collapse" id="myCollapse">
+            <div class="d-flex align-items-center justify-content-center advanced-search">
+                <div class="d-flex flex-wrap " style="gap: 10px 30px">
+                    <div class="cate-group input-group align-items-center">
+                        <div class="mr-2">Thể loại: </div>
+                        <select id="category-select" class="custom-select" >
+                            <option value="0">Tất cả</option>
+                            {% for cate in categories %}
+                                <option value="{{cate.categoryID}}">{{cate.cateName}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="rate-group input-group align-items-center">
+                        <div class="mr-2">Đánh giá: </div>
+                        <select id="rating-select" class="custom-select">
+                            <option value="[0, 10]">Tất cả</option>
+                            <option value="[8, 10]">Cao (8-10)</option>
+                            <option value="[5, 8]">Trung bình (5-8)</option>
+                            <option value="[0, 5]">Thấp (0-5)</option>
+                        </select>
+                    </div>
+                    <div class="age-section d-flex align-items-center">
+                        <div class="mr-2" style="white-space: nowrap">Độ tuổi: </div>
+<!--                        <div class="input-group align-items-center age-group d-none">-->
+<!--                            <div class="mr-2">Độ tuổi: </div>-->
+<!--                            <select class="custom-select">-->
+<!--                                <option selected>Tất cả</option>-->
+<!--                                {% for tag in tags %}-->
+<!--                                <option value="{{tag.tagID}}">{{tag.tagName}}</option>-->
+<!--                                {% endfor %}-->
+<!--                            </select>-->
+<!--                        </div>-->
+                        <input id="age-pick-min" type="number" class="form-control age-range-input" placeholder="0" min="0" max="99" aria-label="Username" aria-describedby="basic-addon1">
+                        <span class="mx-2"> - </span>
+                        <input id="age-pick-max" type="text" class="form-control age-range-input" placeholder="99" min="0" max="99" aria-label="Username" aria-describedby="basic-addon1">
+                        <div class="slider-popup">
+                            <div id="range-slider">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-search text-primary text-center mt-3 mb-4">
+        <h4><i class="bi bi-film"></i> Các bộ phim đang chiếu</h4>
+    </div>
+    <div class="movie-not-found text-center d-none">
+        <img src="/assets/empty.png" width="300px" class="img-fluid">
+        <p>Không tìm thấy kế quả nào !</p>
+    </div>
+    <div class="d-flex flex-wrap mt-3" style="gap: 30px;">
+        {% for movie in listMovie %}
+            <movie-tag id="{{movie.movieID}}" link="{{movie.posterLink}}" category='{{movie.category}}' name="{{movie.movieName}}" tag="{{movie.tag}}"></movie-tag>
+        {% endfor %}
+    </div>
+    <nav class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+            <li id="prev-page" class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item page-item-custom active"><a class="page-link" href="#">1</a></li>
+            {% for i in 2..maxPage %}
+                <li class="page-item page-item-custom"><a class="page-link" href="#">{{ i }}</a></li>
+            {% endfor %}
+            <li id="next-page" class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="/js/page/movie_homepage.js"></script>
+{% endblock %}
