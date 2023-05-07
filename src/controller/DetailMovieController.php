@@ -54,7 +54,6 @@ class DetailMovieController extends Controller
             "showtimeList" =>  $showtimeList,
         ]);
     }
-    }
     
 }
 
