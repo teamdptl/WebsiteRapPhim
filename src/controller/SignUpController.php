@@ -72,8 +72,8 @@ class SignUpController extends Controller{
         $passwordRecordLength = strlen($passwordRecord);
 
 
-        $patternEmail = '/^[a-z]+[a-z-_\.0-9]{2,}@[a-z]+[a-z-_\.0-9]{2,}\.[a-z]{2,}$/';
-        $patternPassword = '/[\dA-Za-z]{8,255}/';
+        $patternEmail = '/^[a-z]+[A-Za-z-_\.0-9]{2,}@[a-z]+[a-z-_\.0-9]{2,}\.[a-z]{2,}$/';
+        $patternPassword = '/[\d*A-Za-z@\.]{8,255}/';
         $patternFullname = '/[ A-Za-z]{4,255}/';
 
         //Check 
@@ -100,7 +100,7 @@ class SignUpController extends Controller{
             $message = "Vui lòng nhập mật khẩu";
         }
         else if(!$checkPassWord){
-            $message = "Ít nhất phải có 8 kí tự";
+            $message = "Ít nhất mật khẩu phải có 8 kí tự";
         }
         else if($passwordRecordLength==0){
             $message = "Vui lòng nhập lại mật khẩu";

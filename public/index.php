@@ -32,6 +32,8 @@ $app->router->get('/signup', ['controller' => 'SignUpController', 'action' => 'g
 $app->router->get('/movies', ["controller" => "MoviesController", "action" => "getMoviesPage"]);
 
 $app->router->get('/movies/{id:\d+}', ["controller" => "DetailMovieController", "action" => "getDetailMoviePage"]);
+
+$app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyController", "action" => "getAdminQuanLyPhim"]);
     
 $app->router->get('/{error:\S+}', function($error){
     echo "Bạn đang truy cập trang $error không tồn tại"."<br>";
