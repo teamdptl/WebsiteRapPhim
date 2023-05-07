@@ -55,7 +55,7 @@ while ($currentPage <= $maxPage ){
         echo $movieDetails->getTitle() ."\n";
         $dbMovie->movieDes = $movieDetails->getOverview();
         $dbMovie->posterLink = $movieDetails->getPosterPath();
-        $dbMovie->landscapeLink = $movieDetails->getBackdropPath() ?? "https://shorturl.at/glJOT";
+        $dbMovie->landscapePoster = $movieDetails->getBackdropPath() ?? "https://shorturl.at/glJOT";
         $dbMovie->externalID = $movieDetails->getId();
         // Lấy video trailer
         foreach ($movieDetails->getVideos() as $trailer) {

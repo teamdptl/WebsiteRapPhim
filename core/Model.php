@@ -103,8 +103,7 @@ abstract class Model implements ICurdData {
         $sql = "INSERT INTO " .static::$tableName. " VALUES ($additionSQL)";
         // echo $sql ."\n";
         // echo json_encode($arr);
-        echo $sql;
-        var_dump($arr);
+//        var_dump($arr);
         $stmt = $conn->prepare($sql);
         if ($stmt->execute($arr) == true){
             return $conn->lastInsertId();
