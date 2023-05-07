@@ -1,0 +1,31 @@
+{% extends './template/root.html' %}
+{% block header %}
+<link rel="stylesheet" href="/css/bookingSeat.css">
+<link rel="stylesheet" href="/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="/css/otp.css">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}
+Trang đăng ký
+{% endblock %}
+
+{% block body %}
+{{ navbar | raw }}
+
+<div class="box-seat">
+    <div class="screen"></div>
+    <div class="main-box">
+        {% for row in listSeat %}
+        <div class="row">
+            {% for seat in row %}
+                {% if seat.seatType == 1 %}
+                <div class="seat seat-normal "></div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
