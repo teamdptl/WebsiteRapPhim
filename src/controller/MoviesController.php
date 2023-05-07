@@ -25,22 +25,20 @@ class MoviesController extends Controller{
 
     public function getMoviesPageTest(){
         $navbar = GlobalController::getNavbar();
-        $databaseMovie = Movie::findAll();
-        $listMovies = array_slice($databaseMovie,0, 10);
-        $exportMovies = [];
-
-        foreach($listMovies as $movie){
-            $exportMovies[] = $this->mapping($movie);
-        }
+//        $databaseMovie = Movie::findAll();
+//        $listMovies = array_slice($databaseMovie,0, 10);
+//        $exportMovies = [];
+//
+//        foreach($listMovies as $movie){
+//            $exportMovies[] = $this->mapping($movie);
+//        }
 
         $categories = Category::findAll();
         $tags = Tag::findAll();
         View::renderTemplate('movies\movie_page_duy.html',[
             "navbar" => $navbar,
-            "listMovie" => $exportMovies,
             "categories" => $categories,
             "tags" => $tags,
-            "maxPage" => $this->maxPage($databaseMovie)
         ]);
     }
 

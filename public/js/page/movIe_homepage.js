@@ -74,6 +74,8 @@ const context = {
     futureMovie: 0
 }
 
+sendRequest(context);
+
 // Search handle
 const textBox = $("#btn-search-text")[0];
 textBox.addEventListener("click", function(){
