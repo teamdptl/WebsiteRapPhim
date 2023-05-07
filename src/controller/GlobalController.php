@@ -50,6 +50,59 @@ class GlobalController
         );
     }
 
+    public static function getNavAdmin() {
+        $user = Request::$user;
+        if ($user != null){
+            $user->isAdmin = false;
+        }
+        $navItems = [
+            1 => [
+                "navID" => 1,
+                "navContent" => "Quản lý Phim",
+                "navHref" => "/adminQuanLyPhim"
+            ],
+            2 => [
+                "navID" => 2,
+                "navContent" => "Quản lý Lịch Chiếu",
+                "navHref" => "/adminQuanLyLichChieu"
+            ],
+            3 => [
+                "navID" => 3,
+                "navContent" => "Quản lý Thức Ăn",
+                "navHref" => "/adminQuanLyThucAn"
+            ],
+            4 => [
+                "navID" => 4,
+                "navContent" => "Quản lý hóa đơn giảm giá",
+                "navHref" => "/adminQuanLyHoaDonGiamGia"
+            ],
+            5 => [
+                "navID" => 5,
+                "navContent" => "Quản lý Tài Khoản",
+                "navHref" => "/adminQuanLyTaiKhoan"
+            ],
+            6 => [
+                "navID" => 6,
+                "navContent" => "Quản lý Quyền",
+                "navHref" => "/adminQuanLyQuyen"
+            ],
+            7 => [
+                "navID" => 7,
+                "navContent" => "Thống kê",
+                "navHref" => "/adminThongKe"
+            ]
+        ];
+        $path = Request::getPath();
+        return View::renderTemplateStr("/template/navAdmin.html",
+            [
+                "user" => $user,
+                "navItems" => $navItems,
+                "path" => $path
+            ]
+        );
+    }
+  
+
     public static function getFooter(){
 
     }
