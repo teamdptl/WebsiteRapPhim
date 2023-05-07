@@ -1,0 +1,77 @@
+a{
+    text-decoration: none !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.search-box{
+    width: 400px !important;
+}
+
+.advanced-search .input-group{
+    width: 200px !important;
+}
+
+.age-section{
+    position: relative;
+}
+
+.slider-popup{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+}
+
+.age-range-input{
+    width: 50px;
+}
+
+.age-section:hover .slider-popup{
+    display: block;
+    background-color: white;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+}
+
+.page-item-custom{
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 992px) {
+    .search-box{
+        width: 300px !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .search-box{
+        width: 200px !important;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .search-box{
+        width: 140px !important;
+    }
+
+    .advanced-search .input-group{
+        width: 100% !important;
+    }
+}
+
+@media only screen and (max-width: 312px) {
+    .search-box{
+        width: 80px !important;
+    }
+}

@@ -12,6 +12,12 @@
     flex-shrink: 0;
 }
 
+/*Remove khi push lên*/
+.movie-item img{
+    width: 100%;
+    aspect-ratio: 6/9;
+}
+
 .text-movie-hidden{
     white-space: nowrap;
     overflow: hidden;

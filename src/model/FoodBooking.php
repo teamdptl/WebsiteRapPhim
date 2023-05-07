@@ -2,7 +2,7 @@
 namespace app\model;
 use core\Model;
 
-class FoodBooing extends Model{
+class FoodBooking extends Model{
     protected static string $tableName = "food_booking";
     protected static string $className = "FoodBooking";
     protected static $primaryKey = array("bookingID", "foodID");

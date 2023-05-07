@@ -8,18 +8,21 @@ use core\View;
 class UserProfileController
 {
     public function getProfilePage(){
-        // Kiểm tra xem đã đăng nhập chưa mới cho vào trang web
-//        $user = Request::$user;
-//        if ($user == null){
-//            Request::redirect("/");
-//            return;
-//        }
         $navBar = GlobalController::getNavbar();
 
-        View::renderTemplate("profile/userProfile.html", [
+        View::renderTemplate("profile/userProfileOrder.html", [
             "navbar" => $navBar,
+            "orderPage" => true,
             "content" => "HELLO WORLD"
         ]);
+    }
 
+    public function getProfilePassword(){
+        $navBar = GlobalController::getNavbar();
+        View::renderTemplate("profile/userProfileChangePass.html", [
+            "navbar" => $navBar,
+            "passwordPage" => true,
+            "content" => "HELLO WORLD"
+        ]);
     }
 }
