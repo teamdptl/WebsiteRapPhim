@@ -46,7 +46,7 @@ abstract class Model implements ICurdData {
         $conn = Database::getConnection();
         $whereClause = self::handleWhereClause($option, '');
         $sql = "SELECT * FROM " .static::$tableName .' WHERE ' .$whereClause;
-        // echo $sql;
+//        echo $sql;
         // return true;
         $stmt = $conn->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
@@ -83,6 +83,11 @@ abstract class Model implements ICurdData {
                     break;
             }
         }
+        else {
+            if ($whereClause == ""){
+                $clause = " 1";
+            }
+        }
         return $clause;
     }
 
@@ -99,6 +104,7 @@ abstract class Model implements ICurdData {
         $sql = "INSERT INTO " .static::$tableName. " VALUES ($additionSQL)";
         // echo $sql ."\n";
         // echo json_encode($arr);
+//        var_dump($arr);
         $stmt = $conn->prepare($sql);
         if ($stmt->execute($arr) == true){
             return $conn->lastInsertId();
@@ -170,7 +176,7 @@ abstract class Model implements ICurdData {
         $whereClause = $containerArr["whereClause"];
         $arr = $containerArr['refArray'];
         $sql = "UPDATE " .static::$tableName. " SET isDeleted = true WHERE ". $whereClause;
-        echo $sql;
+//        echo $sql;
         return true;
         // $stmt = $conn->prepare($sql);
         // return $stmt->execute($arr);
@@ -179,8 +185,17 @@ abstract class Model implements ICurdData {
     {
         $conn = Database::getConnection();
         if ($whereClause == "")
-            return self::findAll();
+            return self::findAll(self::ALL_OBJ);
         $sql = "SELECT * FROM " .static::$tableName . " WHERE " .$whereClause;
+        $stmt = $conn->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
+        $stmt->execute($parameters);
+        return $stmt->fetchAll();
+    }
+
+    public static function query(string $sql, array $parameters = []): bool|array
+    {
+        $conn = Database::getConnection();
         $stmt = $conn->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
         $stmt->execute($parameters);
@@ -244,21 +259,28 @@ abstract class Model implements ICurdData {
         return static::$namespace.static::$className;
     }
 
-    public function hasList($class): bool|array
+    public function hasList($class, $options = Model::UN_DELETED_OBJ): bool|array
     {
         $conn = Database::getConnection();
-        $primaryKey = static::$primaryKey;
-        $whereClause = $primaryKey ." = :" .$primaryKey;
-        $sql = "SELECT * FROM " .$class::$tableName . " WHERE " .$whereClause;
-        $stmt = $conn->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, $class::getClassName());
-        $stmt->execute([$primaryKey => $this->$primaryKey]);
-        return $stmt->fetchAll();
+        $arrIds = [];
+        foreach (static::$primaryKey as $key){
+            $arrIds[] = $this->$key;
+        }
+        $containerArr = $this->getWhereClauseAndRefferenceArray($arrIds);
+
+//        $sql = "SELECT * FROM " .$class::$tableName . " WHERE " .$containerArr["whereClause"];
+//        $stmt = $conn->prepare($sql);
+//        $stmt->setFetchMode(PDO::FETCH_CLASS, $class::getClassName());
+//        $stmt->execute($containerArr["refArray"]);
+//        return $stmt->fetchAll();
+
+        return $class::where($class::handleWhereClause($options, $containerArr["whereClause"]), $containerArr["refArray"], $options);
     }
 
-    public function belongTo($class){
+
+    public function belongTo($options, $class){
         $primaryKey = static::$primaryKey;
-        return $class::find($this->$primaryKey);
+        return $class::find($options, ...$this->$primaryKey);
     }
 
     public static function getWhereClauseAndRefferenceArray($arrID){

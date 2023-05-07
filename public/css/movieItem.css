@@ -1,12 +1,21 @@
 .custom-round{
     border-radius: 0.5rem !important;
+    
 }
-
+ .movie-item img {
+    aspect-ratio: 6/9;
+ }
 .movie-item{
     /*flex: 1 1 0;*/
     width: 0;
     flex-basis: calc((100% - 30*4px) / 5);
     flex-shrink: 0;
+}
+
+/*Remove khi push lên*/
+.movie-item img{
+    width: 100%;
+    aspect-ratio: 6/9;
 }
 
 .text-movie-hidden{

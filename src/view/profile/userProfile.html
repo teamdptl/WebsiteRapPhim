@@ -9,42 +9,78 @@ Hồ sơ người dùng
 {% endblock %}
 
 {% block body %}
-    {{ navbar | raw }}
-<!--    {{ content }}-->
+{{ navbar | raw }}
     <div id="profile">
-<!--        <div class="profile-background bg-primary">-->
-<!--            <div class="profile-header-section container position-relative">-->
-<!--                <span class="profile-avatar rounded-circle bg-warning d-flex justify-content-center align-items-center position-absolute">-->
-<!--                    Duy-->
-<!--                </span>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="profile-content-background bg-success" style="width: 100%; height: 300px">-->
-
-<!--        </div>-->
         <div class="profile-header bg-primary">
-<!--            <h5 class="text-center pt-3">Thông tin tài khoản</h5>-->
             <div class="profile-header-bg container position-relative">
                 <div class="absolute-group position-absolute d-flex">
                     <span class="profile-avatar rounded-circle bg-warning d-flex justify-content-center align-items-center">
-                            Duy
+                        Duy
                     </span>
-<!--                    <div class="position-absolute profile-name">-->
-<!--                        <h5>Huỳnh Khánh Duy</h5>-->
-<!--                        <p class="text-muted my-0">huykhaduy@gmail.com</p>-->
-<!--                        <p>Ngày tham gia: 24/06/2021</p>-->
-<!--                    </div>-->
-
                 </div>
 
             </div>
         </div>
         <div class="profile-body bg-white">
-            <div class="profile-body-bg container position-relative">
-                <div>
+            <div class="profile-body-bg container position-relative d-flex flex-md-row flex-column">
+                <div class="col-12 col-md-3">
                     <h5>Huỳnh Khánh Duy</h5>
                     <p class="text-muted my-0">huykhaduy@gmail.com</p>
                     <p>Ngày tham gia: 24/06/2021</p>
+                </div>
+                <div class="profile-body-tab ml-md-5 ml-1 col-12 col-md-9 justify-content-center">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            {% if orderPage == true %}
+                                <a class="nav-link active" href="/profile"><h6>Đơn đặt hàng</h6></a>
+                            {% else %}
+                                <a class="nav-link" href="/profile"><h6>Đơn đặt hàng</h6></a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            {% if passwordPage == true %}
+                                <a class="nav-link active" aria-current="page" href="/profile/password"><h6>Đổi mật khẩu</h6></a>
+                            {% else %}
+                                <a class="nav-link" aria-current="page" href="/profile/password"><h6>Đổi mật khẩu</h6></a>
+                            {% endif %}
+                        </li>
+                    </ul>
+<!--                    <div id="order-tab" class="p-4 col-12 d-flex align-items-center flex-column">-->
+<!--                        <h5 class="mb-3">Các phiếu thu tiền của bạn</h5>-->
+<!--                        <div class="mb-3 w-50" style="min-width: 200px">-->
+<!--                            <label for="input1" class="form-label">Mật khẩu cũ</label>-->
+<!--                            <input type="password" class="form-control" id="input1" aria-describedby="emailHelp">-->
+<!--                        </div>-->
+<!--                        <div class="mb-3 w-50" style="min-width: 200px">-->
+<!--                            <label for="input1" class="form-label">Mật khẩu mới</label>-->
+<!--                            <input type="password" class="form-control" id="input1" aria-describedby="emailHelp">-->
+<!--                        </div>-->
+<!--                        <div class="mb-3 w-50" style="min-width: 200px">-->
+<!--                            <label for="input1" class="form-label">Nhập lại mật khẩu</label>-->
+<!--                            <input type="password" class="form-control" id="input1" aria-describedby="emailHelp">-->
+<!--                        </div>-->
+<!--                        <button type="button" class="btn btn-primary">Xác nhận</button>-->
+<!--                    </div>-->
+
+<!--                    <div id="password-tab" class="p-4 col-12 d-none align-items-center flex-column">-->
+<!--                        <h5 class="mb-3">Thay đổi mật khẩu của bạn</h5>-->
+<!--                        <div class="mb-3 w-50" style="min-width: 200px">-->
+<!--                            <label for="input1" class="form-label">Mật khẩu cũ</label>-->
+<!--                            <input type="password" class="form-control" id="input1" aria-describedby="emailHelp">-->
+<!--                        </div>-->
+<!--                        <div class="mb-3 w-50" style="min-width: 200px">-->
+<!--                            <label for="input1" class="form-label">Mật khẩu mới</label>-->
+<!--                            <input type="password" class="form-control" id="input1" aria-describedby="emailHelp">-->
+<!--                        </div>-->
+<!--                        <div class="mb-3 w-50" style="min-width: 200px">-->
+<!--                            <label for="input1" class="form-label">Nhập lại mật khẩu</label>-->
+<!--                            <input type="password" class="form-control" id="input1" aria-describedby="emailHelp">-->
+<!--                        </div>-->
+<!--                        <button type="button" class="btn btn-primary">Xác nhận</button>-->
+<!--                    </div>-->
+                    {% block tabContent %}
+                    {% endblock %}
+                   
                 </div>
             </div>
         </div>
@@ -52,5 +88,5 @@ Hồ sơ người dùng
 {% endblock %}
 
 {% block js %}
-
+<script src="/js/page/profile.js"></script>
 {% endblock %}

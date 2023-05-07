@@ -1,6 +1,11 @@
 .title {
     font-weight: bold;
+    width: 33%;
 }
+html {
+    scroll-behavior: smooth;
+  }
+
 
 .time-showing::before {
     content: "";
@@ -19,11 +24,13 @@
     position: absolute;
     left: 60%;
     bottom: 40%;
-
     background-color: rgb(4, 49, 251);
 }
 
 .time-showing {
     position: relative;
     padding-top: 30px;
+}
+.btn{
+    width: 25%;
 }

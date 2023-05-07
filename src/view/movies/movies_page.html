@@ -1,8 +1,9 @@
 {% extends './template/root.html'%}
 {% block header %}
 <link rel="stylesheet" href="/css/moviesTag.css">
+<link rel="stylesheet" href="/css/movieItem.css">
 <link rel="stylesheet" href="/css/movies.css">
-<script src="/js/component/Movies.js"></script>
+<script src="/js/component/MovieTag.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 {% endblock %}
 
@@ -11,8 +12,9 @@ Trang chủ - Đặt vé xem phim online
 {% endblock %}
 
 {% block body %}
+{{ navbar | raw }}
 <div class="container">
-    {{ navbar | raw }}
+    
     <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">Tên Phim</span>
@@ -24,9 +26,9 @@ Trang chủ - Đặt vé xem phim online
         <div class="d-flex align-items-end container">
             <select name="type" id="type">
               <option value="volvo"> Thể loại</option>
-              <option value="saab">Saab</option>
-              <option value="opel">Opel</option>
-              <option value="audi">Audi</option>
+              {% for cate in listCategory %}
+              <option value="{{cate.cateName}}">{{cate.cateName}}</option>
+              {% endfor %}
             </select>
             <select name="country" id="country">
               <option value="volvo">Quốc gia</option>
@@ -47,7 +49,7 @@ Trang chủ - Đặt vé xem phim online
     <hr>
     <div class=" d-flex justify-content-sm-around justify-content-center flex-wrap justify-content-lg-start">
         {% for movie in listMovie %}
-        <movie-tag link="{{ movie.link }}" name="{{movie.name}}" type="{{movie.type}}" id="{{movie.id}}"></movie-tag>
+        <movie-tag  link="https://image.tmdb.org/t/p/original{{ movie.posterLink }}" name="{{movie.movieName}}" tag="test" id="{{movie.movieID}}" category='["Hành động", "Hài hước"]'></movie-tag>
         {% endfor %}
     </div>
 </div>

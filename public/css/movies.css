@@ -25,3 +25,7 @@ select{
 height: 35px;
 margin-right: 10px;
 }
+.movie-item{
+    margin-left: 20px;
+    margin-bottom: 30px;
+}

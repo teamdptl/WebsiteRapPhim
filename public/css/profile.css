@@ -10,6 +10,10 @@
 
 .profile-header{
     border-radius: 15px 15px 0 0;
+    background-image: url('https://img.freepik.com/free-vector/graduation-blue-background_23-2149354160.jpg?w=900&t=st=1683178504~exp=1683179104~hmac=893e50488add91bc98ef0e8fd9502f6934cb59ff55c8e6e38affe6bbf1af2d21');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .profile-body{
@@ -46,4 +50,19 @@
     left: 110%;
     bottom: 20px;
     transform: translateY(80%);
+}
+
+/*------------------------------------*/
+.order-item{
+    display: flex;
+    gap: 20px;
+    margin: 12px 0;
+    padding: 12px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 10px;
+}
+
+.order-img{
+    width: 120px;
+    aspect-ratio: 6/9;
 }

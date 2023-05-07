@@ -61,12 +61,13 @@ class SignInController extends Controller{
         if ($user == null){
             echo "Sai mat khau hoac ten dang nhap";
             return;
-        }
+        } 
 
-        $session = new SessionManager();
+     
+        
+
         if(!isset($_SESSION["userID"])){
-            // echo $_SESSION["userID"] = $user[0]["userID"];
-            $session->signInUserID = $user[0]->userID;
+            $_SESSION["userID"] = $user[0]["userID"];
         }
         
       
