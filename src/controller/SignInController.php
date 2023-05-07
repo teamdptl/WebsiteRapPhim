@@ -10,9 +10,6 @@ use app\utils\Mail;
 
 
 class SignInController extends Controller{
-
-    
-
     public function getSignPage(){
         // Kiem tra da login chua 
         if (Request::$user != null){
