@@ -33,6 +33,7 @@ $app->router->get('/movies', ["controller" => "MoviesController", "action" => "g
 $app->router->get('/moviesTest', ["controller" => "MoviesController", "action" => "getMoviesPageTest"]);
 
 $app->router->get('/movies/{id:\d+}', ["controller" => "DetailMovieController", "action" => "getDetailMoviePage"]);
+$app->router->post('/movies/{id:\d+}', ["controller" => "DetailMovieController", "action" => "renderShowTime"]);
 
 
 $app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyController", "action" => "getAdminQuanLyPhim"]);

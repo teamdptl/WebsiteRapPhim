@@ -127,38 +127,51 @@ background: linear-gradient(0deg, #070216 20%, rgba(255,255,255,0) 100%);
 
         </div>
 
-        {% if listCinema|length > 0 %}
 
-        {% for cinema in listCinema %}
+        <div id="showtime">
+            {% if listCinema|length > 0 %}
 
-        <div class="d-flex cinema mt-5">
-            <div class="d-flex linkCinema col-4 bg-black flex-column ">
-                <div style="background-color: #ededed42;width: 85%;padding: 1rem 2rem;border-radius: 10px;">
-                    <div>
-                        <div class="fa fa-video-camera" style="color: rgb(255 233 24);display: block;"></div>
-                        <label style="font-size: 20px;font-weight: bold;">{{cinema.cinemaName}}</label>
+            {% for cinema in listCinema %}
+
+            <div class="d-flex cinema mt-5">
+                <div class="d-flex linkCinema col-4 bg-black flex-column ">
+                    <div style="background-color: #ededed42;width: 85%;padding: 1rem 2rem;border-radius: 10px;">
+                        <div>
+                            <div class="fa fa-video-camera" style="color: rgb(255 233 24);display: block;"></div>
+                            <label style="font-size: 20px;font-weight: bold;">{{cinema.cinemaName}}</label>
+                        </div>
+                        <label style="font-weight: 400;line-height: 22px;">{{cinema.cinemaAddress}}</label>
+                        <button class="btn btn-primary  w-100" style="background-color:forestgreen;border: none">Xem vị
+                            trí</button>
                     </div>
-                    <label style="font-weight: 400;line-height: 22px;">{{cinema.cinemaAddress}}</label>
-                    <button class="btn btn-primary  w-100" style="background-color:forestgreen;border: none">Xem vị
-                        trí</button>
+                </div>
+                <div class="showsTime col-8 d-flex flex-wrap flex-row align-item-center align-content-center"
+                    style="background-color: #ededed42;border-radius: 10px;">
+                    {% for showsTime in showtimeList %}
+                    {% if showsTime.cinemaID == cinema.cinemaID %}
+                    <button class="button  btn col-2 pd-1 m-1 ml-3">{{showsTime.timeStart|date('H:i')}}</button>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            <div class="showsTime col-8 d-flex flex-wrap flex-row align-item-center align-content-center"
-                style="background-color: #ededed42;border-radius: 10px;">
-                {% for showsTime in showtimeList %}
-                {% if showsTime.cinemaID == cinema.cinemaID %}
-                <button class="btn btn-primary col-2 pd-1 m-1 ml-3"
-                    style="height: 37px;">{{showsTime.timeStart|date('H:i')}}</button>
-                {% endif %}
-                {% endfor %}
-            </div>
+
+
+            {% endfor %}
+            {% else %}
+            <h1 style="text-align: center;height: 200px;width: 100%;"> Phim hiện không có suất chiếu </h1>
+            {% endif %}
+
+
+
         </div>
 
+        
 
-        {% endfor %}
-        {% else %}
-        <h1 style="text-align: center;"> Phim hiện không có suất chiếu </h1>
-        {% endif %}
+
+
+
+
+
 
         {% endblock %}
 
@@ -166,25 +179,24 @@ background: linear-gradient(0deg, #070216 20%, rgba(255,255,255,0) 100%);
         <script>
             renderItemSlide();
             renderItemSlideEvent();
-             $(".item-slide").click(function(){
-                
-                console.log(this)
-                var date = $(".date",this).attr("date")
-                console.log(date)
-            $.ajax({
-            url: "/movies/{{id}}",
-            method: "GET",
-            data: {
-                date: date,
-            },
-            success: function(res){
-                // console.log(res);
-            //  
-            },
-            
-        })
-    })
-            
+            $(".item-slide").click(function () {
+
+                var date = $(".date", this).attr("date")
+                $.ajax({
+                    url: "/movies/{{id}}",
+                    method: "POST",
+                    data: {
+                        date: date,
+                    },
+                    success: function (res) {
+                        console.log(res);
+                      
+                        $("#showtime").html(res);
+                    },
+
+                })
+            })
+
 
             function renderItemSlideEvent() {
                 const itemSilde = document.getElementsByClassName("item-slide");
@@ -208,15 +220,16 @@ background: linear-gradient(0deg, #070216 20%, rgba(255,255,255,0) 100%);
                 date = new Date();
                 var days = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
                 for (var i = 0; i < 10; i++) {
-                    inDay=  date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                    inDay = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                    postDay = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
                     document.getElementsByClassName("day")[i].innerHTML = days[date.getDay()]
                     document.getElementsByClassName("date")[i].innerHTML = inDay;
-                    document.getElementsByClassName("date")[i].setAttribute("date",inDay)
+                    document.getElementsByClassName("date")[i].setAttribute("date", postDay)
                     date.setDate(date.getDate() + 1)
                 }
                 document.getElementsByClassName(i)
             }
-           
+
 
         </script>
 
