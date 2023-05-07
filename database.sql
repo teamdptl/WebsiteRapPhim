@@ -222,6 +222,9 @@ ALTER TABLE RATING ADD CONSTRAINT FK_USER_RATE FOREIGN KEY (userID) REFERENCES U
 --     isDeleted boolean
 -- );
 
+INSERT INTO SEAT_TYPE VALUES (1, "Ghế thường"),
+                             (2, "Ghế VIP");
+
 INSERT INTO TAG VALUES (1, "P", 0),
                        (2, "16+", 16),
                        (3, "13+", 13),

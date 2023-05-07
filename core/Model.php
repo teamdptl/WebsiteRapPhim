@@ -41,7 +41,7 @@ abstract class Model implements ICurdData {
     }
 
     // Return array if it success else return bool
-    public static function findAll($option): array|bool
+    public static function findAll($option = Model::UN_DELETED_OBJ): array|bool
     {
         $conn = Database::getConnection();
         $whereClause = self::handleWhereClause($option, '');
