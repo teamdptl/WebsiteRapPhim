@@ -12,8 +12,8 @@ use Tmdb\Repository\MovieRepository;
 require_once dirname(__DIR__) . '/../vendor/autoload.php';
 require_once dirname(__DIR__) .'/utils/apikey.php';
 
-//generateMovies();
-generateSeats();
+generateMovies();
+//generateSeats();
 
 function generateSeats(){
     // Tạo tự động danh sách ghế

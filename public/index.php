@@ -31,6 +31,7 @@ $app->router->get('/signup', ['controller' => 'SignUpController', 'action' => 'g
 
 $app->router->get('/movies', ["controller" => "MoviesController", "action" => "getMoviesPage"]);
 $app->router->get('/moviesTest', ["controller" => "MoviesController", "action" => "getMoviesPageTest"]);
+$app->router->get('/moviesSearch', ["controller" => "MoviesController", "action" => "searchMovie"]);
 
 $app->router->get('/movies/{id:\d+}', ["controller" => "DetailMovieController", "action" => "getDetailMoviePage"]);
 
