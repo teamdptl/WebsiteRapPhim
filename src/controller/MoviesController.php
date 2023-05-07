@@ -7,9 +7,7 @@ use app\model\Tag;
 use core\Controller;
 use core\Model;
 use core\View;
-use app\model\Movie;
-use app\model\Category;
-use core\Model;
+
 use stdClass;
 
 

@@ -176,7 +176,7 @@ class SignUpController extends Controller{
 
         
         // if($email == $_SESSION["sign_up_email"] && time() <  $_SESSION["sign_up_timeout"] && $_SESSION["sign_up_otp"] == $otp ){
-        if($email == $session->signUpEmail && time() < $session->signUpOTPTimeOut && $session->signUpOTP ){
+        if($email == $session->signUpEmail && time() < $session->signUpOTPTimeOut && $session->signUpOTP  == $otp){
             $user = new User();
             $user->fullName = $session->signUpFullName;
             $user->userPassword = $session->signUpPassword;

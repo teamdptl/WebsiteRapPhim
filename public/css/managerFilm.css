@@ -80,7 +80,7 @@
 
 .wrapper .search-box .search-field{ /*350*/
     position: relative;
-    width: 70%;
+    width: 60%;
     height: 100%;
 }
 
@@ -108,7 +108,7 @@
 }
 
 .wrapper .search-box  .add-film{
-    width: 15%;
+    width: 20%;
     height: 100%;
     background-color: #5078ef;
     color: #fff;
