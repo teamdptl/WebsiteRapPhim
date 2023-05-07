@@ -25,41 +25,83 @@ class MoviesController extends Controller{
 
     public function getMoviesPageTest(){
         $navbar = GlobalController::getNavbar();
-        $databaseMovie = Movie::findAll(Model::UN_DELETED_OBJ);
-        $listMovies = array_slice($databaseMovie,0, 10);
-        $exportMovies = [];
+//        $databaseMovie = Movie::findAll();
+//        $listMovies = array_slice($databaseMovie,0, 10);
+//        $exportMovies = [];
+//
+//        foreach($listMovies as $movie){
+//            $exportMovies[] = $this->mapping($movie);
+//        }
 
-        foreach($listMovies as $movie){
-            $exportMovies[] = $this->mapping($movie);
-        }
-
-        $categories = Category::findAll(Model::UN_DELETED_OBJ);
-        $tags = Tag::findAll(Model::UN_DELETED_OBJ);
+        $categories = Category::findAll();
+        $tags = Tag::findAll();
         View::renderTemplate('movies\movie_page_duy.html',[
             "navbar" => $navbar,
-            "listMovie" => $exportMovies,
             "categories" => $categories,
             "tags" => $tags,
-            "maxPage" => $this->maxPage($databaseMovie)
         ]);
     }
 
-    public function searchMovie(){
-        $page = $_POST["page"];
-        $search = $_POST["text"];
-        $category = $_POST["category"];
-        $ageMin = $_POST["minAge"];
-        $ageMax = $_POST["maxAge"];
-        $ratingMin = $_POST["ratingMin"];
-        $ratingMax = $_POST["ratingMax"];
+    public function searchMovie()
+    {
+        $page = isset($_GET["currentPage"]) ? (int)$_GET["currentPage"] : 1;
+        $search = $_GET["text"] ?? "";
+        $category = isset($_GET["category"]) ? (int)$_GET["category"] : 0;
+        $ageMin = isset($_GET["minAge"]) ? (int)$_GET["minAge"] : 0;
+        $ageMax = isset($_GET["maxAge"]) ? (int)$_GET["maxAge"] : 99;
+        $ratingMin = isset($_GET["ratingMin"]) ? (int)$_GET["ratingMin"] : 0;
+        $ratingMax = isset($_GET["ratingMax"]) ? (int)$_GET["ratingMax"] : 10;
+        $futureMovie = isset($_GET["futureMovie"]) ? (int)$_GET["futureMovie"] : 0;
 
-        echo $page;
-        echo $category;
-        echo $search;
-        echo $ageMin;
-        echo $ageMax;
-        echo $ratingMin;
-        echo $ratingMax;
+        $databaseMovie = Movie::findAll();
+        $exportMovies = [];
+        foreach($databaseMovie as $movie){
+            $exportMovies[] = $this->mapping($movie);
+        }
+
+        foreach ($exportMovies as $key => $movie){
+            if (!str_contains(strtolower($movie->movieName), strtolower($search))){
+                unset($exportMovies[$key]);
+            }
+
+            if ($category != 0){
+                $isHas = false;
+                foreach ($movie->categoryList as $cate){
+                    if ($cate->categoryID == $category){
+                        $isHas = true;
+                    }
+                }
+                if (!$isHas){
+                    unset($exportMovies[$key]);
+                }
+            }
+
+//            if ($movie->rating < $ratingMin || $movie->rating > $ratingMax){
+//                unset($exportMovies[$key]);
+//                continue;
+//            }
+
+            if ($movie->tag->minAge < $ageMin || $movie->tag->minAge > $ageMax){
+                unset($exportMovies[$key]);
+            }
+
+            $release = strtotime($movie->dateRelease);
+            if ($futureMovie != 0){
+                if ($release <= time())
+                    unset($exportMovies[$key]);
+            }
+            else {
+                if ($release > time())
+                    unset($exportMovies[$key]);
+            }
+
+        }
+
+        $resObj = new stdClass();
+        $resObj->list = array_slice($exportMovies, ($page-1)*10 , 10);
+        $resObj->maxPage = $this->maxPage($exportMovies);
+        $resObj->activePage = $page;
+        echo json_encode($resObj);
     }
 
     public function maxPage(array $listMovie, int $perPage = 10){
@@ -74,7 +116,8 @@ class MoviesController extends Controller{
             $listNames[] = $category->cateName;
         }
         $movie->category = json_encode($listNames);
-        $movie->tag = Tag::find(Model::UN_DELETED_OBJ, $movie->tagID)->tagName;
+        $movie->categoryList = $categories;
+        $movie->tag = Tag::find(Model::UN_DELETED_OBJ, $movie->tagID);
         $movie->posterLink = "https://themoviedb.org/t/p/w600_and_h900_bestv2/".$movie->posterLink;
         return $movie;
     }

@@ -16,11 +16,11 @@ Tìm kiếm phim - SGU Cinema
     {{ navbar | raw }}
     <div class="search-group mt-4 d-flex justify-content-center flex-column align-items-center">
         <ul class="nav mb-4">
-            <li class="nav-item active">
-                <a class="nav-link active" aria-current="page" href="#">Phim đang chiếu</a>
+            <li id="movie-now" class="nav-item active">
+                <a class="nav-link" aria-current="page">Phim đang chiếu</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Phim sắp chiếu</a>
+            <li id="movie-future" class="nav-item">
+                <a class="nav-link">Phim sắp chiếu</a>
             </li>
         </ul>
         <div class="d-flex align-items-center fw-bold mb-3" style="gap: 20px">
@@ -84,35 +84,45 @@ Tìm kiếm phim - SGU Cinema
         </div>
     </div>
     <div class="header-search text-primary text-center mt-3 mb-4">
-        <h4><i class="bi bi-film"></i> Các bộ phim đang chiếu</h4>
+        <h4><i class="bi bi-film"></i><span class="ml-3" id="text-title">Các bộ phim đang chiếu</span></h4>
     </div>
     <div class="movie-not-found text-center d-none">
         <img src="/assets/empty.png" width="300px" class="img-fluid">
         <p>Không tìm thấy kế quả nào !</p>
     </div>
-    <div class="d-flex flex-wrap mt-3" style="gap: 30px;">
+    <div id="movie-container" class="d-flex flex-wrap mt-3" style="gap: 30px;">
         {% for movie in listMovie %}
-            <movie-tag id="{{movie.movieID}}" link="{{movie.posterLink}}" category='{{movie.category}}' name="{{movie.movieName}}" tag="{{movie.tag}}"></movie-tag>
+            <movie-tag id="{{movie.movieID}}" link="{{movie.posterLink}}" category='{{movie.category}}' name="{{movie.movieName}}" tag="{{movie.tag.tagName}}"></movie-tag>
         {% endfor %}
     </div>
-    <nav class="d-flex justify-content-center mt-4">
-        <ul class="pagination">
-            <li id="prev-page" class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item page-item-custom active"><a class="page-link" href="#">1</a></li>
-            {% for i in 2..maxPage %}
-                <li class="page-item page-item-custom"><a class="page-link" href="#">{{ i }}</a></li>
-            {% endfor %}
-            <li id="next-page" class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
+
+    <nav id="pagination" class="d-flex justify-content-center mt-4">
+<!--        <ul class="pagination">-->
+<!--            <li id="prev-page" class="page-item">-->
+<!--                <a class="page-link" href="#" aria-label="Previous">-->
+<!--                    <span aria-hidden="true">&laquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="page-item page-item-custom active"><a class="page-link" href="#">1</a></li>-->
+<!--            {% for i in 2..maxPage %}-->
+<!--                <li class="page-item page-item-custom"><a class="page-link" href="#">{{ i }}</a></li>-->
+<!--            {% endfor %}-->
+<!--            <li id="next-page" class="page-item">-->
+<!--                <a class="page-link" href="#" aria-label="Next">-->
+<!--                    <span aria-hidden="true">&raquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        </ul>-->
     </nav>
+
+    <div id="loadingScreen">
+        <div class="text-center position-absolute bg-white">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden"></span>
+            </div>
+            <div class="mt-3"> Đang tải, vui lòng chờ ...</div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
