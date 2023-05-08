@@ -1,0 +1,31 @@
+{% if listCinema|length > 0 %}
+
+{% for cinema in listCinema %}
+
+<div class="d-flex cinema mt-5">
+    <div class="d-flex linkCinema col-4 bg-black flex-column ">
+        <div style="background-color: #ededed42;width: 85%;padding: 1rem 2rem;border-radius: 10px;">
+            <div>
+                <div class="fa fa-video-camera" style="color: rgb(255 233 24);display: block;"></div>
+                <label style="font-size: 20px;font-weight: bold;">{{cinema.cinemaName}}</label>
+            </div>
+            <label style="font-weight: 400;line-height: 22px;">{{cinema.cinemaAddress}}</label>
+            <button class="btn btn-primary  w-100" style="background-color:forestgreen;border: none">Xem vị
+                trí</button>
+        </div>
+    </div>
+    <div class="showsTime col-8 d-flex flex-wrap flex-row align-item-center align-content-center"
+        style="background-color: #ededed42;border-radius: 10px;">
+        {% for showsTime in showtimeList %}
+        {% if showsTime.cinemaID == cinema.cinemaID %}
+        <button class="button  btn col-2 pd-1 m-1 ml-3">{{showsTime.timeStart|date('H:i')}}</button>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endfor %}
+{% else %}
+<h1 class="d-flex align-items-center justify-content-center"style="text-align: center;height: 200px;width: 100%;"> OPP! PHIM HIỆN KHÔNG CÓ SUẤT CHIẾU VÀO NGÀY NÀY</h1>
+{% endif %}
