@@ -14,18 +14,149 @@ Trang đăng ký
 {% block body %}
 {{ navbar | raw }}
 
-<div class="box-seat">
-    <div class="screen"></div>
-    <div class="main-box">
-        {% for row in listSeat %}
-        <div class="row">
-            {% for seat in row %}
-                {% if seat.seatType == 1 %}
-                <div class="seat seat-normal "></div>
-            {% endfor %}
-        </div>
-        {% endfor %}
+<div class="container-booking">
+    <div class="top-header">
+        <span class="content">Booking online</span>
     </div>
+    <div class="main-content">
+        <div class="left-content">
+            <div class="box-title">
+                <div class="title">Choose your seat</div>
+                <div class="content">
+                    <p class="cinema-name">Tại: {{cinema.cinemaName}} {{roomName}}, {{provinceName}}</p>
+                    <p class="show-time">Lúc: 11:45 20/5/2023 ~ 11:45 20/5/2023</p>
+                </div>
+            </div>
+            <div class="box-seat">
+                <div class="screen">
+                    <img src="/assets/screen-booking.jpg" alt="" srcset="">
+                </div>
+                <div class="main-box">
+                    {% for row in listSeat %}
+                    <div class="row">
+                        {% for seat in row %}
+                            {% if seat.isBooked == true %}
+                                {% if seat.seatType == 1 %}
+                                    <div class="seat seat-normal seat-booked" onclick="selectedSeats(this)" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                {% else %}
+                                    <div class="seat seat-vip seat-booked" onclick="selectedSeats(this)" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                {% endif %}
+                            {% else %}
+                                {% if seat.seatType == 1 %}
+                                    <div class="seat seat-normal seat-active" onclick="selectedSeats(this)" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                {% else %}
+                                    <div class="seat seat-vip seat-active" onclick="selectedSeats(this)" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="note-seat">
+                    <div class="row first">
+                        <div class="container-seatnote">
+                            <div class="seat seat-normal"></div>
+                            <span class="content">Normal</span>
+                        </div>
+                        <div class="container-seatnote">
+                            <div class="seat seat-booked"></div>
+                            <span class="content">Booked</span>
+                        </div>
+                    </div>
+                    <div class="row second">
+                        <div class="container-seatnote">
+                            <div class="seat seat-vip"></div>
+                            <span class="content">Vip</span>
+                        </div>
+                        <div class="container-seatnote">
+                            <div class="seat seat-vip seat-checked"></div>
+                            <div class="seat seat-normal seat-checked"></div>
+                            <span class="content">Checked</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <div class="button-left" title="Previous" current-pos="choose-seat">
+                        <i class='bx bx-skip-previous-circle bx-tada bx-rotate-270' ></i>
+                        Previous
+                    </div>
+                    <div class="button-right" title="Next" current-pos="choose-seat">
+                        Next
+                        <i class='bx bx-skip-next-circle bx-tada bx-rotate-270' ></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-content">
+                <div class="format-bg-top"></div>
+                
+                <div class="middle-content" id="booking-content">
+                    <div class="poster">
+                        <img src="{{movie.posterLink}}" alt="" srcset="">
+                    </div>
+                    <div class="movie-info">
+
+                        <div class="moviename">
+                            <p class="title"></p>
+                            <p class="nd" style="text-transform: uppercase;">{{movie.movieName}}</p>
+                        </div>
+                        <div class="time">
+                            <p class="title"></p>
+                            <p class="nd">{{movie.duringTime}} minute</p>
+                        </div>
+    
+                    </div>
+                    <div class="showtime-info">
+                        <div class="theater">
+                            <p class="title">Theater</p>
+                            <p class="nd">{{cinema.cinemaName}}</p>
+                        </div>
+                        <div class="showtime">
+                            <p class="title">Showtimes</p>
+                            <p class="nd">{{showtime.timeStart}}</p>
+                        </div>
+                        <div class="screen">
+                            <p class="title">Screen</p>
+                            <p class="nd">{{roomName}}</p>
+                        </div>
+                    </div>
+                    <div class="cost-info">
+                        <div class="ticket-cost">
+                            <p class="title">
+                                Ticket</p>
+                            <p class="nd"><span>₫</span>0.0</p>
+                        </div>
+                        <div class="food-cost">
+                            <p class="title">Food</p>
+                            <p class="nd"><span>₫</span>0.0</p>
+                        </div>
+                        <div class="total-cost">
+                            <p class="title">
+                                Total
+                            </p>
+                            <p class="nd"><span>₫</span>0.0</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                
+                <div class="format-bg-bottom"></div>
+            </div>
+        </div>        
+    </div>
+    
 </div>
+
+<div class="footer">footer</div>
+{% block js %}
+    <script>
+        function selectedSeats(seat){
+            var price = seat.getAttribute('price');
+            console.log(price);
+        }
+    </script>
+    
+{% endblock %}
 
 {% endblock %}
