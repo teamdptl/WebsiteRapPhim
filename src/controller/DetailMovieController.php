@@ -15,7 +15,9 @@ class DetailMovieController extends Controller
 {
     public function getDetailMoviePage($id)
     {
+        date_default_timezone_set("Asia/Hong_Kong");
         $date = date('Y/m/d', time());
+
         $navbar = GlobalController::getNavbar();
         $movieDetail = Movie::find(Model::UN_DELETED_OBJ,$id);
    

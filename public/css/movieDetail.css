@@ -7,6 +7,114 @@ html {
     scroll-behavior: smooth;
 }
 
+.owl-prev {
+    left: 0px;
+    top: 50%;
+}
+
+.owl-next {
+    right: 0px;
+    top: 50%;
+}
+
+.owl-prev,
+.owl-next {
+    position: absolute;
+    /* background-color: #0275d8 !important; */
+    color: white !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    transform: translateY(-50%);
+    outline: none !important;
+}
+
+.owl-prev>span,
+.owl-next>span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -59%);
+    font-size: 40px;
+}
+
+.content-item {
+    margin-top: 20px
+}
+
+.fa-tags label {
+    font-size: 0.9vw;
+}
+
+.fa-calendar label {
+    font-size: 1vw;
+}
+
+.fa-star {
+    color: rgb(255 233 24);
+}
+
+.desMovie {
+    font-size: 1.35vw;
+}
+
+.table-content {
+    font-size: 1.2vw;
+    line-height: 35px;
+    margin-bottom: 20px;
+    width: 70%;
+}
+
+.table-content td {
+    width: 35%;
+    font-weight: bold;
+}
+
+.table-title {
+    font-weight: bold;
+}
+
+.content h1 {
+    font-size: 3vw;
+    color: white;
+    font-weight: bold
+}
+
+.btn-buy {
+    border: none;
+    background-color: #0069d9;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    width: 50%;
+}
+
+.poster {
+    background-color: black;
+    padding: 0;
+    border-radius: 10px
+}
+
+.trailer-title {
+    padding: 40px 0;
+    text-align: center;
+    font-size: 20px;
+    color: #ffb800;
+}
+
+.showtime-title {
+    padding: 40px 0;
+    text-align: center;
+    font-size: 20px;
+    color: #ffb800;
+}
+
+.poster img {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
 
 .time-showing::before {
     content: "";
@@ -33,13 +141,23 @@ html {
     padding-top: 30px;
 }
 
-.btn {
+/* .btn {
     width: 25%;
+} */
+
+.item-slide {
+    height: 100px;
+    color: white;
 }
 
-.active {
+.isActiveItem {
     background-color: green;
     transition: background-color 50ms linear
+}
+
+.owl-item:hover {
+    background-color: green;
+    transition: background-color 0.5s ease;
 }
 
 .hover {
@@ -47,19 +165,129 @@ html {
     transition: 0.5s ease;
 
 }
+
 .button:hover {
     background-color: forestgreen;
     border: forestgreen;
     color: white;
 }
+
 .button {
-    transition: background-color 0.3s ease , boder 0.3 ease;
+    transition: background-color 0.3s ease, boder 0.3 ease;
     height: 37px;
     background-color: #10171e;
     border-color: #10171e;
     color: #97a5be;
     font-weight: bold;
     font-size: 17px;
-    
+
 }
 
+.container-content {
+    position: absolute;
+    top: 10%;
+    right: 8%;
+    padding: 0;
+    border-radius: 10px;
+}
+
+.content {
+    color: white;
+    margin-left: 100px;
+}
+
+.background-radiant {
+    background: linear-gradient(0deg, #070216 20%, rgba(255, 255, 255, 0) 100%);
+    height: 410px;
+    position: absolute;
+    bottom: 0;
+
+
+}
+
+.container-icon-showContent {
+    transition: color 0.3s ease;
+}
+
+.container-icon-showContent:hover #icon-showContent {
+    color: blue;
+    animation: fa-beat-fade 1s infinite linear;
+}
+
+.cinema-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.cinema-address {
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.cinema-mapLink {
+    background-color: forestgreen;
+    border: none
+}
+    
+.cinema {}
+
+.idCinema {
+    background-color: #ededed42;
+    width: 85%;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+}
+
+.no-movie-title {
+    text-align: center;
+    height: 200px;
+    width: 100%;
+}
+
+.showsTime {
+    background-color: #ededed42;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 992px) {
+    .container-content {
+        top: 5%;
+    }
+
+    .content {
+        margin: 0;
+
+    }
+
+
+}
+
+@media only screen and (max-width: 780px) {
+    .container-content {
+        top: 3%;
+    }
+    .btn-buy{
+        width: 60%;
+    }
+
+    /* .cinema {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        width: 100%;
+    }
+
+    .linkCinema {
+        margin: 0;
+        padding: 0;
+
+    }
+
+    .showsTime {
+        padding: 0;
+    }
+    .idCinema{
+        width: 100%;
+    } */
+}

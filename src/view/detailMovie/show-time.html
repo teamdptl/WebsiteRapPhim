@@ -3,22 +3,22 @@
 {% for cinema in listCinema %}
 
 <div class="d-flex cinema mt-5">
-    <div class="d-flex linkCinema col-4 bg-black flex-column ">
-        <div style="background-color: #ededed42;width: 85%;padding: 1rem 2rem;border-radius: 10px;">
+    <div class="d-flex linkCinema col-md-4 col-sm-6 bg-black flex-column  ">
+        <div class="idCinema">
             <div>
                 <div class="fa fa-video-camera" style="color: rgb(255 233 24);display: block;"></div>
-                <label style="font-size: 20px;font-weight: bold;">{{cinema.cinemaName}}</label>
+                <label class="cinema-name">{{cinema.cinemaName}}</label>
             </div>
-            <label style="font-weight: 400;line-height: 22px;">{{cinema.cinemaAddress}}</label>
-            <button class="btn btn-primary  w-100" style="background-color:forestgreen;border: none">Xem vị
+            <label class="cinema-address">{{cinema.cinemaAddress}}</label>
+            <button class="btn btn-primary  w-100 cinema-mapLink ">Xem vị
                 trí</button>
         </div>
     </div>
-    <div class="showsTime col-8 d-flex flex-wrap flex-row align-item-center align-content-center"
-        style="background-color: #ededed42;border-radius: 10px;">
+    <div
+        class="showsTime col-sm-6 col-md-8  d-flex flex-wrap flex-row align-item-center align-content-center justify-content-md-start align-items-sm-center justify-content-sm-center">
         {% for showsTime in showtimeList %}
         {% if showsTime.cinemaID == cinema.cinemaID %}
-        <button class="button  btn col-2 pd-1 m-1 ml-3">{{showsTime.timeStart|date('H:i')}}</button>
+        <button class="button  btn col-md-2 col-sm-5  pd-md-1 m-1 ml-3">{{showsTime.timeStart|date('H:i')}}</button>
         {% endif %}
         {% endfor %}
     </div>
@@ -27,5 +27,5 @@
 
 {% endfor %}
 {% else %}
-<h1 class="d-flex align-items-center justify-content-center"style="text-align: center;height: 200px;width: 100%;"> OPP! PHIM HIỆN KHÔNG CÓ SUẤT CHIẾU VÀO NGÀY NÀY</h1>
+<h1 class="no-movie-title"> Phim hiện không có suất chiếu </h1>
 {% endif %}
