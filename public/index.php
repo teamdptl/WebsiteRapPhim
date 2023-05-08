@@ -29,11 +29,13 @@ $app->router->get('/phuc', function(){
 $app->router->get('/signin', ['controller' => 'SignInController', 'action' => 'getSignPage']);
 $app->router->get('/signup', ['controller' => 'SignUpController', 'action' => 'getSignUpPage']);
 
-$app->router->get('/movies', ["controller" => "MoviesController", "action" => "getMoviesPage"]);
-$app->router->get('/moviesTest', ["controller" => "MoviesController", "action" => "getMoviesPageTest"]);
+//$app->router->get('/movies', ["controller" => "MoviesController", "action" => "getMoviesPage"]);
+$app->router->get('/movies', ["controller" => "MoviesController", "action" => "getMoviesPageTest"]);
 $app->router->get('/moviesSearch', ["controller" => "MoviesController", "action" => "searchMovie"]);
+$app->router->get('/cinemas', ["controller" => "CinemaController", "action" => "getCinemaPage"]);
 
 $app->router->get('/movies/{id:\d+}', ["controller" => "DetailMovieController", "action" => "getDetailMoviePage"]);
+$app->router->post('/movies/{id:\d+}', ["controller" => "DetailMovieController", "action" => "renderShowTime"]);
 
 
 $app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyController", "action" => "getAdminQuanLyPhim"]);
@@ -43,8 +45,11 @@ $app->router->get('/profile', ["controller" => "UserProfileController", "action"
 $app->router->get('/profile/password', ["controller" => "UserProfileController", "action" => "getProfilePassword"]);
 
 $app->router->get('/{error:\S+}', function($error){
-    echo "Bạn đang truy cập trang $error không tồn tại"."<br>";
-    echo "<a href='/'>Click vào đây để trở về</a>";
+    $navBar = \app\controller\GlobalController::getNavbar();
+    View::renderTemplate("/template/404.html", [
+        "navbar" => $navBar,
+        "errorText" => "Bạn đang truy cập trang $error không tồn tại"
+    ]);
 });
 
 $app->router->post('/signin', ["controller" => "SignInController", "action" => "validateLogin"]);

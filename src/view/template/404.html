@@ -1,0 +1,18 @@
+{% extends './template/root.html' %}
+
+{% block body %}
+{{ navbar | raw }}
+<div class="d-flex align-items-center justify-content-center" style="height: calc(100vh - 58px)">
+    <div class="text-center pb-5">
+        <h1 class="display-1 font-weight-bold">404</h1>
+        <p style="font-size: 18px"> <span class="text-danger">Opps!</span> Trang bạn truy cập đang bị lỗi </p>
+        <p class="lead">
+            {{ errorText }}
+        </p>
+        <a href="/" class="btn btn-primary">Trở về</a>
+        <pre class="text-left mt-3">
+            {{ bugTracking }}
+        </pre>
+    </div>
+</div>
+{% endblock %}

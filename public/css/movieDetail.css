@@ -2,9 +2,10 @@
     font-weight: bold;
     width: 33%;
 }
+
 html {
     scroll-behavior: smooth;
-  }
+}
 
 
 .time-showing::before {
@@ -31,6 +32,34 @@ html {
     position: relative;
     padding-top: 30px;
 }
-.btn{
+
+.btn {
     width: 25%;
 }
+
+.active {
+    background-color: green;
+    transition: background-color 50ms linear
+}
+
+.hover {
+    background-color: green;
+    transition: 0.5s ease;
+
+}
+.button:hover {
+    background-color: forestgreen;
+    border: forestgreen;
+    color: white;
+}
+.button {
+    transition: background-color 0.3s ease , boder 0.3 ease;
+    height: 37px;
+    background-color: #10171e;
+    border-color: #10171e;
+    color: #97a5be;
+    font-weight: bold;
+    font-size: 17px;
+    
+}
+

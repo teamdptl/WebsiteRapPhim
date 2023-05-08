@@ -1,0 +1,55 @@
+{% extends './template/root.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="/css/cinemas_page.css">
+{% endblock %}
+
+{% block title %}
+Danh sách rạp phim - SGU Cinema
+{% endblock %}
+
+{% block body %}
+{{ navbar | raw }}
+<div id="cinema_root" class="mt-5">
+    <h4 class="text-center text-primary"><i class="bi bi-camera-reels mr-3"></i>Danh sách các rạp phim</h4>
+    <p class="text-muted text-center">Hệ thống rạp chiếu phim trên toàn quốc</p>
+    <div class="container mb-4">
+        <form method="GET">
+            <div class="input-group mb-3 justify-content-end">
+                <select class="custom-select" name="provinceId" onchange="this.form.submit()" style="max-width: 200px;">
+                    {% if isAllSelected %}
+                        <option value="0" selected>Tất cả tỉnh thành</option>
+                    {% else %}
+                        <option value="0">Tất cả tỉnh thành</option>
+                    {% endif %}
+
+                    {% for province in provinces %}
+                        {% if province.select %}
+                            <option value="{{ province.provinceID }}" selected>{{ province.provinceName }}</option>
+                        {% else %}
+                            <option value="{{ province.provinceID }}">{{ province.provinceName }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+
+        <div class="cinemas-container d-flex flex-wrap" style="gap: 30px 20px">
+            {% for cinema in cinemas %}
+            <div class="card">
+              <img class="card-img-top" src="https://img.freepik.com/free-vector/cinema-movie-film-festival-background_1017-23458.jpg" alt="Card image cap">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-primary">{{ cinema.cinemaName }}</h5>
+                <p class="card-text">{{ cinema.cinemaAddress }}</p>
+                <a href="{{ cinema.mapLink }}" class="btn btn-danger w-100 mt-auto"><i class="bi bi-geo-alt mr-2"></i>Mở bản đồ</a>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -6,7 +6,7 @@ class MovieTag extends ParentHTML{
     id = ""
     render() {
         let html = `
-            <a class="movie-item" href="/movies/${this.id}">
+            <a class="movie-item d-flex flex-column" href="/movies/${this.id}">
                     <div class="img-container position-relative">
                         <img class="custom-round" src="${this.link}" style="width: 100%">
                         <div class="position-absolute bg-white text-danger font-weight-bold px-1 rounded" style="right: 10px; top: 10px; font-size: 0.8rem">
@@ -15,7 +15,7 @@ class MovieTag extends ParentHTML{
                     </div>
                     <h5 class="mt-3 mb-0 text-movie-hidden">${this.name}</h5>
                     <p class="text-muted text-movie-hidden">${this.concatCategory()}</p>
-                    <button class="btn text-white font-weight custom-round w-100" style="background-color: #E64545"">
+                    <button class="btn text-white font-weight custom-round w-100 mt-auto" style="background-color: #E64545"">
                         <i class="bi bi-cart3 mr-1"></i>
                         Mua vé
                     </button>
