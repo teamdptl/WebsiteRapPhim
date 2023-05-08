@@ -10,8 +10,8 @@
                 <label class="cinema-name">{{cinema.cinemaName}}</label>
             </div>
             <label class="cinema-address">{{cinema.cinemaAddress}}</label>
-            <button class="btn btn-primary  w-100 cinema-mapLink ">Xem vị
-                trí</button>
+            <a href="{{cinema.mapLink}}"><button class="btn btn-primary  w-100 cinema-mapLink ">Xem vị
+                trí</button> </a>
         </div>
     </div>
     <div
@@ -27,5 +27,5 @@
 
 {% endfor %}
 {% else %}
-<h1 class="no-movie-title"> Phim hiện không có suất chiếu </h1>
+<h1 class="no-movie-title"> OPP ! Phim hiện không có suất chiếu vào ngày này  </h1>
 {% endif %}

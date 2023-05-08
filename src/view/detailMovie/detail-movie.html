@@ -63,15 +63,15 @@ Trang chủ - Đặt vé xem phim online
                     <p class="desMovie">{{movieDetail.movieDes}}</p>
                     <table class="table-content">
                         <tr>
-                            <td>Độ tuổi :</td>
+                            <td class="table-title">Độ tuổi :</td>
                             {% if tag.tagID == 1 %}
                             <td> P - Phim dành cho mọi độ tuổi</td>
                             {% elseif tag.tagID == 3 %}
-                            <td> Phim dành cho người trên 13 tuổi</td>
+                            <td style="color: rgb(255, 242, 0);"> Phim dành cho người trên 13 tuổi</td>
                             {% elseif tag.tagID == 2 %}
-                            <td> Phim dành cho người trên 16 tuổi</td>
+                            <td style="color: rgb(255, 132, 1);"> Phim dành cho người trên 16 tuổi</td>
                             {% else %}
-                            <td> Phim dành cho người trên 18 tuổi</td>
+                            <td style="color: rgb(255, 0, 0);"> Phim dành cho người trên 18 tuổi</td>
                             {% endif %}
                         </tr>
                         <tr>
@@ -84,9 +84,7 @@ Trang chủ - Đặt vé xem phim online
                         </tr>
                     </table>
                     <div>
-                        <a href="#buyticket" class="btn btn-primary btn-buy" style="width:25%"
-                            >Đặt
-                            vé</a>
+                        <a href="#buyticket" class="btn btn-primary btn-buy" style="width:25%">Đặt vé</a>
                         <a href="#trailer" class="btn btn-primary btn-buy" style="width:25%">Trailer</a>
                     </div>
                 </div>
@@ -98,8 +96,7 @@ Trang chủ - Đặt vé xem phim online
             </div>
 
             <div style="width: 50%; text-align: center;" class="d-lg-none d-flex justify-content-center">
-                <a href="#buyticket" class="btn btn-primary btn-buy">Đặt
-                    vé</a>
+                <a href="#buyticket" class="btn btn-primary btn-buy">Đặt vé</a>
                 <!-- <a href="#trailer" class="btn btn-primary"
                     style="border:none;background-color: #0069d9;color:white;font-weight: bold;font-size: 16px;width: 40%">Trailer</a> -->
             </div>
@@ -142,15 +139,15 @@ Trang chủ - Đặt vé xem phim online
                             <label class="cinema-name">{{cinema.cinemaName}}</label>
                         </div>
                         <label class="cinema-address">{{cinema.cinemaAddress}}</label>
-                        <button class="btn btn-primary  w-100 cinema-mapLink ">Xem vị
-                            trí</button>
+                        <a href="{{cinema.mapLink}}"><button class="btn btn-primary  w-100 cinema-mapLink ">Xem vị
+                            trí</button></a>
                     </div>
                 </div>
                 <div
                     class="showsTime col-sm-6 col-md-8  d-flex flex-wrap flex-row align-item-center align-content-center justify-content-md-start align-items-sm-center justify-content-sm-center">
                     {% for showsTime in showtimeList %}
                     {% if showsTime.cinemaID == cinema.cinemaID %}
-                    <button class="button  btn col-2 pd-1 m-1 ml-3" showID="{{showsTime.showID}}" onclick="sendShowIDToPHP(this);">{{showsTime.timeStart|date('H:i')}}</button>
+                    <button class="button  btn col-md-2 col-sm-5  pd-md-1 m-1 ml-3">{{showsTime.timeStart|date('H:i')}}</button>
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -200,7 +197,6 @@ Trang chủ - Đặt vé xem phim online
             renderItemSlide();
             renderItemSlideEvent();
             $(".item-slide").click(function () {
-
                 var date = $(".date", this).attr("date")
                 $.ajax({
                     url: "/movies/{{id}}",
@@ -210,7 +206,6 @@ Trang chủ - Đặt vé xem phim online
                     },
                     success: function (res) {
                         console.log(res);
-
                         $("#showtime").html(res);
                     },
 
@@ -228,10 +223,10 @@ Trang chủ - Đặt vé xem phim online
                         this.classList.add("isActiveItem")
                     })
                     itemSilde[i].addEventListener("mouseover", function (event) {
-                        this.classList.add("hover")
+                        this.classList.add("date-hover")
                     })
                     itemSilde[i].addEventListener("mouseout", function (event) {
-                        this.classList.remove("hover")
+                        this.classList.remove("date-hover")
                     })
                 }
             }
