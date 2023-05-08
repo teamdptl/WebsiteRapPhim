@@ -16,14 +16,16 @@ const createPagination = (number, activeNumber) => {
             html += `<li class="page-item page-item-custom active"><a class="page-link" href="#">${i}</a></li>`
         else html += `<li class="page-item page-item-custom"><a class="page-link" href="#">${i}</a></li>`
     }
+    let prePageClass =  activeNumber === 1 ? "disabled" : "";
+    let nextPageClass = activeNumber === number ? "disabled" : "";
     return `<ul class="pagination">
-            <li id="prev-page" class="page-item">
+            <li id="prev-page" class="page-item ${prePageClass}">
                 <a class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             ${html}
-            <li id="next-page" class="page-item">
+            <li id="next-page" class="page-item ${nextPageClass}">
                 <a class="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
@@ -48,13 +50,19 @@ const sendRequest = (context) =>{
         method: 'GET',
         data: context,
         success: function (res) {
-            res = JSON.parse(res);
-            $("#movie-container").html(createMovieItems(res.list));
-            $("#pagination").html(createPagination(res["maxPage"], res["activePage"]));
-            if (res["maxPage"]>1){
-                handlePage();
+            try {
+                res = JSON.parse(res);
+                $("#movie-container").html(createMovieItems(res.list));
+                $("#pagination").html(createPagination(res["maxPage"], res["activePage"]));
+                if (res["maxPage"]>1){
+                    handlePage();
+                }
+            } catch (e){
+
+            } finally {
+                $("#loadingScreen").css("display", "none");
             }
-            $("#loadingScreen").css("display", "none");
+
         },
         fail: function (res) {
             console.log(res);
@@ -142,6 +150,9 @@ const handlePage = () => {
     const maxPages = listPages.length;
 
     nextPage.addEventListener("click", function(){
+        if (nextPage.classList.contains("disabled"))
+            return;
+
         const preItem = listPages[context.currentPage-1];
         preItem.classList.remove("active");
         context.currentPage = context.currentPage + 1 > maxPages ? maxPages : context.currentPage + 1;
@@ -150,6 +161,9 @@ const handlePage = () => {
     })
 
     prevPage.addEventListener("click", function(){
+        if (prevPage.classList.contains("disabled"))
+            return;
+
         const preItem = listPages[context.currentPage-1];
         preItem.classList.remove("active");
         context.currentPage = context.currentPage - 1  > 0 ? context.currentPage - 1 : 1;

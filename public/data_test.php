@@ -6,6 +6,9 @@ use core\Model;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+var_export(Movie::findAll());
+return;
+
 //$is_export = 1;
 //$sql = "";
 //

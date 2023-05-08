@@ -25,13 +25,6 @@ class MoviesController extends Controller{
 
     public function getMoviesPageTest(){
         $navbar = GlobalController::getNavbar();
-//        $databaseMovie = Movie::findAll();
-//        $listMovies = array_slice($databaseMovie,0, 10);
-//        $exportMovies = [];
-//
-//        foreach($listMovies as $movie){
-//            $exportMovies[] = $this->mapping($movie);
-//        }
 
         $categories = Category::findAll();
         $tags = Tag::findAll();
@@ -53,6 +46,16 @@ class MoviesController extends Controller{
         $ratingMax = isset($_GET["ratingMax"]) ? (int)$_GET["ratingMax"] : 10;
         $futureMovie = isset($_GET["futureMovie"]) ? (int)$_GET["futureMovie"] : 0;
 
+        $exportMovies = $this->findMovieInDB($search, $category, $ageMin, $ageMax, $ratingMin, $ratingMax, $futureMovie);
+
+        $resObj = new stdClass();
+        $resObj->list = array_slice($exportMovies, ($page-1)*10 , 10);
+        $resObj->maxPage = $this->maxPage($exportMovies);
+        $resObj->activePage = $page;
+        echo json_encode($resObj);
+    }
+
+    public function findMovieInDB($search, $category, $ageMin, $ageMax, $ratingMin, $ratingMax, $futureMovie){
         $databaseMovie = Movie::findAll();
         $exportMovies = [];
         foreach($databaseMovie as $movie){
@@ -94,14 +97,8 @@ class MoviesController extends Controller{
                 if ($release > time())
                     unset($exportMovies[$key]);
             }
-
         }
-
-        $resObj = new stdClass();
-        $resObj->list = array_slice($exportMovies, ($page-1)*10 , 10);
-        $resObj->maxPage = $this->maxPage($exportMovies);
-        $resObj->activePage = $page;
-        echo json_encode($resObj);
+        return $exportMovies;
     }
 
     public function maxPage(array $listMovie, int $perPage = 10){
@@ -116,9 +113,45 @@ class MoviesController extends Controller{
             $listNames[] = $category->cateName;
         }
         $movie->category = json_encode($listNames);
+        $movie->categoryNames = $listNames;
         $movie->categoryList = $categories;
         $movie->tag = Tag::find(Model::UN_DELETED_OBJ, $movie->tagID);
         $movie->posterLink = "https://themoviedb.org/t/p/w600_and_h900_bestv2/".$movie->posterLink;
         return $movie;
+    }
+
+    public function findMovieByNow($isFuture = false, $limit = 5): array
+    {
+        $movies = Movie::findAll();
+        $listReturn = [];
+        foreach ($movies as $movie){
+            if ($limit <= 0) break;
+            $release = strtotime($movie->dateRelease);
+            if (!$isFuture && $release <= time()){
+                $movie = $this->mapping($movie);
+                $listReturn[] = $movie;
+                $limit--;
+            }
+
+            if ($isFuture && $release > time()){
+                $movie = $this->mapping($movie);
+                $listReturn[] = $movie;
+                $limit--;
+            }
+        }
+        return $listReturn;
+    }
+
+    public function getFeaturedMovies(): bool|array
+    {
+        $movies = Movie::findAll();
+        $listReturn = [];
+        foreach ($movies as $key => $movie){
+            if ($movie->isFeatured == true){
+                $movie = $this->mapping($movie);
+                $listReturn[] = $movie;
+            }
+        }
+        return $listReturn;
     }
 }
