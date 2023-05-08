@@ -63,13 +63,10 @@ html {
     font-size: 1.2vw;
     line-height: 35px;
     margin-bottom: 20px;
-    width: 70%;
+    width: 100%;
 }
 
-.table-content td {
-    width: 35%;
-    font-weight: bold;
-}
+
 
 .table-title {
     font-weight: bold;
@@ -83,11 +80,12 @@ html {
 
 .btn-buy {
     border: none;
-    background-color: #0069d9;
+    background-color: forestgreen;
     color: white;
     font-weight: bold;
     font-size: 16px;
     width: 50%;
+    margin-right: 10px;
 }
 
 .poster {
@@ -160,19 +158,19 @@ html {
     transition: background-color 0.5s ease;
 }
 
-.hover {
+.date-hover{
     background-color: green;
     transition: 0.5s ease;
 
 }
 
-.button:hover {
+.button-showtime:hover {
     background-color: forestgreen;
     border: forestgreen;
     color: white;
 }
 
-.button {
+.button-showtime {
     transition: background-color 0.3s ease, boder 0.3 ease;
     height: 37px;
     background-color: #10171e;
@@ -242,6 +240,9 @@ html {
     text-align: center;
     height: 200px;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .showsTime {
