@@ -15,7 +15,7 @@ $app = Application::init();
 session_start();
 
 $app->router->get('/hi', "example.html");
-$app->router->get('/test', ["controller"=>"HomeController", "action"=>"homeAction"]);
+$app->router->get('/test', ["controller"=>"BookingController", "action"=>"getBookingPage"]);
 $app->router->get('/', ["controller"=>"HomeController", "action"=>"homePageRender"]);
 $app->router->get('/name/{name:\w+}', ["controller"=>"HomeController", "action"=>"otherAction"]);
 $app->router->get('/page/{id:\d+}', function($id){ 

@@ -3,6 +3,7 @@ namespace app\controller;
 use core\Controller;
 use core\Request;
 use core\Model;
+use core\View;
 use app\model\Showtime;
 use app\model\ShowtimePrice;
 use app\model\SeatShowtime;
@@ -23,6 +24,8 @@ class BookingController extends Controller{
             Request::redirect('/signin');
             return;
         }
+
+        $navbar = GlobalController::getNavbar();
 
         // $showID = $_POST['showID'];
         $showID = 1;
@@ -47,13 +50,16 @@ class BookingController extends Controller{
                         $cinema = get_object_vars($cinema);
                         $roomName = $room->roomName;
                         $provinceName = $province->provinceName;
-                        echo json_encode($listSeatArr);
-                        // View::renderTemplate('/booking/bookingSeat_page.html', [
-                        //     "listSeat" => $listSeatArr,
-                        //     "cinema" => $cinema,
-                        //     "roomName" => $roomName,
-                        //     "provinceName" => $provinceName
-                        // ]);
+                        // echo json_encode($listSeatArr);
+                        View::renderTemplate('/booking/bookingSeat_page.html', [
+                            "listSeat" => $listSeatArr,
+                            "showtime" => get_object_vars($showtime),
+                            "movie" => get_object_vars($movie),
+                            "cinema" => $cinema,
+                            "roomName" => $roomName,
+                            "provinceName" => $provinceName,
+                            "navbar" => $navbar
+                        ]);
 
                     }         
                     
