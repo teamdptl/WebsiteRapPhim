@@ -6,22 +6,38 @@
     list-style: none;
 }
 
+
 .wrapper{
-    position: absolute;
-    top: 6%;
-    left: 15%;
-    transform: translate(-10%, -10%);
-    width: 80%;
+    /* position: absolute;
+    top: 4%;
+    left: 25%; */
+    /* transform: translate(-10%, -10%); */
+    width: 100%;
+    display: flex;
+    padding: 10px;  
+    
 }
 
+.wrapper .text-managerFilm{
+    width: 15%;
+    color: #1d4ce6;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+    height: 55px;   
+}
 .wrapper .search-box{ /*width: 500px;*/
-    width: 100%;
+    width: 60%;
     background: #fff;
     height: 55px;
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 8 px 6px -10px #b3c6ff;
     display: flex;
+    margin-left: 100px;
 }
 
 .wrapper .search-box .dropdown{ /*width: 150px;*/
@@ -48,6 +64,7 @@
     padding: 15px;
     display: none;
     box-shadow: 8px 8px 6px -10px #b3c6ff;
+    z-index: 50;
 
 }
 
@@ -97,7 +114,7 @@
 .wrapper .search-box .search-field .bx{
     position: absolute;
     top: 10px;
-    right: -12%;
+    right: -32%;
     font-size: 22px;
     color: #5078ef;
     cursor: pointer;
@@ -107,10 +124,251 @@
     color: #5078ef
 }
 
-.wrapper .search-box  .add-film{
-    width: 20%;
-    height: 100%;
-    background-color: #5078ef;
+.wrapper  .add-film{
+    width: 10%;
+    height: 55px;
+    outline: none;
     color: #fff;
     border-radius: 10px;
+    margin-left: 20px;
+    
 }
+
+
+/*Design Table*/
+.table-Film{
+    height: 450px;
+    overflow: auto;
+    margin: 50px 30px 30px 30px;
+  
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    min-width: 800px; 
+    border-collapse: collapse;  
+   
+}
+
+
+
+thead th{
+    position: sticky;
+    top: 0;
+    background-color: #7f99f0;
+    color: #fff;
+    font-size: 15px;
+    z-index: 5;
+}
+
+th, td{
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 20px;
+    word-break: break-all;
+    text-align: center;
+}
+
+td img{
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 5px solid #dddddd;
+}
+
+td i{
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff;
+}
+
+td i:nth-child(1){
+    background-color: #5078ef;
+}
+
+td i:nth-child(2){
+    background-color: #f13131;
+}
+
+tr:hover td{
+    color: #5078ef;
+    cursor: pointer;
+    background-color: #f6f9fc;
+}
+
+::placeholder{
+    color: #5078ef;
+}
+
+::-webkit-scrollbar{
+    height: 5px;
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-track{
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+
+}
+input[type="checkbox"] {
+    position: relative;
+    z-index: 2;
+    transform: scale(1.5);
+}
+
+
+/*Modal Edit*/
+
+
+.modal-delete {
+    display: none; /* Ẩn modal ban đầu */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền đục */
+    z-index: 1000;
+  }
+
+  .half-input {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .half-input .form-group {
+    flex-basis: 48%;
+  }
+  
+  .modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .modal-content {
+    transform: scale(1.2);
+  }
+
+
+/*Modal ADD Film */
+.containerFilmAdd {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    margin-top: 10px;
+  }
+
+  .containerFilmEdit {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    margin-top: 10px;
+  }
+  
+
+  .modalAddFilm {
+    position: absolute;
+    top: 63%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .containerFilmAdd h2 {
+    text-align: center;
+    margin-top: 50px;
+    background-color: #dddddd;
+  }
+  
+  .containerFilmAdd form {
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 5px;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 40px;
+  }
+  
+  .containerFilmAdd .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .containerFilmAdd label {
+    font-weight: bold;
+  }
+  .form-group label {
+    text-align: center;
+  }
+  
+  .containerFilmAdd input[type="text"], .containerFilmAdd select {
+    width: 100%;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  
+  .containerFilmAdd button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .containerFilmAdd button[type="submit"]:hover {
+    background-color: #0069d9;
+  }
+  
+  .containerFilmAdd .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    opacity: 0.7;
+    cursor: pointer;
+  }
+    
+
+  .quartern-input {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .form-check {
+    flex-basis: calc(25% - 10px);
+    /* 25% - 10px để giảm độ rộng của phần tử con để tránh tràn ra phần tử khác */
+    margin-right: 10px; /* để tạo khoảng cách giữa các phần tử */
+    margin-bottom: 10px; /* để xuống hàng khi đủ số phần tử */
+    
+  }
+
+  .quartern-input .form-check label{
+    font-weight: normal;
+    margin-left: 3px;;
+  }
