@@ -60,7 +60,7 @@ $app->router->post('/signin/changePassword', ["controller" => "SignInController"
 $app->router->post('/moviesTest', ["controller" => "MoviesController", "action" => "searchMovie"]);
 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
-
+$app->router->post('/upload', ["controller" => "UploadFileHandle", "action" => "uploadFile"]);
 // Running and resolver
 $app->run();
 
