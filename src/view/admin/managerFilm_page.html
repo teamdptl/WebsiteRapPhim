@@ -49,78 +49,26 @@ Trang Admin Phim
                         <th>ID</th>
                         <th>TÊN PHIM</th>
                         <th>POSTER LINK</th>
-                        <th>THỂ LOẠI</th>
+                        <th>ĐẠO DIỄN</th>
                         <th>FEATURE</th>
                         <th>HÀNH ĐỘNG</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for movie in listMovie %}
                     <tr >
-                        <td>1</td>
-                        <td>Người Kiến và Chiến Binh Ong: Thế Giới Lượng Tử</td>
-                        <td><img src=""></td>
-                        <td>Viễn tưởng</td>
-                        <td>  <input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."></td>
+                        <td>{{movie.movieID}}</td>
+                        <td>{{movie.movieName}}</td>
+                        <td><img src="https://themoviedb.org/t/p/w600_and_h900_bestv2/{{movie.posterLink}}"></td>
+                        <td>{{movie.movieDirectors}}</td>
+
+                        <td><input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."{% if movie.isFeatured %}checked{% endif %} ></td>
                         <td>
                             <i class='bx bx-edit edit-film'></i>
                             <i class='bx bxs-trash-alt deleteFilm'></i>
                         </td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Người Kiến và Chiến Binh Ong: Thế Giới Lượng Tử</td>
-                        <td><img src=""></td>
-                        <td>Viễn tưởng</td>
-                        <td>  <input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."></td>
-                        <td>
-                            <i class='bx bx-edit edit-film'></i>
-                            <i class='bx bxs-trash-alt deleteFilm'></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Người Kiến và Chiến Binh Ong: Thế Giới Lượng Tử</td>
-                        <td><img src=""></td>
-                        <td>Viễn tưởng</td>
-                        <td>  <input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."></td>
-                        <td>
-                            <i class='bx bx-edit edit-film'></i>
-                            <i class='bx bxs-trash-alt deleteFilm'></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Người Kiến và Chiến Binh Ong: Thế Giới Lượng Tử</td>
-                        <td><img src=""></td>
-                        <td>Viễn tưởng</td>
-                        <td>  <input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."></td>
-                        <td>
-                            <i class='bx bx-edit edit-film'></i>
-                            <i class='bx bxs-trash-alt deleteFilm'></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Người Kiến và Chiến Binh Ong: Thế Giới Lượng Tử</td>
-                        <td><img src=""></td>
-                        <td>Viễn tưởng</td>
-                        <td>  <input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."></td>
-                        <td>
-                            <i class='bx bx-edit edit-film'></i>
-                            <i class='bx bxs-trash-alt deleteFilm'></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Người Kiến và Chiến Binh Ong: Thế Giới Lượng Tử</td>
-                        <td><img src=""></td>
-                        <td>Viễn tưởng</td>
-                        <td>  <input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."></td>
-                        <td>
-                            <i class='bx bx-edit'></i>
-                            <i class='bx bxs-trash-alt deleteFilm'></i>
-                        </td>
-                    </tr>
+                    {% endfor %}
                   
                  
                 </tbody>
@@ -173,11 +121,11 @@ Trang Admin Phim
           
             <div class="containerFilmAdd" id="Add" >
                 <div class="modalAddFilm">
-                    <form>
+                    <form action="/adminQuanLyPhim/AddMovie" method="post" enctype="multipart/form-data">
                       <div class="half-input">
                           <div class="form-group">
                             <label for="name-movie">Tên phim:</label>
-                            <input type="text" class="form-control" id="name-movie" placeholder="Nhập tên phim">
+                            <input type="text" class="form-control" id="name-movie-add" name="name-movie-add" placeholder="Nhập tên phim">
                           </div>
                           <div class="form-group">
                             <label for="des-movie">Mô tả:</label>
@@ -187,11 +135,11 @@ Trang Admin Phim
                       <div class="half-input">
                             <div class="form-group">
                               <label for="poster-link">Post Link:</label>
-                              <input type="file" class="" id="poster-link" placeholder="Nhập posterLink">
+                              <input type="file" class="" id="poster-link" name="poster-link" placeholder="Nhập posterLink">
                             </div>
                             <div class="form-group">
                               <label for="landscape-poster">Landscape Poster:</label>
-                              <input type="file" class="" id="landscape-poster" placeholder="Nhập poster">
+                              <input type="file" class="" id="landscape-poster" name="landscape-poster" placeholder="Nhập poster">
                             </div>
                       </div>
                       
@@ -249,130 +197,22 @@ Trang Admin Phim
                           <option>Viễn tưởng</option>
                           <option>Tình cảm</option>
                         </select> -->
-                       <div class="quartern-input">
+                        <div class="quartern-input">
+                        {% for category in listCategory %}
                             <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                              <input class="form-check-input checkboxCategoryAdd"  type="checkbox" value="" id="{{category.categoryID}}">
                               <label class="form-check-label" for="flexCheckDefault">
-                                Phiêu lưu
+                                {{category.cateName}}
                               </label>
                             </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Fantasy
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                Hoạt hình
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Drama
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                Kinh dị
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Hành động
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                Hài hước
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Lịch sử
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                Miền tây
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Gây cấn
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                Tội phạm
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Tài liệu
-                              </label>
-                            </div><div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                Khoa học viễn tưởng
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Bí ẩn
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                Nhạc kịch
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Lãng mạn
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Gia đình
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Chiến tranh
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                Truyền hình
-                              </label>
-                            </div>
-
-                       </div>
-                       
-
+                       {% endfor %}
+                        </div>
 
                       </div>
                       
                       
                      
-                      <button type="submit" class="btn btn-primary">Thêm phim</button>
+                      <button type="submit" class="btn btn-primary" id="btnAddFilm">Thêm phim</button>
                     </form>
                 </div>
                 
@@ -434,7 +274,7 @@ Trang Admin Phim
                     </div>
                     <div class="form-group">
                         <label for="language">Ngôn ngữ</label>
-                        <input type="timepicker" class="form-control " id="language" placeholder="Nhập ngôn ngữ trong phim">
+                        <input type="text" class="form-control " id="language" placeholder="Nhập ngôn ngữ trong phim">
                     </div>
                     </div>
 
@@ -460,124 +300,14 @@ Trang Admin Phim
                         <option>Tình cảm</option>
                     </select> -->
                     <div class="quartern-input">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                          {% for category in listCategory %}
+                          <div class="form-check">
+                            <input class="form-check-input checkboxCategoryEdit"  type="checkbox" value="" id="{{category.categoryID}}">
                             <label class="form-check-label" for="flexCheckDefault">
-                            Phiêu lưu
+                              {{category.cateName}}
                             </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Fantasy
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            Hoạt hình
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Drama
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            Kinh dị
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Hành động
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            Hài hước
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Lịch sử
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            Miền tây
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Gây cấn
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            Tội phạm
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Tài liệu
-                            </label>
-                        </div><div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            Khoa học viễn tưởng
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Bí ẩn
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            Nhạc kịch
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Lãng mạn
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Gia đình
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Chiến tranh
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                            Truyền hình
-                            </label>
-                        </div>
-
-                    </div>
-                    
-
-
+                          </div>
+                        {% endfor %}
                     </div>
                     
                     
@@ -596,72 +326,7 @@ Trang Admin Phim
 
 {% block js %}
 <script src="/js/component/navAdmin.js"></script>
+<script src="/js/page/managerFilm.js"></script>
 
-<script> 
-        $(document).ready(function(){
-            $(".default-option").click(function(){
-                $(".dropdown ul").toggleClass("active");
-            });
-
-            $(".dropdown ul li").click(function(){
-                var text = $(this).text();
-                $(".default-option").text(text);
-                $(".dropdown ul").removeClass("active");
-            });
-
-            
-            $('.deleteFilm').click(function() {
-                // Sử dụng toggle để hiển thị/ẩn thị modal-delete
-                $('.modal-delete').toggle();
-            });
-
-            // Lắng nghe sự kiện khi click vào nút đóng (x) hoặc nút Đóng
-            $('.close, .btn-secondary').click(function() {
-                // Sử dụng toggle để ẩn thị modal-delete
-                $('.modal-delete').toggle();
-            });
-          
-            //modal addFilm
-            $(".add-film").click(function() {
-              $("#Add").toggle();
-            });
-
-            $('.edit-film').click(function() {
-              $("#Edit").toggle();
-              console.log("testing");
-            });
-
-            // Khi click bên ngoài modal, đóng modal
-            $(window).on('click', function(event) {
-                if ($(event.target).is('.modal')) {
-                  $(".modal").hide();
-                };
-
-                if ( $(event.target).is('.modalAddFilm')) {
-                  $(".containerFilmAdd").hide();
-                }
-            });
-
-          
-           
-
-          
-            // const itemEditInput = document.getElementsByClassName('edit-film');
-            // itemEditInput[0].toggle();
-        // for(let i = 0 ; i<itemEditInput.length ; i++) {
-        //   itemEditInput[i].addEventListener("click", function(e) {
-        //     $("#Edit").toggle();
-        //   }
-        //  ) } 
-
-            
-
-
-        });
-    
-     
-
-        
-</script>
-   
 {% endblock %}
+

@@ -59,6 +59,8 @@ $app->router->post('/signin/otp', ["controller" => "SignInController", "action" 
 $app->router->post('/signin/changePassword', ["controller" => "SignInController", "action" => "validateChangePassword"]);
 $app->router->post('/moviesTest', ["controller" => "MoviesController", "action" => "searchMovie"]);
 
+$app->router->post('/adminQuanLyPhim/ThemPhim', ["controller" => "AdminQuanLyController", "action" => "AddMovie"]);
+
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 $app->router->post('/upload', ["controller" => "UploadFileHandle", "action" => "uploadFile"]);
 // Running and resolver
