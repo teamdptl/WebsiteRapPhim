@@ -1,5 +1,6 @@
 {% extends './template/root.html' %}
 {% block header %}
+<link rel="stylesheet" href="/css/AdminShowTime.css">
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 <link rel="stylesheet" href="/css/managerFilm.css">
 <link rel="stylesheet" href="/css/navAdmin.css">
@@ -7,8 +8,8 @@
 {% endblock %}
 
 {% block title %}
-Trang Admin Phim 
-{% endblock %} 
+Trang Admin Phim
+{% endblock %}
 
 {% block body %}
 {{ navbar | raw }}
@@ -371,13 +372,29 @@ Trang Admin Phim
     </section> -->
 
 
+    </div>
 
 
-{% endblock %}
+
+    {% endblock %}
 
 {% block js %}
 <script src="/js/component/navAdmin.js"></script>
-<script src="/js/page/managerFilm.js"></script>
 
+<script> 
+        $(document).ready(function(){
+            $(".default-option").click(function(){
+                $(".dropdown ul").toggleClass("active");
+            });
+
+            $(".dropdown ul li").click(function(){
+                var text = $(this).text();
+                $(".default-option").text(text);
+                $(".dropdown ul").removeClass("active");
+            });
+        });
+
+        
+</script>
+   
 {% endblock %}
-

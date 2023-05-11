@@ -39,25 +39,13 @@ $app->router->get('/movies/{id:\d+}', ["controller" => "DetailMovieController", 
 $app->router->post('/movies/{id:\d+}', ["controller" => "DetailMovieController", "action" => "renderShowTime"]);
 
 
+$app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyController", "action" => "getAdminQuanLyPhim"]);
+$app->router->get('/adminShowTime/getMovieName', ["controller" => "AdminQuanLyController", "action" => "getMovieName"]);
+$app->router->get('/adminShowTime/getRoomName', ["controller" => "AdminQuanLyController", "action" => "getRoomName"]);
+$app->router->post('/adminShowTime/insert', ["controller" => "AdminQuanLyController", "action" => "insertShowTime"]);
 
-$app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyPhimController", "action" => "getAdminQuanLyPhim"]);
-$app->router->get('/adminQuanLyPhim/getMovieID', ["controller" => "AdminQuanLyPhimController", "action" => "getOneMovie"]);
-
-// Quản lý người dùng
-$app->router->get('/adminQuanLyTaiKhoan', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "getPage"]);
-$app->router->get('/adminQuanLyTaiKhoan/user', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "findUserBySearch"]);
-$app->router->get('/adminQuanLyTaiKhoan/getUserId', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "getUserId"]);
-$app->router->get('/adminQuanLyTaiKhoan/getAllGroup', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "getAllGroup"]);
-$app->router->post('/adminQuanLyTaiKhoan/deleteUser', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "deleteUser"]);
-$app->router->post('/adminQuanLyTaiKhoan/saveUser', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "saveUser"]);
-$app->router->post('/adminQuanLyTaiKhoan/editUser', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "editUser"]);
-$app->router->post('/adminQuanLyTaiKhoan/recovery', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "accountRecovery"]);
-
-// Thống kê
-$app->router->get("/adminThongKe", ["controller" => "AdminThongKeController", "action" => "getThongKePage"]);
-
-// Quản lý đơn hàng
-$app->router->get("/adminDonHang", ["controller" => "AdminOrderController", "action" => "getOrderPage"]);
+$app->router->get('/adminShowTime', ["controller" => "AdminQuanLyController", "action" => "getAdminShowTimePage"]);
+    
 
 $app->router->get('/profile', ["controller" => "UserProfileController", "action" => "getProfilePage"]);
 $app->router->get('/profile/password', ["controller" => "UserProfileController", "action" => "getProfilePassword"]);

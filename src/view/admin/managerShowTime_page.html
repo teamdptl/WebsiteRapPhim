@@ -1,0 +1,203 @@
+{% block header %}
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="/css/navAdmin.css">
+{% endblock %}
+
+{% block title %}
+Trang Admin Phim
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container-form " style="position: fixed;width : 100%;height:100%;background-color: #0000004d;">
+    <div class="form " style="margin:50px auto ; width:60% ;background-color: rgb(255, 255, 255);">
+        <form action="/" style="padding: 20px 50px;">
+            <h2 style="margin-bottom: 30px;text-align: center;">SHOWTIME</h2>
+            <div class="container-input-group d-flex justify-content-between">
+                <div class="column">
+                    <div class="container-input">
+                        <label class="title" for="basic-url">Phim ID:</label>
+                        <label id="error-movie-id" style="display: none;color: red;" for="basic-url"> Mã phim không
+                            tồn tại </label>
+                        <div class="input-group mb-3 input">
+
+                            <input type="text" class="form-control" id="movie-id" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="container-input">
+                        <label class="title" for="basic-url">Mã Phòng:</label>
+                        <label id="error-room-id" style="display: none;color: red;" for="basic-url">Mã phòng không
+                            tồn
+                            tại</label>
+                        <div class="input-group mb-3 input">
+                            <input type="text" class="form-control" id="room-id" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+
+
+                    <div class="container-input">
+                        <label class="title" for="basic-url">Ngày và giờ chiếu :</label>
+                        <div class="input-group mb-3 input">
+                            <input type="time" class="form-control" id="show-start" aria-describedby="basic-addon3"
+                                placeholder="HH/mm">
+                            <input type="date" placeholder="dd-mm-yyyy" min="1997-01-01" max="2030-12-31"
+                                class="form-control" id="date" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="column">
+
+
+                    <div class="container-input">
+                        <label class="title" for="basic-url">Tên phim :</label>
+                        <div class="input-group mb-3 input">
+                            <input disabled type="text" class="form-control" id="movie-name"
+                                aria-describedby="basic-addon3">
+
+                        </div>
+                    </div>
+                    <div class="container-input">
+                        <label class="title" for="basic-url">Rạp:</label>
+                        <div class="input-group mb-3 input">
+                            <input style="width:30%" disabled type="text" class="form-control" id="cinema-name"
+                                aria-describedby="basic-addon3">
+                            <input disabled type="text" class="form-control" id="room-name"
+                                aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="container-input">
+                        <label class="title" for="basic-url">Thời lượng:</label>
+                        <div class="input-group mb-3 input">
+                            <input type="number" class="form-control" id="during-time" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-button" style="width: 100%; text-align: center;">
+                <button class="btn btn-primary button" id="btn-comfirm"> Xác nhận </button>
+                <button class="btn btn-danger button"> Hủy </button>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="popup-success">
+
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block js %}
+<!-- <script src="/js/component/navAdmin.js"></script> -->
+
+<script>
+    // $(document).ready(function(){
+    //     $(".default-option").click(function(){
+    //         $(".dropdown ul").toggleClass("active");
+    //     });
+
+    //     $(".dropdown ul li").click(function(){
+    //         var text = $(this).text();
+    //         $(".default-option").text(text);
+    //         $(".dropdown ul").removeClass("active");
+    //     });
+    // });
+    $("#movie-id").focusout(function () {
+
+        let id = $("#movie-id").val();
+        console.log(id);
+        url = "/adminShowTime/getMovieName";
+
+        $.ajax({
+            dataType: 'json',
+            url: "/adminShowTime/getMovieName",
+            method: "GET",
+            data: {
+                id: id,
+            },
+            success: function (res) {
+                console.log(res);
+                if (Object.keys(res).length == 0) {
+                    $("#error-movie-id").css("display", "inline-block");
+                    $("#movie-name").val("");
+                }
+                else {
+                    $("#error-movie-id").css("display", "none");
+                    $("#movie-name").val(res.movieName);
+                }
+            },
+
+        })
+    })
+    $("#room-id").focusout(function () {
+        let id = $("#room-id").val();
+        $.ajax({
+            dataType: 'json',
+            url: "/adminShowTime/getRoomName",
+            method: "GET",
+            data: {
+                id: id,
+            },
+            success: function (res) {
+                if (Object.keys(res).length == 0) {
+
+                    $("#error-room-id").css("display", "inline-block");
+                    $("#room-name").val("");
+                    $("#cinema-name").val("");
+                }
+                else {
+                    $("#error-room-id").css("display", "none");
+                    $("#room-name").val(res[0].roomName);
+                    $("#cinema-name").val(res[0].cinemaName);
+                }
+            },
+
+        })
+    })
+    $("#btn-comfirm").click(function (e) {
+        e.preventDefault();
+        if ($("#room-name").val() == "" || $("#movie-name").val() == "" || $("#date").val() == "" || $("#show-start").val() == "" || $("#during-time").val() == "") {
+            console.log("error")
+        }
+        else {
+            $.ajax({
+                dataType: 'json',
+                url: "adminShowTime/insert",
+                method: "POST",
+                data: {
+                    movieID: $("#movie-id").val(),
+                    roomID: $("#room-id").val(),
+                    duringtime: $("#during-time").val(),
+                    timeStart: $("#date").val() + " " + $("#show-start").val() + ":00",
+                },
+                success: function (res) {
+                    console.log(res);
+                    Swal.fire({
+                        icon: res.type,
+                        title: res.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    if (res.type == "success") {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    };
+                },
+            })
+
+        }
+    })
+
+
+</script>
+
+{% endblock %}
