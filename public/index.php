@@ -39,9 +39,13 @@ $app->router->get('/movies/{id:\d+}', ["controller" => "DetailMovieController", 
 $app->router->post('/movies/{id:\d+}', ["controller" => "DetailMovieController", "action" => "renderShowTime"]);
 
 
-$app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyPhimController", "action" => "getAdminQuanLyPhim"]);
-$app->router->get('/adminQuanLyPhim/getMovieID', ["controller" => "AdminQuanLyPhimController", "action" => "getOneMovie"]);
+$app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyController", "action" => "getAdminQuanLyPhim"]);
+$app->router->get('/adminShowTime/getMovieName', ["controller" => "AdminQuanLyController", "action" => "getMovieName"]);
+$app->router->get('/adminShowTime/getRoomName', ["controller" => "AdminQuanLyController", "action" => "getRoomName"]);
+$app->router->post('/adminShowTime/insert', ["controller" => "AdminQuanLyController", "action" => "insertShowTime"]);
 
+$app->router->get('/adminShowTime', ["controller" => "AdminQuanLyController", "action" => "getAdminShowTimePage"]);
+    
 
 $app->router->get('/profile', ["controller" => "UserProfileController", "action" => "getProfilePage"]);
 $app->router->get('/profile/password', ["controller" => "UserProfileController", "action" => "getProfilePassword"]);

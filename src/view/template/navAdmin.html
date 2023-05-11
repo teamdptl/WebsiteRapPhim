@@ -18,7 +18,7 @@
              <span class="tooltip">Quản lý phim</span>
           </li>
           <li>
-           <a href="#" >
+           <a href="#" id="AdminShowTime">
             <i class='bx bx-calendar-week bx-tada' ></i>
              <span class="links_name">Quản lý lịch chiếu</span>
            </a>
@@ -73,3 +73,20 @@
         </ul>
       </div>
  
+<script>
+  $("#AdminShowTime").click(function () {
+                
+                $.ajax({
+                    url: "/adminShowTime",
+                    method: "GET",
+                    data: {
+                       
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        $("#container").html(res);
+                    },
+
+                })
+            })
+</script>
