@@ -43,3 +43,20 @@
         </ul>
       </div>
  
+<script>
+  $("#AdminShowTime").click(function () {
+                
+                $.ajax({
+                    url: "/adminShowTime",
+                    method: "GET",
+                    data: {
+                       
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        $("#container").html(res);
+                    },
+
+                })
+            })
+</script>
