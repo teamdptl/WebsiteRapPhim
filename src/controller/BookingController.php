@@ -131,5 +131,8 @@ class BookingController extends Controller{
         return $arrayFoodJSON;
     }
 
+    public function getInfoValidSeat(){
+        
+    }
 
 }

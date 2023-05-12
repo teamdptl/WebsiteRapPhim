@@ -28,6 +28,7 @@ $app->router->get('/phuc', function(){
 
 $app->router->get('/signin', ['controller' => 'SignInController', 'action' => 'getSignPage']);
 $app->router->get('/signup', ['controller' => 'SignUpController', 'action' => 'getSignUpPage']);
+$app->router->get('/booking', ["controller"=>"BookingController", "action"=>"getBookingPage"]);
 
 //$app->router->get('/movies', ["controller" => "MoviesController", "action" => "getMoviesPage"]);
 $app->router->get('/movies', ["controller" => "MoviesController", "action" => "getMoviesPageTest"]);
@@ -60,6 +61,7 @@ $app->router->post('/signin/changePassword', ["controller" => "SignInController"
 $app->router->post('/moviesTest', ["controller" => "MoviesController", "action" => "searchMovie"]);
 
 $app->router->post('/adminQuanLyPhim/ThemPhim', ["controller" => "AdminQuanLyPhimController", "action" => "AddMovie"]);
+$app->router->get('/booking', ["controller"=>"BookingController", "action"=>"getInfoValidSeat"]);
 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 $app->router->post('/upload', ["controller" => "UploadFileHandle", "action" => "uploadFile"]);
