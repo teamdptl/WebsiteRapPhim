@@ -12,6 +12,7 @@ use app\model\Seat;
 use app\model\Room;
 use app\model\Cinema;
 use app\model\Province;
+use app\model\Food;
 
 
 class BookingController extends Controller{
@@ -22,7 +23,7 @@ class BookingController extends Controller{
         //Check if user == null
         if(Request::$user == null){
             Request::redirect('/signin');
-            return;
+            return ;
         }
 
         $navbar = GlobalController::getNavbar();
@@ -50,7 +51,7 @@ class BookingController extends Controller{
                         $cinema = get_object_vars($cinema);
                         $roomName = $room->roomName;
                         $provinceName = $province->provinceName;
-                        // echo json_encode($listSeatArr);
+                        $listFood = self::handleFoofArrayObj(Food::findAll(Model::UN_DELETED_OBJ));
                         View::renderTemplate('/booking/bookingSeat_page.html', [
                             "listSeat" => $listSeatArr,
                             "showtime" => get_object_vars($showtime),
@@ -58,6 +59,8 @@ class BookingController extends Controller{
                             "cinema" => $cinema,
                             "roomName" => $roomName,
                             "provinceName" => $provinceName,
+                            "listFood" => $listFood,
+                            "foodLength" => count($listFood),
                             "navbar" => $navbar
                         ]);
 
@@ -118,6 +121,15 @@ class BookingController extends Controller{
         return $listBoxSeatArr;
     }
 
+    public function handleFoofArrayObj($listFood){
+
+        $arrayFoodJSON = array();
+
+        foreach ($listFood as $food) {
+            array_push(get_object_vars($food));
+        }
+        return $arrayFoodJSON;
+    }
 
 
 }

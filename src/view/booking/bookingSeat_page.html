@@ -16,7 +16,10 @@ Trang đăng ký
 
 <div class="container-booking">
     <div class="top-header">
-        <span class="content">Booking online</span>
+        <span class="content" id="top-header-content" showID="{{showtime.showID}}">Booking online</span>
+        <div class="banner-booking">
+            <img src="https://advserver.cgv.vn/www/images/bc0df7332e1c91fc66f39e173c65905d.jpg" alt="">
+        </div>
     </div>
     <div class="main-content">
         <div class="left-content">
@@ -27,28 +30,30 @@ Trang đăng ký
                     <p class="show-time">Lúc: 11:45 20/5/2023 ~ 11:45 20/5/2023</p>
                 </div>
             </div>
-            <div class="box-seat">
+            <div class="box-seat" id="box-seat">
                 <div class="screen">
                     <img src="/assets/screen-booking.jpg" alt="" srcset="">
                 </div>
-                <div class="main-box">
+                <div class="main-box" id="main-box">
                     {% for row in listSeat %}
                     <div class="row">
+                        <div class="seat start-col empty"></div>
                         {% for seat in row %}
                             {% if seat.isBooked == true %}
                                 {% if seat.seatType == 1 %}
-                                    <div class="seat seat-normal seat-booked" onclick="selectedSeats(this)" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                    <div class="seat seat-normal seat-booked" onclick="selectedSeats(this)" zone="Normal" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
                                 {% else %}
-                                    <div class="seat seat-vip seat-booked" onclick="selectedSeats(this)" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                    <div class="seat seat-vip seat-booked" onclick="selectedSeats(this)" zone="Vip" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
                                 {% endif %}
                             {% else %}
                                 {% if seat.seatType == 1 %}
-                                    <div class="seat seat-normal seat-active" onclick="selectedSeats(this)" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                    <div class="seat seat-normal seat-active" onclick="selectedSeats(this)" zone="Normal" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
                                 {% else %}
-                                    <div class="seat seat-vip seat-active" onclick="selectedSeats(this)" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                    <div class="seat seat-vip seat-active" onclick="selectedSeats(this)" zone="Vip" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
+                        <div class="seat final-col empty"></div>
                     </div>
                     {% endfor %}
                 </div>
@@ -75,15 +80,39 @@ Trang đăng ký
                         </div>
                     </div>
                 </div>
-                <div class="button-container">
-                    <div class="button-left" title="Previous" current-pos="choose-seat">
-                        <i class='bx bx-skip-previous-circle bx-tada bx-rotate-270' ></i>
-                        Previous
+            </div>
+
+            <div class="box-food" id="box-food"  style="display: none;">
+                {% if foodLength > 0 %}
+                    {% for food in listFood %}
+                    <div class="one-food">
+                        <div class="food-image">
+                            <img src="" alt="">
+                        </div>
+                        <div class="food-content">
+                            <div class="food-name">{{food.foodName}}</div>
+                            <div class="food-disc">{{food.foodDescription}}</div>
+                            <div class="food-price">{{food.price}}</div>
+                        </div>
                     </div>
-                    <div class="button-right" title="Next" current-pos="choose-seat">
-                        Next
-                        <i class='bx bx-skip-next-circle bx-tada bx-rotate-270' ></i>
+                    {% endfor %}
+                {% else %}
+                    <div class="annount-empty-food">
+                        <p>Rất xin lỗi vì sự cố này!</p>
+                        <p>Hiện sản phẩm bắp nước chưa được cập nhật.</p>
                     </div>
+                {% endif %}
+                
+            </div>
+
+            <div class="button-container">
+                <div class="button-left" id="button-pre" title="Previous" current-pos="choose-seat" onclick="handleViewBookingPage(this)" disabled="true">
+                    <i class='bx bx-skip-previous-circle bx-tada bx-rotate-270' ></i>
+                    Previous
+                </div>
+                <div class="button-right" id="button-next" title="Next" current-pos="choose-seat" onclick="handleViewBookingPage(this)">
+                    Next
+                    <i class='bx bx-skip-next-circle bx-tada bx-rotate-270'></i>
                 </div>
             </div>
 
@@ -92,13 +121,13 @@ Trang đăng ký
                 
                 <div class="middle-content" id="booking-content">
                     <div class="poster">
-                        <img src="{{movie.posterLink}}" alt="" srcset="">
+                        <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{movie.posterLink}}" alt="" srcset="">
                     </div>
                     <div class="movie-info">
 
                         <div class="moviename">
                             <p class="title"></p>
-                            <p class="nd" style="text-transform: uppercase;">{{movie.movieName}}</p>
+                            <p class="nd" style="text-transform: uppercase; font-weight: bold;">{{movie.movieName}}</p>
                         </div>
                         <div class="time">
                             <p class="title"></p>
@@ -119,22 +148,23 @@ Trang đăng ký
                             <p class="title">Screen</p>
                             <p class="nd">{{roomName}}</p>
                         </div>
+                        <div class="seat-code" id="seat-code">
+                            
+                        </div>
                     </div>
                     <div class="cost-info">
                         <div class="ticket-cost">
                             <p class="title">
                                 Ticket</p>
-                            <p class="nd"><span>₫</span>0.0</p>
+                            <p class="nd">₫<span id="price-ticket" value="0">0</span>.00</p>
                         </div>
                         <div class="food-cost">
                             <p class="title">Food</p>
-                            <p class="nd"><span>₫</span>0.0</p>
+                            <p class="nd">₫<span id="price-food" value="0">0</span>.00</p>
                         </div>
                         <div class="total-cost">
-                            <p class="title">
-                                Total
-                            </p>
-                            <p class="nd"><span>₫</span>0.0</p>
+                            <p class="title">Total</p>
+                            <p class="nd">₫<span id="price-total" value="0">0</span>.00</p>
                         </div>
 
                     </div>
@@ -149,14 +179,16 @@ Trang đăng ký
 </div>
 
 <div class="footer">footer</div>
-{% block js %}
-    <script>
-        function selectedSeats(seat){
-            var price = seat.getAttribute('price');
-            console.log(price);
-        }
-    </script>
-    
+
 {% endblock %}
 
+{% block js %}
+    <script src="/js/booking/booking.js"></script>
+    <script>
+        // function selectedSeats(seat){
+        //     var price = seat.getAttribute('price');
+        //     console.log(price);
+        // }
+    </script>
+    
 {% endblock %}
