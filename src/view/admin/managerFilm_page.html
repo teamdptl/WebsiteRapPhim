@@ -2,8 +2,8 @@
 {% block header %}
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 <link rel="stylesheet" href="/css/managerFilm.css">
-
 <link rel="stylesheet" href="/css/navAdmin.css">
+
 {% endblock %}
 
 {% block title %}
@@ -15,7 +15,11 @@ Trang Admin Phim
 {{ navAdmin | raw }}
     <section class="home-section">
         <!-- <div class="text">Dashboard</div> -->
+
+        <!--Header Tìm kiếm-->
+
         <div class="wrapper">
+            <div class="text-managerFilm">QUẢN LÝ PHIM</div>
             <div class="search-box">
                 <div class="dropdown">
                     <div class="default-option">Tất cả</div>
@@ -24,7 +28,6 @@ Trang Admin Phim
                             <li>Thể loại</li>
                             <li>Độ tuổi</li>
                             <li>Rating</li>
-                            <li>Rạp</li>
                         </ul>
                 </div>
                 <div class="search-field">
@@ -33,14 +36,287 @@ Trang Admin Phim
                  
                 </div>
             </div>
-            <button class="add-film">Thêm phim</button>
-        </div>
-        
-
-
-        <div class="table-Film">
+            <button class="add-film btn-primary btn">Thêm phim</button>
             
         </div>
+        
+        <!--Table-->
+
+        <div class="table-Film">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>TÊN PHIM</th>
+                        <th>POSTER LINK</th>
+                        <th>ĐẠO DIỄN</th>
+                        <th>FEATURE</th>
+                        <th>HÀNH ĐỘNG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for movie in listMovie %}
+                    <tr >
+                        <td>{{movie.movieID}}</td>
+                        <td>{{movie.movieName}}</td>
+                        <td><img src="https://themoviedb.org/t/p/w600_and_h900_bestv2/{{movie.posterLink}}"></td>
+                        <td>{{movie.movieDirectors}}</td>
+
+                        <td><input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."{% if movie.isFeatured %}checked{% endif %} ></td>
+                        <td>
+                            <i class='bx bx-edit edit-film'></i>
+                            <i class='bx bxs-trash-alt deleteFilm'></i>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                  
+                 
+                </tbody>
+            </table>
+        </div>
+
+        <!--Navigation-->
+
+        <nav aria-label="Page navigation example" style="display: flex; align-items: center; justify-content: center;">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+        </nav>
+        
+        <!-- Modal Delete-->
+
+        <div class="modal modal-delete" tabindex="-1" role="dialog" >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Xóa Phim</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Bạn có chắc chắn xóa !!!</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger">Xác nhận</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- Modal ADD-->
+          
+            <div class="containerFilmAdd" id="Add" >
+                <div class="modalAddFilm">
+                    <form action="/adminQuanLyPhim/AddMovie" method="post" enctype="multipart/form-data">
+                      <div class="half-input">
+                          <div class="form-group">
+                            <label for="name-movie">Tên phim:</label>
+                            <input type="text" class="form-control" id="name-movie-add" name="name-movie-add" placeholder="Nhập tên phim">
+                          </div>
+                          <div class="form-group">
+                            <label for="des-movie">Mô tả:</label>
+                            <textarea class="form-control" id="des-movie" rows="3" placeholder="Nhập mô tả chi tiết"></textarea>
+                          </div>
+                      </div>
+                      <div class="half-input">
+                            <div class="form-group">
+                              <label for="poster-link">Post Link:</label>
+                              <input type="file" class="" id="poster-link" name="poster-link" placeholder="Nhập posterLink">
+                            </div>
+                            <div class="form-group">
+                              <label for="landscape-poster">Landscape Poster:</label>
+                              <input type="file" class="" id="landscape-poster" name="landscape-poster" placeholder="Nhập poster">
+                            </div>
+                      </div>
+                      
+                      <div class="half-input">
+                            <div class="form-group">
+                              <label for="trailer-link">Trailer link:</label>
+                              <input type="text" class="form-control" id="trailer-link" placeholder="Nhập link">
+                            </div>
+                            <div class="form-group">
+                              <label for="directors">Tên đạo diễn:</label>
+                              <input type="text" class="form-control" id="directors" placeholder="Nhập tên">
+                            </div>
+                      </div>
+            
+                      <div class="half-input">
+                        <div class="form-group">
+                          <label for="actors">Diễn viên:</label>
+                          <input type="text" class="form-control " id="actors" placeholder="Nhập tên các diễn viên">
+                        </div>
+                        <div class="form-group">
+                          <label for="during-time">Thời gian diễn ra:</label>
+                          <input type="number" class="form-control " id="during-time" placeholder="Nhập thời gian">
+                        </div>
+                      </div>
+                      
+                      <div class="half-input">
+                        <div class="form-group">
+                          <label for="datepicker">Ngày chiếu:</label>
+                          <input style= "z-index: 2000;"type="date" class="form-control datepicker" id="datepicker" placeholder="Chọn ngày chiếu">
+                        </div>
+                        <div class="form-group">
+                          <label for="language">Ngôn ngữ</label>
+                          <input type="timepicker" class="form-control " id="language" placeholder="Nhập ngôn ngữ trong phim">
+                        </div>
+                      </div>
+
+                      <div class="half-input">
+                        <div class="form-group ">
+                          <label for="feature">Feature:</label>
+                          <!-- <input style="display: flex; transform: scale(1.5); margin-left: 10px;" type="checkbox"  id="feature"> -->
+                          <div class="custom-control custom-switch">
+                   
+                            <input type="checkbox" class="custom-control-input" id="customSwitches">
+                            <label class="custom-control-label" style="transform: scale(1.2);margin-left: 10px;font-weight: normal;"for="customSwitches">Thêm vào carousel</label>
+                          </div>
+
+                        </div>
+                       
+                      </div>
+
+                      <div class="form-group">
+                        <label for="the-loai">Thể loại:</label>
+                        <!-- <select class="form-control" id="the-loai">
+                          <option>Hành động</option>
+                          <option>Viễn tưởng</option>
+                          <option>Tình cảm</option>
+                        </select> -->
+                        <div class="quartern-input">
+                        {% for category in listCategory %}
+                            <div class="form-check">
+                              <input class="form-check-input checkboxCategoryAdd"  type="checkbox" value="" id="{{category.categoryID}}">
+                              <label class="form-check-label" for="flexCheckDefault">
+                                {{category.cateName}}
+                              </label>
+                            </div>
+                       {% endfor %}
+                        </div>
+
+                      </div>
+                      
+                      
+                     
+                      <button type="submit" class="btn btn-primary" id="btnAddFilm">Thêm phim</button>
+                    </form>
+                </div>
+                
+            </div>
+              
+
+        <!-- Modal Edit  -->
+
+            <div class="containerFilmAdd" id="Edit">
+            <div class="modalAddFilm">
+                <form>
+                    <div class="half-input">
+                        <div class="form-group">
+                        <label for="name-movie">Tên phim:</label>
+                        <input type="text" class="form-control" id="name-movie" placeholder="Nhập tên phim">
+                        </div>
+                        <div class="form-group">
+                        <label for="des-movie">Mô tả:</label>
+                        <textarea class="form-control" id="des-movie" rows="3" placeholder="Nhập mô tả chi tiết"></textarea>
+                        </div>
+                    </div>
+                    <div class="half-input">
+                        <div class="form-group">
+                            <label for="poster-link">Post Link:</label>
+                            <input type="file" class="" id="poster-link" placeholder="Nhập posterLink">
+                        </div>
+                        <div class="form-group">
+                            <label for="landscape-poster">Landscape Poster:</label>
+                            <input type="file" class="" id="landscape-poster" placeholder="Nhập poster">
+                        </div>
+                    </div>
+                    
+                    <div class="half-input">
+                        <div class="form-group">
+                            <label for="trailer-link">Trailer link:</label>
+                            <input type="text" class="form-control" id="trailer-link" placeholder="Nhập link">
+                        </div>
+                        <div class="form-group">
+                            <label for="directors">Tên đạo diễn:</label>
+                            <input type="text" class="form-control" id="directors" placeholder="Nhập tên">
+                        </div>
+                    </div>
+        
+                    <div class="half-input">
+                    <div class="form-group">
+                        <label for="actors">Diễn viên:</label>
+                        <input type="text" class="form-control " id="actors" placeholder="Nhập tên các diễn viên">
+                    </div>
+                    <div class="form-group">
+                        <label for="during-time">Thời gian diễn ra:</label>
+                        <input type="number" class="form-control " id="during-time" placeholder="Nhập thời gian">
+                    </div>
+                    </div>
+                    
+                    <div class="half-input">
+                    <div class="form-group">
+                        <label for="datepicker">Ngày chiếu:</label>
+                        <input style= "z-index: 2000;"type="date" class="form-control datepicker" id="datepicker" placeholder="Chọn ngày chiếu">
+                    </div>
+                    <div class="form-group">
+                        <label for="language">Ngôn ngữ</label>
+                        <input type="text" class="form-control " id="language" placeholder="Nhập ngôn ngữ trong phim">
+                    </div>
+                    </div>
+
+                    <div class="half-input">
+                    <div class="form-group ">
+                        <label for="feature">Feature:</label>
+                        <!-- <input style="display: flex; transform: scale(1.5); margin-left: 10px;" type="checkbox"  id="feature"> -->
+                        <div class="custom-control custom-switch">
+                
+                        <input type="checkbox" class="custom-control-input" id="customSwitches">
+                        <label class="custom-control-label" style="transform: scale(1.2);margin-left: 10px;font-weight: normal;"for="customSwitches">Thêm vào carousel</label>
+                        </div>
+
+                    </div>
+                    
+                    </div>
+
+                    <div class="form-group">
+                    <label for="the-loai">Thể loại:</label>
+                    <!-- <select class="form-control" id="the-loai">
+                        <option>Hành động</option>
+                        <option>Viễn tưởng</option>
+                        <option>Tình cảm</option>
+                    </select> -->
+                    <div class="quartern-input">
+                          {% for category in listCategory %}
+                          <div class="form-check">
+                            <input class="form-check-input checkboxCategoryEdit"  type="checkbox" value="" id="{{category.categoryID}}">
+                            <label class="form-check-label" for="flexCheckDefault">
+                              {{category.cateName}}
+                            </label>
+                          </div>
+                        {% endfor %}
+                    </div>
+                    
+                    
+                
+                    <button type="submit" class="btn btn-primary">Sửa phim</button>
+                </form>
+            </div>
+            
+            </div>
     </section>
 
 
@@ -50,21 +326,7 @@ Trang Admin Phim
 
 {% block js %}
 <script src="/js/component/navAdmin.js"></script>
+<script src="/js/page/managerFilm.js"></script>
 
-<script> 
-        $(document).ready(function(){
-            $(".default-option").click(function(){
-                $(".dropdown ul").toggleClass("active");
-            });
-
-            $(".dropdown ul li").click(function(){
-                var text = $(this).text();
-                $(".default-option").text(text);
-                $(".dropdown ul").removeClass("active");
-            });
-        });
-
-        
-</script>
-   
 {% endblock %}
+
