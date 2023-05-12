@@ -38,7 +38,7 @@ $app->router->get('/movies/{id:\d+}', ["controller" => "DetailMovieController", 
 $app->router->post('/movies/{id:\d+}', ["controller" => "DetailMovieController", "action" => "renderShowTime"]);
 
 
-$app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyController", "action" => "getAdminQuanLyPhim"]);
+$app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyPhimController", "action" => "getAdminQuanLyPhim"]);
     
 
 $app->router->get('/profile', ["controller" => "UserProfileController", "action" => "getProfilePage"]);
@@ -59,7 +59,7 @@ $app->router->post('/signin/otp', ["controller" => "SignInController", "action" 
 $app->router->post('/signin/changePassword', ["controller" => "SignInController", "action" => "validateChangePassword"]);
 $app->router->post('/moviesTest', ["controller" => "MoviesController", "action" => "searchMovie"]);
 
-$app->router->post('/adminQuanLyPhim/ThemPhim', ["controller" => "AdminQuanLyController", "action" => "AddMovie"]);
+$app->router->post('/adminQuanLyPhim/ThemPhim', ["controller" => "AdminQuanLyPhimController", "action" => "AddMovie"]);
 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 $app->router->post('/upload', ["controller" => "UploadFileHandle", "action" => "uploadFile"]);

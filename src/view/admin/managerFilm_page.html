@@ -187,16 +187,18 @@ Trang Admin Phim
                           </div>
 
                         </div>
-                       
+                          <div class="form-group ">
+                            <label for="tagID">Độ tuổi thấp nhất được xem:</label>
+                            <select class="form-control" id="{{ tagID }}" name="tagID">
+                              {% for tag in listTags %}
+                                  <option value="{{ tag.tagID }}">{{tag.minAge}}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
                       </div>
 
                       <div class="form-group">
                         <label for="the-loai">Thể loại:</label>
-                        <!-- <select class="form-control" id="the-loai">
-                          <option>Hành động</option>
-                          <option>Viễn tưởng</option>
-                          <option>Tình cảm</option>
-                        </select> -->
                         <div class="quartern-input">
                         {% for category in listCategory %}
                             <div class="form-check">
@@ -289,6 +291,14 @@ Trang Admin Phim
                         </div>
 
                     </div>
+                    <div class="form-group ">
+                        <label for="minAge">Độ tuổi thấp nhất được xem:</label>
+                        <select class="form-control" id="minAge" name="minAge">
+                          {% for tag in listTags %}
+                              <option>{{tag.minAge}}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
                     
                     </div>
 
@@ -317,6 +327,12 @@ Trang Admin Phim
             </div>
             
             </div>
+
+        <!-- Modal Thông Báo -->    
+
+        <div class="containerFilmAdd" id="Notification">
+            
+        </div>
     </section>
 
 
