@@ -58,7 +58,9 @@ $(document).ready(function(){
         let datePicker = $("#datepicker").val();
         let language = $("#language").val();
         let customSwitches = $("#customSwitches").is(':checked') ? '1' : '0';
-        
+        let tagID = $("select[name='tagID'] option:selected").val();
+       
+
         formData.append('nameMovie', nameMovie);
         formData.append('desMovie', desMovie);
         formData.append('posterLink', posterLink);
@@ -70,6 +72,7 @@ $(document).ready(function(){
         formData.append('datePicker', datePicker);
         formData.append('language', language);
         formData.append('customSwitches', customSwitches);
+        formData.append('tagID', tagID);
 
 
         //array checkbox have value="checked"
@@ -81,8 +84,9 @@ $(document).ready(function(){
           }
         });
 
-        console.log(checkedInputs);
+        formData.append('checkedIds', checkedIds);
 
+        // console.log(checkedIds);
 
         $.ajax({
           url: "/adminQuanLyPhim/ThemPhim",
@@ -95,8 +99,8 @@ $(document).ready(function(){
           
           success: function(data){
               // xử lý khi thành công
-              // let result = JSON.parse(data);
-              console.log(data);
+              let result = JSON.parse(data);
+              // console.log(data);
           },
           error: function(jqXHR, textStatus, errorThrown){
               // xử lý khi lỗi
