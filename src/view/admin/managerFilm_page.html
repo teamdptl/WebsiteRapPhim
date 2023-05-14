@@ -64,8 +64,8 @@ Trang Admin Phim
 
                         <td><input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."{% if movie.isFeatured %}checked{% endif %} ></td>
                         <td>
-                            <i class='bx bx-edit edit-film'></i>
-                            <i class='bx bxs-trash-alt deleteFilm'></i>
+                            <i class='bx bx-edit edit-film' id="{{movie.movieID}}"></i>
+                            <i class='bx bxs-trash-alt deleteFilm' id="{{movie.movieID}}"></i>
                         </td>
                     </tr>
                     {% endfor %}
@@ -121,7 +121,7 @@ Trang Admin Phim
           
             <div class="containerFilmAdd" id="Add" >
                 <div class="modalAddFilm">
-                    <form action="/adminQuanLyPhim/AddMovie" method="post" enctype="multipart/form-data">
+                    <form  method="post" enctype="multipart/form-data">
                       <div class="half-input">
                           <div class="form-group">
                             <label for="name-movie">Tên phim:</label>
@@ -135,11 +135,11 @@ Trang Admin Phim
                       <div class="half-input">
                             <div class="form-group">
                               <label for="poster-link">Post Link:</label>
-                              <input type="file" class="" id="poster-link" name="poster-link" placeholder="Nhập posterLink">
+                              <input type="file" accept="image/*" class="" id="poster-link" name="poster-link" placeholder="Nhập posterLink">
                             </div>
                             <div class="form-group">
                               <label for="landscape-poster">Landscape Poster:</label>
-                              <input type="file" class="" id="landscape-poster" name="landscape-poster" placeholder="Nhập poster">
+                              <input type="file" accept="image/*" class="" id="landscape-poster" name="landscape-poster" placeholder="Nhập poster">
                             </div>
                       </div>
                       
@@ -225,7 +225,7 @@ Trang Admin Phim
 
             <div class="containerFilmAdd" id="Edit">
             <div class="modalAddFilm">
-                <form>
+                <form  enctype="multipart/form-data">
                     <div class="half-input">
                         <div class="form-group">
                         <label for="name-movie">Tên phim:</label>
@@ -239,11 +239,11 @@ Trang Admin Phim
                     <div class="half-input">
                         <div class="form-group">
                             <label for="poster-link">Post Link:</label>
-                            <input type="file" class="" id="poster-link" placeholder="Nhập posterLink">
+                            <input type="file" accept="image/*" class="" id="poster-link" name="poster-link" placeholder="Nhập posterLink">
                         </div>
                         <div class="form-group">
                             <label for="landscape-poster">Landscape Poster:</label>
-                            <input type="file" class="" id="landscape-poster" placeholder="Nhập poster">
+                            <input type="file" accept="image/*" class="" id="landscape-poster" name="landscape-poster" placeholder="Nhập poster">
                         </div>
                     </div>
                     
@@ -322,7 +322,7 @@ Trang Admin Phim
                     
                     
                 
-                    <button type="submit" class="btn btn-primary">Sửa phim</button>
+                    <button type="submit" class="btn btn-primary" id="btnEditFilm">Sửa phim</button>
                 </form>
             </div>
             
@@ -330,10 +330,15 @@ Trang Admin Phim
 
         <!-- Modal Thông Báo -->    
 
-        <div class="containerFilmAdd" id="Notification">
-            
+        <!-- <div class="containerFilmAdd" id="Notification">
+          <div class="container_otp">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <h4>Đang gửi yêu cầu ...</h4>
         </div>
-    </section>
+        </div>
+    </section> -->
 
 
 

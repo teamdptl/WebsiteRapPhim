@@ -40,7 +40,8 @@ $app->router->post('/movies/{id:\d+}', ["controller" => "DetailMovieController",
 
 
 $app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyPhimController", "action" => "getAdminQuanLyPhim"]);
-    
+$app->router->get('/adminQuanLyPhim/getMovieID', ["controller" => "AdminQuanLyPhimController", "action" => "getOneMovie"]);
+
 
 $app->router->get('/profile', ["controller" => "UserProfileController", "action" => "getProfilePage"]);
 $app->router->get('/profile/password', ["controller" => "UserProfileController", "action" => "getProfilePassword"]);
@@ -62,6 +63,8 @@ $app->router->post('/moviesTest', ["controller" => "MoviesController", "action" 
 
 $app->router->post('/adminQuanLyPhim/ThemPhim', ["controller" => "AdminQuanLyPhimController", "action" => "AddMovie"]);
 $app->router->post('/booking', ["controller"=>"BookingController", "action"=>"isAbleSeats"]);
+$app->router->post('/adminQuanLyPhim/XoaPhim', ["controller" => "AdminQuanLyPhimController", "action" => "DeleteMovie"]);
+
 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 $app->router->post('/upload', ["controller" => "UploadFileHandle", "action" => "uploadFile"]);

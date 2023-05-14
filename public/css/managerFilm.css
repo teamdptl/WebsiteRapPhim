@@ -372,3 +372,9 @@ input[type="checkbox"] {
     font-weight: normal;
     margin-left: 3px;;
   }
+  
+
+  /*alert*/
+  .swal2-styled.swal2-confirm{
+    background-color: #f13131!important;
+  }
