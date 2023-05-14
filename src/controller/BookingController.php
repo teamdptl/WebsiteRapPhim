@@ -51,7 +51,7 @@ class BookingController extends Controller{
                         $cinema = get_object_vars($cinema);
                         $roomName = $room->roomName;
                         $provinceName = $province->provinceName;
-                        $listFood = self::handleFoofArrayObj(Food::findAll(Model::UN_DELETED_OBJ));
+                        $listFood = self::handleFoodArrayObj(Food::findAll(Model::UN_DELETED_OBJ));
                         View::renderTemplate('/booking/bookingSeat_page.html', [
                             "listSeat" => $listSeatArr,
                             "showtime" => get_object_vars($showtime),
@@ -121,18 +121,42 @@ class BookingController extends Controller{
         return $listBoxSeatArr;
     }
 
-    public function handleFoofArrayObj($listFood){
+    public function handleFoodArrayObj($listFood){
 
         $arrayFoodJSON = array();
 
         foreach ($listFood as $food) {
-            array_push(get_object_vars($food));
+            array_push($arrayFoodJSON, get_object_vars($food));
         }
         return $arrayFoodJSON;
     }
 
-    public function getInfoValidSeat(){
-        
+    public function isAbleSeats(){
+        $listSeatID = $_POST['listRealCheckedID'];
+        $showID = $_POST['showID'];
+        $listBookedID = array();
+
+        //Check login
+        //Check if user == null
+        if(Request::$user == null){
+            Request::redirect('/signin');
+            echo json_encode(array('announcement' => 'login'));
+            return ;
+        }
+
+        if(count($listSeatID) > 0){
+            foreach ($listSeatID as $seatID) {
+                $seatShowtime = SeatShowtime::find(Model::UN_DELETED_OBJ, (int)$showID, (int)$seatID);
+                if($seatShowtime != null && $seatShowtime->isBooked ){
+                    array_push($listBookedID, $seatShowtime->seatID);            
+                }
+            }
+            if(count($listBookedID) > 0){
+                echo json_encode(array('announcement' => 'booked', 'listBookedID' => $listBookedID));
+            }else echo json_encode(array('announcement' => 'success'));
+        }else{
+            echo json_encode(array('announcement' => 'Please choose your seat first'));
+        }
     }
 
 }

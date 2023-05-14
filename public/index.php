@@ -61,7 +61,7 @@ $app->router->post('/signin/changePassword', ["controller" => "SignInController"
 $app->router->post('/moviesTest', ["controller" => "MoviesController", "action" => "searchMovie"]);
 
 $app->router->post('/adminQuanLyPhim/ThemPhim', ["controller" => "AdminQuanLyPhimController", "action" => "AddMovie"]);
-$app->router->get('/booking', ["controller"=>"BookingController", "action"=>"getInfoValidSeat"]);
+$app->router->post('/booking', ["controller"=>"BookingController", "action"=>"isAbleSeats"]);
 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);
 $app->router->post('/upload', ["controller" => "UploadFileHandle", "action" => "uploadFile"]);
