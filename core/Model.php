@@ -171,15 +171,15 @@ abstract class Model implements ICurdData {
             return false;
         }
 
-        // $conn = Database::getConnection();
+        $conn = Database::getConnection();
         $containerArr = self::getWhereClauseAndRefferenceArray($lsID);
         $whereClause = $containerArr["whereClause"];
         $arr = $containerArr['refArray'];
         $sql = "UPDATE " .static::$tableName. " SET isDeleted = true WHERE ". $whereClause;
         //echo $sql;
-        return true;
-        // $stmt = $conn->prepare($sql);
-        // return $stmt->execute($arr);
+        // return true;
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute($arr);
     }
     public static function where(string $whereClause, array $parameters = []): bool|array
     {
