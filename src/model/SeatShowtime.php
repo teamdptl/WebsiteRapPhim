@@ -12,7 +12,7 @@ class SeatShowtime extends Model{
     public int $showID;
     public int $seatID;
     public string $pickedAt;
-    public long $seatPrice;
+    public int $seatPrice;
     public bool $isBooked;
     public ?int $userID;
     public ?int $bookingID;

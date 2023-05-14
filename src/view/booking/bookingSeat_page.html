@@ -87,12 +87,28 @@ Trang đăng ký
                     {% for food in listFood %}
                     <div class="one-food">
                         <div class="food-image">
-                            <img src="" alt="">
+                            <img src="{{food.foodImage}}" alt="">
                         </div>
                         <div class="food-content">
                             <div class="food-name">{{food.foodName}}</div>
-                            <div class="food-disc">{{food.foodDescription}}</div>
-                            <div class="food-price">{{food.price}}</div>
+                            <div class="food-desc">{{food.foodDescription}}</div>
+                            <div class="food-price">
+                                <span style="margin-right: 10px;">Price: </span>
+                                <div style="display: flex; font-weight: bold;">
+                                    <span>₫</span>
+                                    <div class="price-food-text" value="{{food.foodPrice}}">{{food.foodPrice}}</div> 
+                                    <span>.00</span>
+                                </div>      
+                            </div>
+                            <div class="food-quantity" id="{{food.foodID}}">
+                                <div class="button-substract" onclick="spinQuantityFood(this)" calc="-">
+                                    <i class='bx bx-minus-circle' style='color:#ff1010'></i>
+                                </div>
+                                <div class="box-quantity" value="0">0</div>
+                                <div class="button-add" onclick="spinQuantityFood(this)" calc="+">
+                                    <i class='bx bx-plus-circle' style='color:#0cea05'></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
@@ -106,11 +122,11 @@ Trang đăng ký
             </div>
 
             <div class="button-container">
-                <div class="button-left" id="button-pre" title="Previous" current-pos="choose-seat" onclick="handleViewBookingPage(this)" disabled="true">
+                <div class="button-left" id="button-pre" title="Previous" current-pos="choose-seat" onclick="handleBooking(this)" disabled="true">
                     <i class='bx bx-skip-previous-circle bx-tada bx-rotate-270' ></i>
                     Previous
                 </div>
-                <div class="button-right" id="button-next" title="Next" current-pos="choose-seat" onclick="handleViewBookingPage(this)">
+                <div class="button-right" id="button-next" title="Next" current-pos="choose-seat" onclick="handleBooking(this)">
                     Next
                     <i class='bx bx-skip-next-circle bx-tada bx-rotate-270'></i>
                 </div>

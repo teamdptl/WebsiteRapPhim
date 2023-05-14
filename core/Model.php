@@ -143,13 +143,13 @@ abstract class Model implements ICurdData {
     {
         //Check if number of primary key < number of input id
         if(count(static::$primaryKey) < count($ids)){
-            // echo "Số lượng id nhiều hơn số lượng khóa chính của bảng " .static::$tableName ."(PK: ".implode(", ",static::$primaryKey).")";
+            echo "Số lượng id nhiều hơn số lượng khóa chính của bảng " .static::$tableName ."(PK: ".implode(", ",static::$primaryKey).")";
             return false;
         }
 
         //Check property isDeleted exist
         if(property_exists(self::getClassName(), 'isDeleted') && $softDelete == true){
-            return self::softDelete();
+            return self::softDelete($ids);
         }
 
         $conn = Database::getConnection();
@@ -163,20 +163,20 @@ abstract class Model implements ICurdData {
         return $stmt->execute($arr);
     }
 
-    protected static function softDelete(...$ids): bool
+    protected static function softDelete($lsID): bool
     {
         //Check if number of primary key < number of input id
-        if(count(static::$primaryKey) < count($ids)){
+        if(count(static::$primaryKey) < count($lsID)){
             // echo "Số lượng id nhiều hơn số lượng khóa chính của bảng " .static::$tableName ."(PK: ".implode(", ",static::$primaryKey).")";
             return false;
         }
 
         // $conn = Database::getConnection();
-        $containerArr = self::getWhereClauseAndRefferenceArray($ids);
+        $containerArr = self::getWhereClauseAndRefferenceArray($lsID);
         $whereClause = $containerArr["whereClause"];
         $arr = $containerArr['refArray'];
         $sql = "UPDATE " .static::$tableName. " SET isDeleted = true WHERE ". $whereClause;
-//        echo $sql;
+        //echo $sql;
         return true;
         // $stmt = $conn->prepare($sql);
         // return $stmt->execute($arr);
