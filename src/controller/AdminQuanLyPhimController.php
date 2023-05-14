@@ -20,13 +20,13 @@ class AdminQuanLyPhimController extends Controller {
         //     Request::redirect("/");
         //     return;
         // }
-
-
         $navbar = GlobalController::getNavbar();
         $navAdmin = GlobalController::getNavAdmin();
-        $listMovie = Movie::findAll(Model::ALL_OBJ);
-        $listCategory = Category::findAll(Model::ALL_OBJ);
-        $listTags = Tag::findAll(Model::ALL_OBJ);
+        $listMovie = Movie::findAll();
+        $listCategory = Category::findAll();
+        $listTags = Tag::findAll();
+
+        // $oneMovie = Movie::find(1,  $movieID );
 
    
         
@@ -35,14 +35,38 @@ class AdminQuanLyPhimController extends Controller {
             "navAdmin"=> $navAdmin,
             "listMovie" => $listMovie,
             "listCategory" => $listCategory,
-            "listTags" => $listTags
+            "listTags" => $listTags,
         ]);
 
     }
 
+    public function getOneMovie(){
+        echo "Ma con chó";
+
+        var_dump($_GET["movieID"])  ;
+
+        if(isset( $_GET["movieID"]) && !empty($_GET["movieID"])){
+            $movieID =  $_GET["movieID"];
+            echo $movieID;
+        } else {
+            echo "Missing movieID parameter";
+        }
+
+        
+        // $movie = Movie::query("SELECT * FROM movie WHERE movie.movieID = $movieID");
+        // echo $movie;
+        // $category = Category::query();
+
+        // echo json_encode([
+        //     "movie" => $movie,
+        //     // "message" => $category
+        // ]);
+    }
+
+
     public function AddMovie(){
         $status = 0;
-        $message = "";
+        $message = "Thành công";
 
         $nameMovie = $_POST["nameMovie"];
         $desMovie = $_POST["desMovie"]; 
@@ -69,44 +93,48 @@ class AdminQuanLyPhimController extends Controller {
         $duringTimeLength = strlen($duringTime);
         $datePickerLength = strlen($datePicker);
 
+
+
         
+        $posterFileName = $_FILES["posterLink"]["name"] ?? "" ;
+        $landscapeFileName = $_FILES["landscapeLink"]["name"] ?? "";
+        
+        $posterFileType = $_FILES["posterLink"]["type"] ?? "";
+        $landscapeFileType = $_FILES["landscapeLink"]["type"] ?? "";
 
-            $posterFileName = $_FILES["posterLink"]["name"];
-            $landscapeFileName = $_FILES["landscapeLink"]["name"];
+        
+        $posterFileSize = $_FILES["posterLink"]["size"] ?? "";
+        $landscapeFileSize = $_FILES["landscapeLink"]["size"] ?? "";
+        
+        $posterFileTmp = $_FILES["posterLink"]["tmp_name"] ?? "";
+        $landscapeFileTmp = $_FILES["landscapeLink"]["tmp_name"] ?? "";
+        
+        $targetDirPoster = "assets/posterImgMovie/";
+        $targetDirLandscape = "assets/landscapeImgMovie/";
 
-            $posterFileType = $_FILES["posterLink"]["type"];
-            $landscapeFileType = $_FILES["landscapeLink"]["type"];
-
-            $posterFileSize = $_FILES["posterLink"]["size"];
-            $landscapeFileSize = $_FILES["landscapeLink"]["size"];
-
-            $posterFileTmp = $_FILES["posterLink"]["tmp_name"];
-            $landscapeFileTmp = $_FILES["landscapeLink"]["tmp_name"];
-            
-            $targetDirPoster = "assets/posterImgMovie/";
-            $targetDirLandscape = "assets/landscapeImgMovie/";
-
-         
-            $maxFileSize = 5 * 1024 * 1024; // 5MB
-           
-            move_uploaded_file($posterFileTmp, $targetDirPoster . $posterFileName);
-            move_uploaded_file($landscapeFileTmp, $targetDirLandscape . $landscapeFileName);
-              
-
-
-        if($nameMovieLength==0){
-            $message = "Vui lòng nhập tên phim";
-        }
-        else if($desMovieLength==0){
-            $message = "Vui lòng nhập mô tả phim";
-        }
-        else if(($posterFileType != "image/png" || $posterFileType != "image/jpeg" || $posterFileType != "image/jpg") && $posterFileSize > $maxFileSize){
-            unlink($targetDirPoster . $posterFileName);
+               
+   
+        
+        $maxFileSize = 5 * 1024 * 1024; // 5MB
+        
+        if ($nameMovieLength == 0) {
+          $message = "Vui lòng nhập tên phim";
+        } else if ($desMovieLength == 0) {
+          $message = "Vui lòng nhập mô tả phim";
+        } else if ($posterFileName == "") {
             $message = "Vui lòng thêm ảnh poster";
-        }
-        else if(($landscapeFileType != "image/png" || $landscapeFileType != "image/jpeg" || $landscapeFileType != "image/jpg") && $landscapeFileSize > $maxFileSize){
-            unlink($targetDirLandscape . $landscapeFileName);
+        } else if ($landscapeFileName == "") {
             $message = "Vui lòng thêm ảnh landscape";
+        }
+        else if (!in_array($posterFileType, array("image/png", "image/jpeg", "image/jpg")) || $posterFileSize > $maxFileSize ||
+                 !in_array($landscapeFileType, array("image/png", "image/jpeg", "image/jpg")) || $landscapeFileSize > $maxFileSize) {
+          if (file_exists($targetDirPoster . $posterFileName)) {
+            unlink($targetDirPoster . $posterFileName);
+          }
+          if (file_exists($targetDirLandscape . $landscapeFileName)) {
+            unlink($targetDirLandscape . $landscapeFileName);
+          }
+          $message = "Vui lòng thêm ảnh poster và landscape đúng định dạng và dung lượng tối đa là 5MB";
         }
         else if($trailerLinkLength==0){
             $message = "Vui lòng nhập link trailer";
@@ -125,7 +153,16 @@ class AdminQuanLyPhimController extends Controller {
         }
         else if($languageLength==0){
             $message = "Vui lòng nhập ngôn ngữ";
-        }else{
+        }
+        else if(empty($checkedIds)){
+            $message = "Vui lòng thêm ít nhất 1 thể loại";
+        }
+        else{
+
+            move_uploaded_file($posterFileTmp, $targetDirPoster . $posterFileName);
+            move_uploaded_file($landscapeFileTmp, $targetDirLandscape . $landscapeFileName);
+
+
             $movie = new Movie();
             $movie -> movieName = $nameMovie;
             $movie -> movieDes = $desMovie;
@@ -161,11 +198,28 @@ class AdminQuanLyPhimController extends Controller {
         $this->jsonAdminQuanLyPhim($status, $message);
     }
 
+    public function DeleteMovie(){
+        if(isset($_POST["movieID"])){
+            $movieID = $_POST["movieID"];
+            echo $movieID;
+        } else {
+            echo "Missing movieID parameter";
+        }
+
+        //  Movie::delete(true,$movieID);
+
+
+
+    }
+
     public function jsonAdminQuanLyPhim($status = 0, $message = ""){
         echo json_encode([
             "status" => $status,
             "message" => $message
         ]);
     }
+
+
+
 
 }   
