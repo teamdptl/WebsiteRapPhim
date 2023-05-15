@@ -1,41 +1,8 @@
-.title{
-    font-weight: bold;
-}
-.container-input{
-    margin-bottom: 35px;
-}
-.container-button{
-    text-align: end;
-    margin-right: 10%;
-}
-.column{
-    width: 45%;
-}
-.button{
- width: 20%;
- margin-right: 10px;   
-}
-.input{
-    width: 100%;
-}
-td{
-    white-space: nowrap;
-    overflow: auto;
-    text-align: center;
-}
-table{
-    table-layout: fixed;
-    border-collapse: collapse;
-   
-}
 .wrapper{
-    /* position: absolute;
-    top: 4%;
-    left: 25%; */
-    /* transform: translate(-10%, -10%); */
     width: 100%;
     display: flex;
     padding: 10px;  
+    margin: 20px 0;
     
   }
   
@@ -154,4 +121,3 @@ table{
     margin-left: 30px;
     
   }
-  

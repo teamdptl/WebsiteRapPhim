@@ -40,11 +40,17 @@ $app->router->post('/movies/{id:\d+}', ["controller" => "DetailMovieController",
 
 
 $app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyController", "action" => "getAdminQuanLyPhim"]);
-$app->router->get('/adminShowTime/getMovieName', ["controller" => "AdminQuanLyController", "action" => "getMovieName"]);
-$app->router->get('/adminShowTime/getRoomName', ["controller" => "AdminQuanLyController", "action" => "getRoomName"]);
-$app->router->post('/adminShowTime/insert', ["controller" => "AdminQuanLyController", "action" => "insertShowTime"]);
+$app->router->get('/adminShowTime/getMovieName', ["controller" => "AdminShowTimeController", "action" => "getMovieName"]);
+$app->router->get('/adminShowTime/getRoomName', ["controller" => "AdminShowTimeController", "action" => "getRoomName"]);
+$app->router->post('/adminShowTime/insert', ["controller" => "AdminShowTimeController", "action" => "insertShowTime"]);
+$app->router->get('/adminShowTime/edit', ["controller" => "AdminShowTimeController", "action" => "editShowTime"]);
+$app->router->post('/adminShowTime/edit', ["controller" => "AdminShowTimeController", "action" => "updateShowTime"]);
+$app->router->get('/adminShowTime', ["controller" => "AdminShowTimeController", "action" => "getAdminShowTimePage"]);
 
-$app->router->get('/adminShowTime', ["controller" => "AdminQuanLyController", "action" => "getAdminShowTimePage"]);
+$app->router->get('/adminFood', ["controller" => "AdminFoodController", "action" => "getAdminFoodPage"]);
+$app->router->post('/adminFood/insert', ["controller" => "AdminFoodController", "action" => "insertFood"]);
+$app->router->get('/adminFood/edit', ["controller" => "AdminFoodController", "action" => "editFood"]);
+$app->router->post('/adminFood/update', ["controller" => "AdminFoodController", "action" => "updateFood"]);
     
 
 $app->router->get('/profile', ["controller" => "UserProfileController", "action" => "getProfilePage"]);
