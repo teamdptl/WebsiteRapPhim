@@ -1,0 +1,149 @@
+{% extends './template/root.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="/css/headerAdmin.css">
+<link rel="stylesheet" href="/css/managerFilm.css">
+<link rel="stylesheet" href="/css/adminShowTime.css">
+<link rel="stylesheet" href="/css/adminFood.css">
+<script src="/js/admin/search.js"></script>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+{{ navbar | raw }}
+{{ navAdmin | raw }}
+
+<section id="container" class="home-section" style="display: flex;flex-direction:column ;;">
+    <div class="wrapper" style="margin: 20px 0;">
+        <div class="text-managerFilm">QUẢN LÝ ĐỒ ĂN / NƯỚC</div>
+        <div class="search-box">
+            <div class="dropdown">
+                <div class="default-option">FoodID </div>
+                <ul>
+                    <li id="0">FoodID</li>
+                    <li id="2">Tên </li>
+                    <li id="3">Giá</li>
+                    <li id="5">Giảm giá</li>
+                </ul>
+            </div>
+            <div class="search-field">
+                <input type="text" class="input" placeholder="Tìm kiếm" id="inputSearch" onkeyup="Search()">
+                <i class='bx bx-search-alt'></i>
+
+            </div>
+        </div>
+    </div>
+
+
+    <form class="container-form"
+        style="position: fixed;width : 100%;height:100%;background-color: #0000004d;display: none;z-index: 8;"
+        id="formAdd">
+        <div class="form" style="margin:50px auto  ;background-color: rgb(255, 255, 255);height: 540px;">
+            <div action="/" style="padding: 20px 50px;">
+                <h2 style="margin-bottom: 30px;text-align: center;">Thêm thực phẩm</h2>
+                <div class="container-input-group d-flex justify-content-between">
+                    <div class="column">
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Tên:</label>
+                            <div class="input-group mb-3 input">
+                                <input type="text" class="form-control" id="food-name" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Hình ảnh</label>
+                            <div class="input-group mb-3 input">
+                                <input type="file" accept="image/png, image/gif, image/jpeg" class="form-control" id="image" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="container-input">
+                            <label class="number" for="basic-url">Giá</label>
+                            <div class="input-group mb-3 input">
+                                <input type="text" class="form-control" id="price" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Discount ID</label>
+                            <div class="input-group mb-3 input">
+                                <input type="number" class="form-control" id="discountID"
+                                    aria-describedby="basic-addon3">
+                                <input disabled type="text" class="form-control" id="discount"
+                                    aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-input">
+                    <label class="title" for="basic-url">Mô tả</label>
+                    <div class="input-group mb-3 input">
+                        <textarea class="form-control" rows="5" id="descrip"></textarea>
+                    </div>
+                </div>
+                <div class="container-button" id="container-button" style="width: 100%; text-align: center;">
+                    <!-- <button class="btn btn-primary button" id="btn-edit"> Xác nhận </button>
+                    <button class="btn btn-danger button" id="btn-exit"> Hủy </button> -->
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <div class="table-showtime" style="width: 100%; margin: 0 auto; max-height: 400px;overflow: auto;">
+        <table style="table-layout: fixed;" id="table">
+            <thead>
+                <tr>
+                    <th>FOODID</th>
+                    <th>HÌNH ẢNH</th>
+                    <th>TÊN</th>
+                    <th>GIÁ</th>
+                    <th>MÔ TẢ</th>
+                    <th>GIẢM GIÁ</th>
+                    <th>THAO TAC</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for food in foodList %}
+                <tr>
+                    <td>{{food.foodID}}</td>
+                    <td>
+                        <img src="{{food.foodImage}}" alt="">
+                    </td>
+                    <td>{{food.foodName}}</td>
+
+                    <td>
+                        {{food.foodPrice}}
+                    </td>
+                    <td>
+                        {{food.foodDescription}}
+                    </td>
+                    <td> {{food.discountID}}</td>
+                    <td>
+                        <button class="btn" id="edit"> <i class='bx bx-edit edit' foodId="{{food.foodID}}"></i>
+                        </button>
+                        <button class="btn"> <i class='bx bxs-trash-alt del'></i> </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h5 style="color: blue;margin: 20px 30px;"><a href="#" id="btn-add">+ Thêm thức ăn </a></h5>
+    </div>
+</section>
+
+
+
+{% endblock %}
+
+{% block js %}
+
+  <script src="/js/admin/eventListenAdminFood.js"></script>
+
+
+
+{% endblock %}
