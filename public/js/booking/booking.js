@@ -4,6 +4,7 @@ var totalPriceTag = document.getElementById('price-total');
 var price = 0;
 var foodPrice = 0;
 var total = 0;
+var methodPay = '';
 var listSeat = document.getElementById('main-box').getElementsByClassName('seat');
 var listRealCheckedPos = [];
 var listRealCheckedID = []
@@ -13,12 +14,20 @@ var listFood = [];
 var boxlimit = 0; //lưu số lượng ghế đã chọn (tối đa 8)
 
 function handleBooking(button){
+
+    var topHeader = document.getElementById('top-header-content');
+    var boxTitle = document.querySelector('.box-title');
+    var mainTitle = boxTitle.querySelector('.title');
     
     var currentPos = button.getAttribute('current-pos');
+    var paymentBox = document.getElementById('payment-box');
     var foodBox = document.getElementById('box-food');
     var seatBox = document.getElementById('box-seat');
     var leftBtn = document.getElementById('button-pre');
     var rightBtn = document.getElementById('button-next');
+
+    var radioBunttons = document.querySelectorAll('input[name="mtd"]');
+    var checkBox = document.getElementById('agreement');
 
     switch (currentPos) {
         case "choose-seat":
@@ -40,6 +49,7 @@ function handleBooking(button){
                                 if(jsonData['announcement'] === 'success'){
                                     foodBox.style.display = "flex";
                                     seatBox.style.display = "none";
+                                    mainTitle.innerHTML = "Choose your combo"
                                     leftBtn.style.opacity = 1;
                                     leftBtn.style.pointerEvents = 'fill';
                                     leftBtn.setAttribute('current-pos', 'choose-food');
@@ -71,6 +81,7 @@ function handleBooking(button){
                 //Chọn trở về ở giao diện đặt bắp nước
                 foodBox.style.display = "none";
                 seatBox.style.display = "block";
+                mainTitle.innerHTML = "Choose your seat"
                 leftBtn.style.opacity = 0.6;
                 leftBtn.style.pointerEvents = 'none';
                 leftBtn.setAttribute('current-pos', 'choose-seat');
@@ -83,10 +94,16 @@ function handleBooking(button){
                 renderPriceTag(price, foodPrice, total);
             }else{
                 //Tiếp tục đến giao diện thanh toán
+                foodBox.style.display = "none";
+                paymentBox.style.display = "flex";
+                topHeader.innerHTML = "Payment";
+                boxTitle.style.display = "none";
                 leftBtn.setAttribute('current-pos', 'payment');
                 rightBtn.setAttribute('current-pos', 'payment');
                 rightBtn.innerHTML = `Payment
-                <i class='bx bx-dollar-circle' style='color:#faf100'></i>`;
+                <i class='bx bxs-dollar-circle bx-tada' style='color:#FAFA10' ></i>`;
+                pushData();
+                
             }   
             break;
         default:
@@ -99,7 +116,28 @@ function handleBooking(button){
                 // <i class='bx bx-skip-next-circle bx-tada bx-rotate-270'></i>`;
                 location.href = '/booking';
             }else{
-                //Viết ajax đẩy dữ liệu xuống php
+                var flagCheckMethod = false;
+                var flagCheckAgreement = false;
+                for(let i = 0; i < radioBunttons.length; i++){
+                    if(radioBunttons[i].checked){
+                        methodPay = radioBunttons[i].id;
+                        flagCheckMethod = true;
+                    }
+                }
+
+                flagCheckAgreement = checkBox.checked;
+
+                if(flagCheckAgreement && flagCheckMethod){
+                    pushDataToBooking(methodPay);
+                }else{
+                    if(!flagCheckAgreement && !flagCheckMethod){
+                        alert('You must choose a method to pay and agree with our condition');
+                    }else{
+                        if(!flagCheckAgreement){
+                            alert('You must agree with Terms and Condition');
+                        }else alert('You must choose a method to pay');
+                    }
+                }
             }   
             break;
     }
@@ -184,6 +222,10 @@ function isValidSeatsChecked(){
     var isValidSeat = true;
     var nextSeat = null;
     var countInvalidSeat = 0;
+    var specialFlag = false;
+    var leftFisrt = null;
+    var rightLast = null;
+    var tmpSeatID = listRealCheckedID.map((x) =>parseInt(x));
 
     for(let i = 0; i < listSeat.length; i++){
         seat = listSeat[i];
@@ -212,6 +254,10 @@ function isValidSeatsChecked(){
                 console.log(isValidSeat);
                 if(!isValidSeat) countInvalidSeat++;
             }
+
+            if(seat.id == Math.min(...tmpSeatID).toString()) leftFisrt = preSeat;
+            if(seat.id == Math.max(...tmpSeatID).toString()) rightLast = nextSeat;
+
         }
     }
 
@@ -220,7 +266,13 @@ function isValidSeatsChecked(){
     if(countInvalidSeat == 0) return true;
     // Trường hợp đặc biệt: nếu các ghế được chọn liên tiếp
     //và 1 ghế k hợp lệ thì vẫn cho phép
-    if(isSameRow() && countInvalidSeat == 1) return true;
+    console.log(leftFisrt);
+    console.log(rightLast);
+    specialFlag = (!leftFisrt.classList.contains('seat-checked') && rightLast.classList.contains('empty'))
+                || (leftFisrt.classList.contains('seat-booked') && !rightLast.classList.contains('seat-checked'))
+                || (leftFisrt.classList.contains('empty') && !rightLast.classList.contains('seat-checked'))
+                || (!leftFisrt.classList.contains('seat-checked') && rightLast.classList.contains('seat-booked'));
+    if(isSameRow() && countInvalidSeat == 1 && specialFlag) return true;
     return false;
 
 }
@@ -347,6 +399,78 @@ function resetBoxQuantityToZero(){
         listBoxQuantity[i].innerHTML = 0;
         listBoxQuantity[i].setAttribute('value', 0);
     }
+}
+
+function pushData(){
+    // var movieNameTag = document.getElementById('movie-name-text');
+    // var roomNameTag = document.getElementById('room-name-text');
+    var showtimeTag = document.getElementById('showtime-text');
+    var stdTag = document.getElementById('seat-name-text');
+    var foodNameTag = document.getElementById('food-name-text');
+    var ticketPrice = document.getElementById('ticket-price-text');
+    var foodPrice = document.getElementById('food-price-text');
+    var totalPrice = document.getElementById('total-price-text');
+    var comboPriceContainer = document.querySelector('.price-combo');
+    var comboNameContainer = document.querySelector('.food-name-payment');
+    $.ajax({
+        url: "/booking/payment",
+        method: "POST",
+        data:{
+            listFood: listFood,
+            listRealCheckedID: listRealCheckedID,
+            showID: showID
+        },
+        success: function(respone){
+            var jsonData = JSON.parse(respone);
+            if(jsonData['status'] == 0){
+                alert(jsonData['message']);
+                location.href('/booking');
+            }else{
+                if(jsonData['foodPrice'] == 0){
+                    comboNameContainer.style.display = "none";
+                    comboPriceContainer.style.display = "none";
+                }else{
+                    comboNameContainer.style.display = "flex";
+                    comboPriceContainer.style.display = "flex";
+                    foodNameTag.innerHTML =  jsonData['foodBooked'];
+                    foodPrice.innerHTML = formatNumberToMoney(jsonData['foodPrice']);
+                }
+                showtimeTag.innerHTML = jsonData['startTime'];
+                stdTag.innerHTML = jsonData['STDlist'];
+                ticketPrice.innerHTML = formatNumberToMoney(jsonData['ticketPrice']);
+                totalPrice.innerHTML = formatNumberToMoney(jsonData['totalPrice']);
+            }
+            
+        }
+    })
+}
+
+function pushDataToBooking(methodPay){
+    $.ajax({
+        url: '/payment',
+        method: 'POST',
+        data:{
+            listFood: listFood,
+            listRealCheckedID: listRealCheckedID,
+            showID: showID,
+            methodPay: methodPay
+        }, 
+        success: function(respone){
+            var jsonData = JSON.parse(respone);
+            if(jsonData['status'] == 1){
+                alert('Booking successfully!');
+                location.href('/');
+            }else{
+                alert(jsonData['message']);
+                location.href('/booking');
+            }
+        },
+        error: function(respone){
+            alert('Something went wrong! Back to home page');
+            location.href('/');
+        }
+
+    })
 }
 
 //Hàm chuyển dạng số thành dạng tiền

@@ -13,5 +13,7 @@ class Booking extends Model{
     public string $bookingName;
     public string $bookingEmail;
     public string $bookingTime;
+    public string $methodPay;
     public ?int $userID;
+    public bool $isDeleted;
 }

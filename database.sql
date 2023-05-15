@@ -159,6 +159,7 @@ CREATE TABLE BOOKING(
     bookName char(255),
     bookEmail CHAR(255),
     bookTime TIMESTAMP,
+    methodPay char(50),
     userID INT,
     isDeleted boolean
 );
@@ -292,41 +293,22 @@ INSERT INTO ROOM VALUES (1, "Phòng 1", 10, 15, 1),
 # Cần thêm insert của ghế vào nữa
 # Thêm combo (bắp và nước)
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/63fec00baf8f2_1677639692.png','JUNGLE BROWN MY COMBO',259000,'1 Jungle Brown tumbler + 1 Jumbo Coke
-*Redeem on the showing date
-**Design depends on site availability',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/63fec00baf8f2_1677639692.png','JUNGLE BROWN MY COMBO',259000,'1 Jungle Brown tumbler + 1 Jumbo Coke,Redeem on the showing date,Design depends on site availability',1,false);
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/643fbb867f021_1681898375.png','FAST X MY COMBO',169000,'1 Fast X cup + 1 Jumbo Coke + 1 Large Popcorn (free flavor)
-*Redeem on the showing date*
-**Design depends on site availability**',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/643fbb867f021_1681898375.png','FAST X MY COMBO',169000,'1 Fast X cup + 1 Jumbo Coke + 1 Large Popcorn (free flavor),Redeem on the showing date,Design depends on site availability',1,false);
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/6447521b8e460_1682395676.png','GUADIAN TIN CASE MY COMBO',179000,'1 Guadian Tin Case + 1 Jumbo Coke + 1 Large Popcorn
-* Redeem on the showing date
-* Design depends on site availability',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/6447521b8e460_1682395676.png','GUADIAN TIN CASE MY COMBO',179000,'1 Guadian Tin Case + 1 Jumbo Coke + 1 Large Popcorn,Redeem on the showing date,Design depends on site availability',1,false);
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/6448fa964a72c_1682504342.png','KAKAO FRIEND MY COMBO',229000,'1 Kakao Friend cup (with drink) + 1 Large Popcorn (free flavor)
-*Redeem on the showing date*
-**Design depends on site availability**',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/6448fa964a72c_1682504342.png','KAKAO FRIEND MY COMBO',229000,'1 Kakao Friend cup (with drink) + 1 Large Popcorn (free flavor),Redeem on the showing date,Design depends on site availability',1,false);
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/6448fc0abb1c8_1682504715.png','KAKAO FRIEND COUPLE COMBO',399000,'2 Kakao Friend cup (with drink) + 1 Large Popcorn (free flavor)
-*Redeem on the showing date*
-**Design depends on site availability**',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/6448fc0abb1c8_1682504715.png','KAKAO FRIEND COUPLE COMBO',399000,'2 Kakao Friend cup (with drink) + 1 Large Popcorn (free flavor),Redeem on the showing date,Design depends on site availability',1,false);
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/645cba6772123_1683798631.png','LITTLE MERMAID MY COMBO',189000,'1 Little Mermaid cup + 1 Jumbo Coke + 1 Large Popcorn (free flavor)
-*Redeem on the showing date*',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/645cba6772123_1683798631.png','LITTLE MERMAID MY COMBO',189000,'1 Little Mermaid cup + 1 Jumbo Coke + 1 Large Popcorn (free flavor),Redeem on the showing date',1,false);
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/6426a4fc4b1ca_1680254204.png','JUNGLE BROWN COUPLE COMBO',499000,'2 Jungle Brown tumbler + 1 Jumbo Coke + 1 Large Sweet Popcorn
-*Redeem on the showing date
-**Design depends on site availability',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/6426a4fc4b1ca_1680254204.png','JUNGLE BROWN COUPLE COMBO',499000,'2 Jungle Brown tumbler + 1 Jumbo Coke + 1 Large Sweet Popcorn,Redeem on the showing date,Design depends on site availability',1,false);
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/644e34e066ddc_1682846944.png','PREMIUM MY SNACK COMBO 2023',109000,'1 Large Popcorn + 1 Jumbo Drink + 1 Snack (include: Scorched Rice; Kitkat; or Spring Rolls). Redeem on showing date.
-* Free upgrade flavor for Caramel *
-**Surcharge when upgrade Cheese popcorn**',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/644e34e066ddc_1682846944.png','PREMIUM MY SNACK COMBO 2023',109000,'1 Large Popcorn + 1 Jumbo Drink + 1 Snack (include: Scorched Rice; Kitkat; or Spring Rolls).,Redeem on showing date.,Free upgrade flavor for Caramel,Surcharge when upgrade Cheese popcorn',1,false);
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/63aaa2d81b6bf_1672127192.png','MY COMBO',89000,'1 Large Popcorn + 1 Jumbo Drink. Redeem on showing date.
-* Free upgrade flavor for Caramel *
-**Surcharge when upgrade Cheese popcorn**',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/63aaa2d81b6bf_1672127192.png','MY COMBO',89000,'1 Large Popcorn + 1 Jumbo Drink. Redeem on showing date.,Free upgrade flavor for Caramel,Surcharge when upgrade Cheese popcorn',1,false);
 
-INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/63aaa31525d4c_1672127253.png','CGV COMBO',115000,'1 Large Popcorn + 2 Jumbo Drinks. Redeem on showing date.
-* Free upgrade flavor for Caramel *
-**Surcharge when upgrade Cheese popcorn**',1,false);
+INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/63aaa31525d4c_1672127253.png','CGV COMBO',115000,'1 Large Popcorn + 2 Jumbo Drinks. Redeem on showing date.,Free upgrade flavor for Caramel,Surcharge when upgrade Cheese popcorn',1,false);
