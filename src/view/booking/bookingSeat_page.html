@@ -1,6 +1,7 @@
 {% extends './template/root.html' %}
 {% block header %}
 <link rel="stylesheet" href="/css/bookingSeat.css">
+<link rel="stylesheet" href="/css/payment.css">
 <link rel="stylesheet" href="/css/owl.carousel.min.css">
 <link rel="stylesheet" href="/css/owl.theme.default.min.css">
 <link rel="stylesheet" href="/css/otp.css">
@@ -8,7 +9,7 @@
 {% endblock %}
 
 {% block title %}
-Trang đăng ký
+Trang đặt vé
 {% endblock %}
 
 {% block body %}
@@ -26,8 +27,8 @@ Trang đăng ký
             <div class="box-title">
                 <div class="title">Choose your seat</div>
                 <div class="content">
-                    <p class="cinema-name">Tại: {{cinema.cinemaName}} {{roomName}}, {{provinceName}}</p>
-                    <p class="show-time">Lúc: 11:45 20/5/2023 ~ 11:45 20/5/2023</p>
+                    <p class="cinema-name">Take place: {{cinema.cinemaName}} {{roomName}}, {{provinceName}}</p>
+                    <p class="show-time">Time: {{startTime}} ~ {{endTime}}</p>
                 </div>
             </div>
             <div class="box-seat" id="box-seat">
@@ -121,6 +122,120 @@ Trang đăng ký
                 
             </div>
 
+            <div class="payment-box" id="payment-box" style="display: none;">
+                <div class="method-payment">
+                    <div class="top-title">Choose method</div>
+                    <div class="method-content">
+                        <div class="methods">
+                            <div class="one-method">
+                                <input type="radio" name="mtd" id="ATM">
+                                <label for="ATM">
+                                    <div class="logo-image">
+                                        <img src="/assets/payment/credit-card-logo.png" alt="">
+                                    </div>
+                                    Paying by credit card
+                                </label>
+                            </div>
+
+                            <div class="one-method">
+                                <input type="radio" name="mtd" id="momo">
+                                <label for="momo">
+                                    <div class="logo-image">
+                                        <img src="/assets/payment/momo-logo.png" alt="">
+                                    </div>
+                                    Paying with Momo e-wallet
+                                </label>
+                            </div>
+
+                            <div class="one-method">
+                                <input type="radio" name="mtd" id="zalopay">
+                                <label for="zalopay">
+                                    <div class="logo-image">
+                                        <img src="/assets/payment/zalopay-logo.png" alt="">
+                                    </div>
+                                    Paying with ZaloPay e-wallet
+                                </label>
+                            </div>
+
+                            <div class="one-method">
+                                <input type="radio" name="mtd" id="vnpay">
+                                <label for="vnpay">
+                                    <div class="logo-image">
+                                        <img src="/assets/payment/vnpay-logo.png" alt="">
+                                    </div>
+                                    Paying with VNPay e-wallet
+                                </label>
+                            </div>
+
+                            <div class="one-method">
+                                <input type="radio" name="mtd" id="shopeepay">
+                                <label for="shopeepay">
+                                    <div class="logo-image">
+                                        <img src="/assets/payment/shopeepay-logo.png" alt="">
+                                    </div>
+                                    Paying with ShopeePay e-wallet
+                                </label>
+                            </div>
+                            
+                        </div>
+                        <div class="agree-checkbox">
+                            <input type="checkbox" name="agreement" id="agreement">
+                            <label for="agreement">I agree to the Terms and Condition and I'am Purchasing age appropriate tickets with this order </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-payment">
+                    <div class="top-title">Payment</div>
+                    <div class="main-info">
+                        <div class="movie-name">
+                            <div class="title">Movie</div>
+                            <div class="content" id="movie-name-text" style="text-transform: uppercase;">{{movie.movieName}}</div>
+                        </div>
+
+                        <div class="showtime">
+                            <div class="title">Start at</div>
+                            <div class="content" id="showtime-text">11h30 20/03/2023</div>
+                        </div>
+
+                        <div class="room-name">
+                            <div class="title">Room</div>
+                            <div class="content" id="room-name-text">{{roomName}}</div>
+                        </div>
+
+                        <div class="seat-name">
+                            <div class="title">STD</div>
+                            <div class="content" id="seat-name-text"></div>
+                        </div>
+
+                        <div class="food-name-payment">
+                            <div class="title">Combo</div>
+                            <div class="content" id="food-name-text"></div>
+                        </div>
+                    </div>
+                    <div class="price-booking">
+                        <div class="border-container title-payment">Payment</div>
+                        <div class="border-container content-payment">
+                            <div class="price-ticket">
+                                <div class="title">Ticket</div>
+                                <div class="content" >₫<div class="content" id="ticket-price-text">0</div>.00</div>
+                            </div>
+    
+                            <div class="price-combo" style="display: none;">
+                                <div class="title">Combo</div>
+                                <div class="content" >₫<div class="content" id="food-price-text">0</div>.00</div>
+                            </div>
+    
+                            <div class="price-total">
+                                <div class="title">Payment</div>
+                                <div class="content" >₫<div id="total-price-text">0</div>.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+
             <div class="button-container">
                 <div class="button-left" id="button-pre" title="Previous" current-pos="choose-seat" onclick="handleBooking(this)" disabled="true">
                     <i class='bx bx-skip-previous-circle bx-tada bx-rotate-270' ></i>
@@ -158,7 +273,7 @@ Trang đăng ký
                         </div>
                         <div class="showtime">
                             <p class="title">Showtimes</p>
-                            <p class="nd">{{showtime.timeStart}}</p>
+                            <p class="nd">{{startTime}} ~ {{endTime}}</p>
                         </div>
                         <div class="screen">
                             <p class="title">Screen</p>
