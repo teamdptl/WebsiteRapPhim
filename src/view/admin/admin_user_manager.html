@@ -1,0 +1,186 @@
+{% extends './template/root.html' %}
+
+{% block header %}
+<title>Trang quản lý người dùng</title>
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="/css/admin_account.css">
+<link rel="stylesheet" href="/css/navAdmin.css">
+{% endblock header %}
+
+{% block body %}
+{{ navbar | raw }}
+{{ navAdmin | raw }}
+    <div id="admin-user-manager" class="d-flex w-100 py-4" style="padding-left: 92px">
+        <div class="admin-user-container col-8 bg-white">
+            <h5 class="mb-3">Danh sách các tài khoản</h5>
+            <div class="d-flex justify-content-between">
+                <div class="input-group " style="max-width: 400px">
+                <span class="input-group-text bg-light">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input id="text-box" type="text" name="" id="search-input" class="form-control search-box" placeholder="Tìm kiếm người dùng" aria-describedby="helpId" autocomplete="off">
+                    <button type="button" class="btn btn-primary ml-2 round" id="btn-search-text">
+                        Tìm kiếm
+                    </button>
+                </div>
+                <div class="me-auto">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#addUserModal">Thêm người dùng</button>
+                </div>
+            </div>
+            <div class="table-container d-flex mt-4 flex-column" style="gap: 10px">
+                <div class="card d-flex flex-row justify-content-around px-3 py-2 align-items-center rounded">
+                    <div style="max-width: 50px">1</div>
+                    <div style="max-width: 150px">Huỳnh Khánh Duy</div>
+                    <div style="max-width: 200px">huykhaduy@gmail.com</div>
+                    <div style="max-width: 150px">Hoạt động</div>
+                    <div style="max-width: 150px">Nhân viên</div>
+                    <div class="dropdown">
+                        <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class='bx bx-dots-vertical-rounded' ></i>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addUserModal"><i class='bx bx-edit-alt'></i> Sửa người dùng</a>
+                            <a class="dropdown-item" href="#"><i class='bx bx-trash' ></i> Xóa người dùng</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card d-flex flex-row justify-content-around px-3 py-2 align-items-center rounded">
+                    <div style="max-width: 50px">1</div>
+                    <div style="max-width: 150px">Huỳnh Khánh Duy</div>
+                    <div style="max-width: 200px">huykhaduy@gmail.com</div>
+                    <div style="max-width: 150px">Hoạt động</div>
+                    <div style="max-width: 150px">Nhân viên</div>
+                    <div class="dropdown">
+                        <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class='bx bx-dots-vertical-rounded' ></i>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class='bx bx-edit-alt'></i> Sửa người dùng</a>
+                            <a class="dropdown-item" href="#"><i class='bx bx-trash' ></i> Xóa người dùng</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card d-flex flex-row justify-content-around px-3 py-2 align-items-center rounded">
+                    <div style="max-width: 50px">1</div>
+                    <div style="max-width: 150px">Huỳnh Khánh Duy</div>
+                    <div style="max-width: 200px">huykhaduy@gmail.com</div>
+                    <div style="max-width: 150px">Hoạt động</div>
+                    <div style="max-width: 150px">Nhân viên</div>
+                    <div class="dropdown">
+                        <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class='bx bx-dots-vertical-rounded' ></i>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class='bx bx-edit-alt'></i> Sửa người dùng</a>
+                            <a class="dropdown-item" href="#"><i class='bx bx-trash' ></i> Xóa người dùng</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card d-flex flex-row justify-content-around px-3 py-2 align-items-center rounded">
+                    <div style="max-width: 50px">1</div>
+                    <div style="max-width: 150px">Huỳnh Khánh Duy</div>
+                    <div style="max-width: 200px">huykhaduy@gmail.com</div>
+                    <div style="max-width: 150px">Hoạt động</div>
+                    <div style="max-width: 150px">Nhân viên</div>
+                    <div class="dropdown">
+                        <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class='bx bx-dots-vertical-rounded' ></i>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class='bx bx-edit-alt'></i> Sửa người dùng</a>
+                            <a class="dropdown-item" href="#"><i class='bx bx-trash' ></i> Xóa người dùng</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-split-table d-flex flex-column col-4">
+            <div class="admin-group-container bg-primary" style="height: 300px">
+                <div class="admin-header mb-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 text-white">Danh sách các vai trò</h5>
+                    <button class="btn btn-light btn-sm">Thêm vai trò</button>
+                </div>
+                <div class="admin-group-list">
+                    <div>1</div>
+                    <div>Quản trị viên</div>
+                </div>
+
+            </div>
+            <div class="admin-feature-container bg-primary" style="height: 300px">
+                <div class="admin-header mb-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 text-white">Danh sách tính năng</h5>
+                    <button class="btn btn-light btn-sm">Thêm tính năng</button>
+                </div>
+                <div class="admin-feature-list">
+                    <div>1</div>
+                    <div>Xem trang chủ</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<!--    Modal thêm người dùng -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserTitle">Thêm người dùng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3 align-items-center">
+                    <div class="label-input">Tên người dùng</div>
+                    <input type="text" class="form-control" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="label-input">Địa chỉ email</label>
+                    <input type="email" class="form-control" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="label-input">Tên đăng nhập</label>
+                    <input type="text" class="form-control" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="label-input">Mật khẩu</label>
+                    <input type="password" class="form-control" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="label-input">Hoạt động</label>
+                    <div class=" d-flex align-items-center">
+                        <input type="checkbox" class="mr-2"> Đang hoạt động
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="label-input">Vai trò</label>
+                    <div class="d-flex justify-content-around flex-wrap" style="gap: 15px">
+                        <div class="item d-flex align-items-center">
+                            <input type="checkbox" class="mr-2"> Quản lý
+                        </div>
+                        <div class="item d-flex align-items-center">
+                            <input type="checkbox" class="mr-2"> Quản lý
+                        </div>
+                        <div class="item d-flex align-items-center">
+                            <input type="checkbox" class="mr-2"> Quản lý
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Lưu người dùng</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="/js/component/navAdmin.js"></script>
+{% endblock %}

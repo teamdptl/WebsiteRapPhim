@@ -13,7 +13,7 @@ require_once dirname(__DIR__) . '/../vendor/autoload.php';
 require_once dirname(__DIR__) .'/utils/apikey.php';
 
 generateMovies();
-//generateSeats();
+generateSeats();
 
 function generateSeats(){
     // Tạo tự động danh sách ghế
@@ -47,7 +47,7 @@ function generateSeats(){
 
 function generateMovies(){
     $client = require_once dirname(__DIR__) .'/utils/set-up-client.php';
-
+    $defaultLandScape = "https://img.freepik.com/free-vector/film-strip-with-light-effect-cinema-background_1017-38171.jpg";
     $query = new DiscoverMoviesQuery();
     $repository = new DiscoverRepository($client);
     $repositoryMovie = new MovieRepository($client);
@@ -88,8 +88,9 @@ function generateMovies(){
             $dbMovie->movieName = $movieDetails->getTitle();
             echo $movieDetails->getTitle() ."\n";
             $dbMovie->movieDes = $movieDetails->getOverview();
-            $dbMovie->posterLink = $movieDetails->getPosterPath();
-            $dbMovie->landscapePoster = $movieDetails->getBackdropPath() ?? "https://shorturl.at/glJOT";
+            $postLink = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2".$movieDetails->getPosterPath();
+            $dbMovie->posterLink = $postLink;
+            $dbMovie->landscapePoster = "https://image.tmdb.org/t/p/original".$movieDetails->getBackdropPath() ?? $defaultLandScape;
             $dbMovie->externalID = $movieDetails->getId();
             // Lấy video trailer
             foreach ($movieDetails->getVideos() as $trailer) {

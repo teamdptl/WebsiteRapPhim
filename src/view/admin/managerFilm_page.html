@@ -59,7 +59,7 @@ Trang Admin Phim
                     <tr >
                         <td>{{movie.movieID}}</td>
                         <td>{{movie.movieName}}</td>
-                        <td><img src="https://themoviedb.org/t/p/w600_and_h900_bestv2/{{movie.posterLink}}"></td>
+                        <td><img src="{{movie.posterLink}}"></td>
                         <td>{{movie.movieDirectors}}</td>
 
                         <td><input type="checkbox" id="checkboxNoLabel" value="" aria-label="..."{% if movie.isFeatured %}checked{% endif %} ></td>

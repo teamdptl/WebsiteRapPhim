@@ -116,7 +116,6 @@ class MoviesController extends Controller{
         $movie->categoryNames = $listNames;
         $movie->categoryList = $categories;
         $movie->tag = Tag::find(Model::UN_DELETED_OBJ, $movie->tagID);
-        $movie->posterLink = "https://themoviedb.org/t/p/w600_and_h900_bestv2/".$movie->posterLink;
         return $movie;
     }
 
