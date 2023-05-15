@@ -169,9 +169,12 @@ $(document).ready(function(){
         success: function(response){
           let data =  JSON.parse(response);
 
+        
+
           $.each(data.movie, function(index, movie) {
             $('#name-movie-edit').val(movie.movieName);
             $('#des-movie-edit').val(movie.movieDes);
+            // $('#landscape-poster-name').text(movie.landscapePoster);
               // $('#poster-link-edit').attr('placeholder', movie.posterLink);
               // $('#landscape-poster-edit').val(movie.landscapePoster );
             $('#trailer-link-edit').val(movie.trailerLink);
@@ -183,8 +186,7 @@ $(document).ready(function(){
             $('#customSwitches-edit').prop('checked', movie.isFeatured);
             });
 
-           
-
+          
             $("#tagID-edit").val(data.minAge[0].minAge);
 
             $.each(data.listCategory, function(index, category) {
@@ -241,13 +243,15 @@ $(document).ready(function(){
           }
         });
 
+        console.log(checkedIds);
+
         formData.append('checkedIds', checkedIds);
 
 
           $.ajax({
             url: "/adminQuanLyPhim/SuaPhim",
             method: "post",
-             processData: false,
+            processData: false,
             contentType: false,
             mimeType: "multipart/form-data",
             data: formData,

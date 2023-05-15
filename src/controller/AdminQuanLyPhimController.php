@@ -331,20 +331,49 @@ class AdminQuanLyPhimController extends Controller {
 
              Movie::update($movie, $movieID);
             
-            $status = 1;
-            $message = "Sửa phim thành công";
+            // $status = 1;
+            // $message = "Sửa phim thành công";
 
 
             // $movieCategory = new MovieCategory();
+
+            $currentCategoryIDs = MovieCategory::query("SELECT categoryID FROM movie_category WHERE movieID = $movieID");
+
+            $currentCategoryIDsArray = [];
+            foreach ($currentCategoryIDs as $category) {
+                $currentCategoryIDsArray[] = $category->categoryID;
+            }
+            // echo $currentCategoryIDs;
+
+            $addCategoryIDs = array_diff($checkedIds, $currentCategoryIDsArray);
+            $deleteCategoryIDs = array_diff($currentCategoryIDsArray, $checkedIds);
+
+            foreach ($addCategoryIDs as $categoryID) {
+                $movieCategory = new MovieCategory();
+                $movieCategory->movieID = $movieID;
+                $movieCategory->categoryID = intval($categoryID);
+                MovieCategory::save($movieCategory);
+            }
+            
+            // // Xóa các categoryID cũ:
+            foreach ($deleteCategoryIDs as $categoryID) {
+                MovieCategory::delete(true, $categoryID);
+            }
+
+            
+            $status = 1;
+            $message = "Sửa phim thành công";
+
 
             // foreach ($checkedIds as $checkedId) {
             //     $movieCategory ->movieID =  $movieID;
             //     $movieCategory ->categoryID = intval($checkedId);
 
-            //     MovieCategory::update($movieCategory, $movieID);
 
-            //     $status = 1;
-            //     $message = "Sửa phim thành công";
+               
+
+                // MovieCategory::update($movieCategory, $movieID);
+
 
             // }
 
