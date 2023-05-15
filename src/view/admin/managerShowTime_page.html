@@ -1,6 +1,15 @@
+{% extends './template/root.html' %}
 {% block header %}
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 <link rel="stylesheet" href="/css/navAdmin.css">
+
+<link rel="stylesheet" href="/css/managerFilm.css">
+<link rel="stylesheet" href="/css/adminShowTime.css">
+<!-- <link rel="stylesheet" href="magnific-popup/magnific-popup.css"> -->
+<script src="https://cdn.tutorialjinni.com/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
+<link rel="stylesheet" type="text/css"
+    href="https://cdn.tutorialjinni.com/magnific-popup.js/1.1.0/magnific-popup.css" />
+    <script src="/js/admin/search.js"></script>
 {% endblock %}
 
 {% block title %}
@@ -8,196 +17,214 @@ Trang Admin Phim
 {% endblock %}
 
 {% block body %}
+{{ navbar | raw }}
+{{ navAdmin | raw }}
+<section id="container" class="home-section" style="display: flex;flex-direction:column ;;">
+    <!-- <div class="d-flex flex-row justify-content-center align-items-center" style="height: auto;">
+        <div class="input-group mb-3 d-flex flex-direction-row" style="width:70%;margin: 15px;height: 50px;">
 
-
-<div class="container-form " style="position: fixed;width : 100%;height:100%;background-color: #0000004d;">
-    <div class="form " style="margin:50px auto ; width:60% ;background-color: rgb(255, 255, 255);">
-        <form action="/" style="padding: 20px 50px;">
-            <h2 style="margin-bottom: 30px;text-align: center;">SHOWTIME</h2>
-            <div class="container-input-group d-flex justify-content-between">
-                <div class="column">
-                    <div class="container-input">
-                        <label class="title" for="basic-url">Phim ID:</label>
-                        <label id="error-movie-id" style="display: none;color: red;" for="basic-url"> Mã phim không
-                            tồn tại </label>
-                        <div class="input-group mb-3 input">
-
-                            <input type="text" class="form-control" id="movie-id" aria-describedby="basic-addon3">
-                        </div>
-                    </div>
-                    <div class="container-input">
-                        <label class="title" for="basic-url">Mã Phòng:</label>
-                        <label id="error-room-id" style="display: none;color: red;" for="basic-url">Mã phòng không
-                            tồn
-                            tại</label>
-                        <div class="input-group mb-3 input">
-                            <input type="text" class="form-control" id="room-id" aria-describedby="basic-addon3">
-                        </div>
-                    </div>
-
-
-                    <div class="container-input">
-                        <label class="title" for="basic-url">Ngày và giờ chiếu :</label>
-                        <div class="input-group mb-3 input">
-                            <input type="time" class="form-control" id="show-start" aria-describedby="basic-addon3"
-                                placeholder="HH/mm">
-                            <input type="date" placeholder="dd-mm-yyyy" min="1997-01-01" max="2030-12-31"
-                                class="form-control" id="date" aria-describedby="basic-addon3">
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-                <div class="column">
-
-
-                    <div class="container-input">
-                        <label class="title" for="basic-url">Tên phim :</label>
-                        <div class="input-group mb-3 input">
-                            <input disabled type="text" class="form-control" id="movie-name"
-                                aria-describedby="basic-addon3">
-
-                        </div>
-                    </div>
-                    <div class="container-input">
-                        <label class="title" for="basic-url">Rạp:</label>
-                        <div class="input-group mb-3 input">
-                            <input style="width:30%" disabled type="text" class="form-control" id="cinema-name"
-                                aria-describedby="basic-addon3">
-                            <input disabled type="text" class="form-control" id="room-name"
-                                aria-describedby="basic-addon3">
-                        </div>
-                    </div>
-                    <div class="container-input">
-                        <label class="title" for="basic-url">Thời lượng:</label>
-                        <div class="input-group mb-3 input">
-                            <input type="number" class="form-control" id="during-time" aria-describedby="basic-addon3">
-                        </div>
-                    </div>
+            <div class="input-group-prepend" style="height: 50px;">
+                <button class="btn btn-primary  dropdown-toggle" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="#">Separated link</a>
                 </div>
             </div>
-            <div class="container-button" style="width: 100%; text-align: center;">
-                <button class="btn btn-primary button" id="btn-comfirm"> Xác nhận </button>
-                <button class="btn btn-danger button"> Hủy </button>
+
+            <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                style="height: 50px;border-radius: none;">
+         
+
+
+
+
+        </div>
+        <div>
+          
+        </div>
+    </div> -->
+    <div class="wrapper" style="margin: 20px 0;">
+        <div class="text-managerFilm">QUẢN LÝ LỊCH CHIẾU</div>
+        <div class="search-box">
+            <div class="dropdown">
+                <div class="default-option">ShowID</div>
+                <ul>
+                    <li id="0">ShowID</li>
+                    <li id="1">Tên Phim</li>
+                    <li id="2">Phòng</li>
+                    <li id="3">Rạp</li>
+                </ul>
             </div>
-        </form>
+            <div class="search-field">
+                <input type="text" class="input" placeholder="Tìm kiếm" id="inputSearch" onkeyup="Search()">
+                <i class='bx bx-search-alt'></i>
+
+            </div>
+        </div>
+        <!-- <button class="add-film btn btn-primary">Thêm lịch chiếu</button> -->
+        <!-- <button class="add-film btn-primary btn">Thêm phim</button>
+               -->
 
     </div>
 
-    <div class="popup-success">
 
+    <form class="container-form"
+        style="position: fixed;width : 100%;height:100%;background-color: #0000004d;display: none;z-index: 8;"
+        id="formAdd">
+        <div class="form" style="margin:50px auto  ;background-color: rgb(255, 255, 255);height: 470px;">
+            <div action="/" style="padding: 20px 50px;">
+                <h2
+                    style="margin-bottom: 30px;text-align: center;background-color: #414df5;padding: 20px;color: white;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> Thêm lịch chiếu
+                </h2>
+                <div class="container-input-group d-flex justify-content-between">
+                    <div class="column">
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Phim ID:</label>
+                            <label id="error-movie-id" style="display: none;color: red;" for="basic-url"> Mã phim
+                                không
+                                tồn tại </label>
+                            <div class="input-group mb-3 input">
+
+                                <input type="text" class="form-control" id="movie-id" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Mã Phòng:</label>
+                            <label id="error-room-id" style="display: none;color: red;" for="basic-url">Mã phòng
+                                không
+                                tồn
+                                tại</label>
+                            <div class="input-group mb-3 input">
+                                <input type="text" class="form-control" id="room-id" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+
+
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Ngày và giờ chiếu :</label>
+                            <div class="input-group mb-3 input">
+                                <input type="time" class="form-control" id="show-start" aria-describedby="basic-addon3"
+                                    placeholder="HH/mm">
+                                <input type="date" placeholder="dd-mm-yyyy" min="1997-01-01" max="2030-12-31"
+                                    class="form-control" id="date" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="column">
+
+
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Tên phim :</label>
+                            <div class="input-group mb-3 input">
+                                <input disabled type="text" class="form-control" id="movie-name"
+                                    aria-describedby="basic-addon3">
+
+                            </div>
+                        </div>
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Rạp:</label>
+                            <div class="input-group mb-3 input">
+                                <input style="width:30%" disabled type="text" class="form-control" id="cinema-name"
+                                    aria-describedby="basic-addon3">
+                                <input disabled type="text" class="form-control" id="room-name"
+                                    aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Thời lượng:</label>
+                            <div class="input-group mb-3 input">
+                                <input type="number" class="form-control" id="during-time"
+                                    aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-button" id="container-button" style="width: 100%; text-align: center;">
+                    <!-- <button class="btn btn-primary button" id="btn-edit"> Xác nhận </button>
+                    <button class="btn btn-danger button" id="btn-exit"> Hủy </button> -->
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <div class="table-showtime" style="width: 100%; margin: 0 auto; max-height: 400px;overflow: auto;">
+        <table style="table-layout: fixed;"id="table">
+            <thead>
+                <tr>
+                    <th>SHOW ID</th>
+                    <th>TÊN PHIM</th>
+                    <th>PHÒNG</th>
+                    <th>RẠP</th>
+                    <th>THỜI GIAN CHIẾU</th>
+                    <th>THỜI LƯỢNG</th>
+                    <th>THAO TAC</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for showTime in showTimeList %}
+                <tr>
+                    <td>{{showTime.showID}}</td>
+
+                    <td>
+                        {% for movie in movieList %}
+                        {% if movie.movieID == showTime.movieID %}
+                        {{movie.movieName}}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+
+
+                    {% for cinema in cinemaList %}
+                    {% if cinema.roomID == showTime.roomID %}
+                    <td>
+                        {{cinema.roomName}}
+
+                    </td>
+                    <td>
+                        {{cinema.cinemaName}}
+                    </td>
+                    {% endif %}
+
+                    {% endfor %}
+
+                    <td>
+                        Ngày : {{showTime.timeStart |date("d/m/Y")}}
+                        <br>
+                        Giờ : {{showTime.timeStart |date('H:i')}}
+                    </td>
+                    <td>{{showTime.duringTime}} phút</td>
+
+                    <td>
+                        <button class="btn" id="editShowTime"> <i class='bx bx-edit editShowTime'
+                                showID="{{showTime.showID}}"></i> </button>
+                        <button class="btn"> <i class='bx bxs-trash-alt delShowTime'></i> </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-</div>
-
+    <div>
+        <h5 style="color: blue;margin: 20px 30px;"><a href="#" id="btn-addShowtime">+ Thêm lịch chiếu </a></h5>
+    </div>
+</section>
 
 
 {% endblock %}
 
 {% block js %}
-<!-- <script src="/js/component/navAdmin.js"></script> -->
 
-<script>
-    // $(document).ready(function(){
-    //     $(".default-option").click(function(){
-    //         $(".dropdown ul").toggleClass("active");
-    //     });
-
-    //     $(".dropdown ul li").click(function(){
-    //         var text = $(this).text();
-    //         $(".default-option").text(text);
-    //         $(".dropdown ul").removeClass("active");
-    //     });
-    // });
-    $("#movie-id").focusout(function () {
-
-        let id = $("#movie-id").val();
-        console.log(id);
-        url = "/adminShowTime/getMovieName";
-
-        $.ajax({
-            dataType: 'json',
-            url: "/adminShowTime/getMovieName",
-            method: "GET",
-            data: {
-                id: id,
-            },
-            success: function (res) {
-                console.log(res);
-                if (Object.keys(res).length == 0) {
-                    $("#error-movie-id").css("display", "inline-block");
-                    $("#movie-name").val("");
-                }
-                else {
-                    $("#error-movie-id").css("display", "none");
-                    $("#movie-name").val(res.movieName);
-                }
-            },
-
-        })
-    })
-    $("#room-id").focusout(function () {
-        let id = $("#room-id").val();
-        $.ajax({
-            dataType: 'json',
-            url: "/adminShowTime/getRoomName",
-            method: "GET",
-            data: {
-                id: id,
-            },
-            success: function (res) {
-                if (Object.keys(res).length == 0) {
-
-                    $("#error-room-id").css("display", "inline-block");
-                    $("#room-name").val("");
-                    $("#cinema-name").val("");
-                }
-                else {
-                    $("#error-room-id").css("display", "none");
-                    $("#room-name").val(res[0].roomName);
-                    $("#cinema-name").val(res[0].cinemaName);
-                }
-            },
-
-        })
-    })
-    $("#btn-comfirm").click(function (e) {
-        e.preventDefault();
-        if ($("#room-name").val() == "" || $("#movie-name").val() == "" || $("#date").val() == "" || $("#show-start").val() == "" || $("#during-time").val() == "") {
-            console.log("error")
-        }
-        else {
-            $.ajax({
-                dataType: 'json',
-                url: "adminShowTime/insert",
-                method: "POST",
-                data: {
-                    movieID: $("#movie-id").val(),
-                    roomID: $("#room-id").val(),
-                    duringtime: $("#during-time").val(),
-                    timeStart: $("#date").val() + " " + $("#show-start").val() + ":00",
-                },
-                success: function (res) {
-                    console.log(res);
-                    Swal.fire({
-                        icon: res.type,
-                        title: res.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    if (res.type == "success") {
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1500);
-                    };
-                },
-            })
-
-        }
-    })
-
-
-</script>
+<script src="/js/admin/eventListenAdminShowTime.js"></script>
 
 {% endblock %}
