@@ -228,74 +228,73 @@ Trang Admin Phim
                 <form  enctype="multipart/form-data">
                     <div class="half-input">
                         <div class="form-group">
-                        <label for="name-movie">Tên phim:</label>
-                        <input type="text" class="form-control" id="name-movie" placeholder="Nhập tên phim">
+                        <label for="name-movie-edit">Tên phim:</label>
+                        <input type="text" class="form-control" id="name-movie-edit" placeholder="Nhập tên phim">
                         </div>
                         <div class="form-group">
-                        <label for="des-movie">Mô tả:</label>
-                        <textarea class="form-control" id="des-movie" rows="3" placeholder="Nhập mô tả chi tiết"></textarea>
+                        <label for="des-movie-edit">Mô tả:</label>
+                        <textarea class="form-control" id="des-movie-edit" rows="3" placeholder="Nhập mô tả chi tiết"></textarea>
                         </div>
                     </div>
                     <div class="half-input">
                         <div class="form-group">
-                            <label for="poster-link">Post Link:</label>
-                            <input type="file" accept="image/*" class="" id="poster-link" name="poster-link" placeholder="Nhập posterLink">
+                            <label for="poster-link-edit">Post Link:</label>
+                            <input type="file" accept="image/*" class="" id="poster-link-edit" name="poster-link-edit" placeholder="Nhập posterLink">
                         </div>
                         <div class="form-group">
-                            <label for="landscape-poster">Landscape Poster:</label>
-                            <input type="file" accept="image/*" class="" id="landscape-poster" name="landscape-poster" placeholder="Nhập poster">
+                            <label for="landscape-poster-edit">Landscape Poster:</label>
+                            <input type="file" accept="image/*" class="" id="landscape-poster-edit" name="landscape-poster-edit" placeholder="Nhập poster">
                         </div>
                     </div>
                     
                     <div class="half-input">
                         <div class="form-group">
-                            <label for="trailer-link">Trailer link:</label>
-                            <input type="text" class="form-control" id="trailer-link" placeholder="Nhập link">
+                            <label for="trailer-link-edit">Trailer link:</label>
+                            <input type="text" class="form-control" id="trailer-link-edit" placeholder="Nhập link">
                         </div>
                         <div class="form-group">
-                            <label for="directors">Tên đạo diễn:</label>
-                            <input type="text" class="form-control" id="directors" placeholder="Nhập tên">
+                            <label for="directors-edit">Tên đạo diễn:</label>
+                            <input type="text" class="form-control" id="directors-edit" placeholder="Nhập tên">
                         </div>
                     </div>
         
                     <div class="half-input">
                     <div class="form-group">
-                        <label for="actors">Diễn viên:</label>
-                        <input type="text" class="form-control " id="actors" placeholder="Nhập tên các diễn viên">
+                        <label for="actors-edit">Diễn viên:</label>
+                        <input type="text" class="form-control " id="actors-edit" placeholder="Nhập tên các diễn viên">
                     </div>
                     <div class="form-group">
-                        <label for="during-time">Thời gian diễn ra:</label>
-                        <input type="number" class="form-control " id="during-time" placeholder="Nhập thời gian">
+                        <label for="during-time-edit">Thời gian diễn ra:</label>
+                        <input type="number" class="form-control " id="during-time-edit" placeholder="Nhập thời gian">
                     </div>
                     </div>
                     
                     <div class="half-input">
                     <div class="form-group">
-                        <label for="datepicker">Ngày chiếu:</label>
-                        <input style= "z-index: 2000;"type="date" class="form-control datepicker" id="datepicker" placeholder="Chọn ngày chiếu">
+                        <label for="datepicker-edit">Ngày chiếu:</label>
+                        <input style= "z-index: 2000;"type="date" class="form-control datepicker" id="datepicker-edit" placeholder="Chọn ngày chiếu">
                     </div>
                     <div class="form-group">
-                        <label for="language">Ngôn ngữ</label>
-                        <input type="text" class="form-control " id="language" placeholder="Nhập ngôn ngữ trong phim">
+                        <label for="language-edit">Ngôn ngữ</label>
+                        <input type="text" class="form-control " id="language-edit" placeholder="Nhập ngôn ngữ trong phim">
                     </div>
                     </div>
 
                     <div class="half-input">
                     <div class="form-group ">
-                        <label for="feature">Feature:</label>
+                        <label for="customSwitches-edit">Feature:</label>
                         <!-- <input style="display: flex; transform: scale(1.5); margin-left: 10px;" type="checkbox"  id="feature"> -->
                         <div class="custom-control custom-switch">
-                
-                        <input type="checkbox" class="custom-control-input" id="customSwitches">
+                        <input type="checkbox" class="custom-control-input" id="customSwitches-edit">
                         <label class="custom-control-label" style="transform: scale(1.2);margin-left: 10px;font-weight: normal;"for="customSwitches">Thêm vào carousel</label>
                         </div>
 
                     </div>
                     <div class="form-group ">
-                        <label for="minAge">Độ tuổi thấp nhất được xem:</label>
-                        <select class="form-control" id="minAge" name="minAge">
+                        <label for="tagID-edit">Độ tuổi thấp nhất được xem:</label>
+                        <select class="form-control" id="tagID-edit" name="tagID-edit">
                           {% for tag in listTags %}
-                              <option>{{tag.minAge}}</option>
+                              <option value="{{ tag.minAge }}">{{tag.minAge}}</option>
                           {% endfor %}
                       </select>
                     </div>

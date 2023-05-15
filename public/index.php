@@ -64,6 +64,8 @@ $app->router->post('/moviesTest', ["controller" => "MoviesController", "action" 
 $app->router->post('/adminQuanLyPhim/ThemPhim', ["controller" => "AdminQuanLyPhimController", "action" => "AddMovie"]);
 $app->router->post('/booking', ["controller"=>"BookingController", "action"=>"isAbleSeats"]);
 $app->router->post('/adminQuanLyPhim/XoaPhim', ["controller" => "AdminQuanLyPhimController", "action" => "DeleteMovie"]);
+$app->router->post('/adminQuanLyPhim/SuaPhim', ["controller" => "AdminQuanLyPhimController", "action" => "UpdateMovie"]);
+
 
 
 $app->router->post('/logout', ["controller" => "LogoutController", "action" => "logoutHandle"]);

@@ -57,8 +57,8 @@ $(document).ready(function(){
         let datePicker = $("#datepicker").val();
         let language = $("#language").val();
         let customSwitches = $("#customSwitches").is(':checked') ? '1' : '0';
-        let tagID = $("select[name='tagID'] option:selected").val();
-       
+        let tagID = $("#Add select[name='tagID'] option:selected").val();
+        console.log(tagID);
 
         formData.append('nameMovie', nameMovie);
         formData.append('desMovie', desMovie);
@@ -156,23 +156,41 @@ $(document).ready(function(){
       $('.edit-film').click(function() {
         $("#Edit").toggle();
         var movieID = $(this).attr("id");
-        console.log(movieID);
-        console.log("nè ba" + movieID);
 
-
-        // $("#btnEditFilm").data("movieID", movieID);
-
+        $("#btnEditFilm").data("movieID", movieID);
 
       $.ajax({
         url: "/adminQuanLyPhim/getMovieID",
         method: "get",
-        processData: false,
-       
+        mimeType: "multipart/form-data",
         data: {
           movieID: movieID,
         },
         success: function(response){
-          console.log(response);
+          let data =  JSON.parse(response);
+
+          $.each(data.movie, function(index, movie) {
+            $('#name-movie-edit').val(movie.movieName);
+            $('#des-movie-edit').val(movie.movieDes);
+              // $('#poster-link-edit').attr('placeholder', movie.posterLink);
+              // $('#landscape-poster-edit').val(movie.landscapePoster );
+            $('#trailer-link-edit').val(movie.trailerLink);
+            $('#directors-edit').val(movie.movieDirectors);
+            $('#actors-edit').val(movie.movieActors);
+            $('#during-time-edit').val(movie.duringTime);
+            $('#datepicker-edit').val(movie.dateRelease.substring(0, 10));
+            $('#language-edit').val(movie.movieLanguage);
+            $('#customSwitches-edit').prop('checked', movie.isFeatured);
+            });
+
+           
+
+            $("#tagID-edit").val(data.minAge[0].minAge);
+
+            $.each(data.listCategory, function(index, category) {
+              $('#Edit #'+category.categoryID).prop('checked', true);
+           });
+
         },
         error: function(err){
           // xử lý khi lỗi
@@ -185,9 +203,76 @@ $(document).ready(function(){
 
       $("#btnEditFilm").click((e) => {
         e.preventDefault();
-        // var movieID = $(e.target).data("movieID");
+        var movieID = $(e.target).data("movieID");
+        var formData = new FormData();
 
-      });
+        let nameMovie = $("#name-movie-edit").val();
+        let desMovie = $("#des-movie-edit").val();
+        let posterLink = $("#poster-link-edit")[0].files[0];     
+        let landscapeLink = $("#landscape-poster-edit")[0].files[0];
+        let trailerLink = $("#trailer-link-edit").val();
+        let directors = $("#directors-edit").val();
+        let actors = $("#actors-edit").val();
+        let duringTime = $("#during-time-edit").val();
+        let datePicker = $("#datepicker-edit").val();
+        let language = $("#language-edit").val();
+        let customSwitches = $("#customSwitches-edit").is(':checked') ? '1' : '0';
+        let minAge = $("#tagID-edit").val(); //chỉ lụm được minAge, cần phải sửa qua tagid
+
+        formData.append('movieID', movieID);
+        formData.append('nameMovie', nameMovie);
+        formData.append('desMovie', desMovie);
+        formData.append('posterLink', posterLink);
+        formData.append('landscapeLink', landscapeLink);
+        formData.append('trailerLink', trailerLink);
+        formData.append('directors', directors);
+        formData.append('actors', actors);
+        formData.append('duringTime', duringTime);
+        formData.append('datePicker', datePicker);
+        formData.append('language', language);
+        formData.append('customSwitches', customSwitches);
+        formData.append('minAge', minAge);
+
+        var checkedInputs = $(".checkboxCategoryEdit");
+        var checkedIds = [];
+        checkedInputs.each(function() {
+          if ($(this).prop('checked')) {
+            checkedIds.push($(this).attr("id"));
+          }
+        });
+
+        formData.append('checkedIds', checkedIds);
+
+
+          $.ajax({
+            url: "/adminQuanLyPhim/SuaPhim",
+            method: "post",
+             processData: false,
+            contentType: false,
+            mimeType: "multipart/form-data",
+            data: formData,
+              
+            success: function(response){
+                // xử lý khi thành công
+                let data =  JSON.parse(response);
+                if(data.status == 1){
+                  location.reload();
+                }
+                if(data.status == 0){
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Vui lòng nhập lại',
+                    text: data.message,
+                });
+                }
+          },
+            error: function(jqXHR, textStatus, errorThrown){
+                // xử lý khi lỗi
+                console.log(textStatus, errorThrown);
+            },
+        });
+
+      });;
     
 
 
