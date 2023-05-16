@@ -9,7 +9,7 @@
 <script src="https://cdn.tutorialjinni.com/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
 <link rel="stylesheet" type="text/css"
     href="https://cdn.tutorialjinni.com/magnific-popup.js/1.1.0/magnific-popup.css" />
-    <script src="/js/admin/search.js"></script>
+<script src="/js/admin/search.js"></script>
 {% endblock %}
 
 {% block title %}
@@ -72,9 +72,10 @@ Trang Admin Phim
 
 
     <form class="container-form"
-        style="position: fixed;width : 100%;height:100%;background-color: #0000004d;display: none;z-index: 8;"
+        style="position: fixed;width : 100%;height:100%;background-color: #0000004d;display: none;z-index: 8;;"
         id="formAdd">
-        <div class="form" style="margin:50px auto  ;background-color: rgb(255, 255, 255);height: 470px;">
+        <div class="form"
+            style="margin:50px auto  ;background-color: rgb(255, 255, 255);height: 470px;overflow-y: auto">
             <div action="/" style="padding: 20px 50px;">
                 <h2
                     style="margin-bottom: 30px;text-align: center;background-color: #414df5;padding: 20px;color: white;">
@@ -146,7 +147,26 @@ Trang Admin Phim
                             </div>
                         </div>
                     </div>
+
                 </div>
+                <h5 class="title" for="basic-url">Loại ghế và giá </h5>
+                <div class="container-input" id="seatList">
+                    <!-- <div class="container-seat" id="container-seat"> -->
+                        <!-- <label class="title" for="basic-url">Loại ghế : </label>
+                            <select>
+                                <option value="0">-----</option>
+                                {% for seat in seatList%}
+                                <option value="{{seat.seatType}}">{{seat.typeName}}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="input-group mb-3 input">
+                                <input type="number" class="form-control seat-price" aria-describedby="basic-addon3">
+                                    <i class="fa-solid fa-x remove-icon" style="margin: 12px;cursor: pointer;"
+                                        id="remove-icon"></i>
+                            </div> -->
+                    <!-- </div> -->
+                </div>
+                <h6 style="margin-left:10px;color: blue;" id="addSeat">+Thêm loại ghế</h6>
                 <div class="container-button" id="container-button" style="width: 100%; text-align: center;">
                     <!-- <button class="btn btn-primary button" id="btn-edit"> Xác nhận </button>
                     <button class="btn btn-danger button" id="btn-exit"> Hủy </button> -->
@@ -159,7 +179,7 @@ Trang Admin Phim
 
 
     <div class="table-showtime" style="width: 100%; margin: 0 auto; max-height: 400px;overflow: auto;">
-        <table style="table-layout: fixed;"id="table">
+        <table style="table-layout: fixed;" id="table">
             <thead>
                 <tr>
                     <th>SHOW ID</th>
@@ -226,5 +246,79 @@ Trang Admin Phim
 {% block js %}
 
 <script src="/js/admin/eventListenAdminShowTime.js"></script>
+<script>
+    $("#addSeat").click(function () {
+                appendSeat()
+                removeSeat()
+    })
+    function disabledSelected() {
+        $('select').on('change', function () {
+            $('option').prop('disabled', false); //reset all the disabled options on every change event
+            $('select').each(function () { //loop through all the select elements
+                var val = this.value;
+                $('select').not(this).find('option').filter(function () { //filter option elements having value as selected option
+                    return this.value === val;
+                }).prop('disabled', true); //disable those option elements
+            });
+        }).change();
+    }
+    function appendSeat() {
+        $("#seatList").append(` <div class="container-seat" id="container-seat">
+                <label class="title" for="basic-url">Loại ghế : </label>
+                <select class="selectType">
+                    <option value="0">-----</option>
+                    {% for seat in seatList%}
+                    <option value="{{seat.seatType}}">{{seat.typeName}}</option>
+                    {% endfor %}
+                  </select>
+                <div class="input-group mb-3 input">
+                    <input type="number" class="form-control seat-price"  aria-describedby="basic-addon3">
+                    <i class="fa-solid fa-x remove-icon" style="margin: 12px;cursor: pointer;" id="remove-icon"></i>
+                </div> 
+            </div>`)
+            removeSeat();
+    }
+    $("#btn-addShowtime").click(function () {
+       
+        document.getElementById("formAdd").reset();
+        document.getElementById("container-button").innerHTML = `   
+            <button class="btn btn-primary button" id="btn-comfirm"> Xác nhận </button>
+            <button class="btn btn-danger button" id="btn-exit"> Hủy </button>`;
+        appendSeat();
+        checkSeatList()
+        btnAddEvent();
+        btnExitEvent();
+        document.getElementById("formAdd").style.display = "flex";
+        $.ajax({
+            url: "adminShowTime/getSeat",
+            method: "GET",
+            data: [
+
+            ],
+            success: function (res) {
+
+            }
+        })
+
+    })
+    function removeSeat(){
+        $(".remove-icon").click(function (e) {
+            $(e.target.parentElement.parentElement).remove();
+            checkSeatList();
+            disabledSelected();
+        })
+        disabledSelected();
+    }
+    function checkSeatList(){
+        if( $(".remove-icon").length == 1){
+                $(".remove-icon").css("display","none")
+            }       
+            else{
+                $(".remove-icon").css("display","static")
+            }
+    }
+
+
+</script>
 
 {% endblock %}

@@ -1,15 +1,7 @@
 let showID;
-    
-$("#btn-addShowtime").click(function () {
-    document.getElementById("formAdd").reset();
-    document.getElementById("container-button").innerHTML = `   
-            <button class="btn btn-primary button" id="btn-comfirm"> Xác nhận </button>
-            <button class="btn btn-danger button" id="btn-exit"> Hủy </button>`
-    btnAddEvent();
-    btnExitEvent();
-    document.getElementById("formAdd").style.display = "flex"
 
-})
+
+
 $(".delShowTime").click(function () {
 
 });
@@ -30,15 +22,26 @@ $(".editShowTime").click(function (e) {
             showID: showID,
         },
         success: function (res) {
+            for (let i = 0; i < res.length; i++) {
+                appendSeat();
+            };
+            checkSeatList();
+            var select = document.getElementsByClassName("selectType");
+            var input = document.getElementsByClassName("seat-price");
+            for (let i = 0; i < res.length; i++) {
+                select[i].value = res[i].seatType;
+                input[i].value = res[i].ticketPrice;
+            }; 
             const [date, showStart] = res[0].timeStart.split(' ');
-            $("#movie-id").val(res[0].movieID)
-            $("#movie-name").val(res[0].movieName)
-            $("#room-id").val(res[0].roomID)
-            $("#cinema-name").val(res[0].cinemaName)
-            $("#room-name").val(res[0].roomName)
-            $("#show-start").val(showStart)
-            $("#date").val(date)
-            $("#during-time").val(res[0].duringTime)
+            $("#movie-id").val(res[0].movieID);
+            $("#movie-name").val(res[0].movieName);
+            $("#room-id").val(res[0].roomID);
+            $("#cinema-name").val(res[0].cinemaName);
+            $("#room-name").val(res[0].roomName);
+            $("#show-start").val(showStart);
+            $("#date").val(date);
+            $("#during-time").val(res[0].duringTime);
+
         }
     })
 
@@ -95,20 +98,33 @@ $("#room-id").focusout(function () {
 })
 function btnExitEvent() {
     $("#btn-exit").click(function (e) {
-        e.preventDefault();
         document.getElementById("formAdd").style.display = "none"
+        $("#seatList").empty();
     });
 }
 function btnEditEvent() {
     $("#btn-edit").click(function (e) {
-        console.log("btn-edit")
         e.preventDefault();
-        console.log(showID);
-        if ($("#room-name").val() == "" || $("#movie-name").val() == "" || $("#date").val() == "" || $("#show-start").val() == "" || $("#during-time").val() == "") {
-            console.log("error")
+        if (checkInput()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Vui lòng nhập đủ các trường dữ liệu',
+                text: 'Something went wrong!',
+            })
+            return;
         }
-
         else {
+            var selected = [];
+            var seatPrice = [];
+            var i = 0;
+            $('select').each(function () { // for each set loại ghế
+                selected[$(this).val()] = $(this).find("option:selected").val();
+            })
+            selected = selected.filter((str) => str !== ''); // loại bỏ empty emlement
+            $('.seat-price').each(function () { // for each set giá ghế
+                seatPrice[i] = $(this).val();
+                i++;
+            })
             $.ajax({
                 dataType: 'json',
                 url: "adminShowTime/edit",
@@ -119,6 +135,8 @@ function btnEditEvent() {
                     roomID: $("#room-id").val(),
                     duringtime: $("#during-time").val(),
                     timeStart: $("#date").val() + " " + $("#show-start").val() + ":00",
+                    seatType: selected,
+                    seatPrice: seatPrice,
                 },
                 success: function (res) {
 
@@ -139,14 +157,61 @@ function btnEditEvent() {
         }
     })
 }
+function checkSeat() {
+
+}
+function checkInput() {
+    let Ischeck;
+
+
+
+    $('select').each(function () {
+        // selected[$(this).val()] = $(this).find("option:selected").text();
+        if (this.value == "0") {
+            Ischeck = true;
+
+        }
+    }
+    )
+    // console.log($(".seat-price"));
+    $(".seat-price").each(function () {
+        // console.log($(this).val())
+        if (this.value == "") {
+            Ischeck = true;
+        }
+    }
+    )
+    if (Ischeck) {
+        return true;
+    }
+    if ($("#room-name").val() == "" || $("#movie-name").val() == "" || $("#date").val() == "" || $("#show-start").val() == "" || $("#during-time").val() == "") {
+        return true
+    }
+}
 function btnAddEvent() {
     $("#btn-comfirm").click(function (e) {
         e.preventDefault();
-        console.log(showID);
-        if ($("#room-name").val() == "" || $("#movie-name").val() == "" || $("#date").val() == "" || $("#show-start").val() == "" || $("#during-time").val() == "") {
-            console.log("error")
+        if (checkInput()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Vui lòng nhập đủ các trường dữ liệu',
+                text: 'Something went wrong!',
+            })
+            return;
         }
         else {
+            var selected = [];
+            var seatPrice = [];
+            var i = 0;
+            $('select').each(function () { // for each set loại ghế
+                selected[$(this).val()] = $(this).find("option:selected").val();
+            })
+            selected = selected.filter((str) => str !== ''); // loại bỏ empty emlement
+            $('.seat-price').each(function () { // for each set giá ghế
+                seatPrice[i] = $(this).val();
+                i++;
+            })
+            // console.log(seatPrice);
             $.ajax({
                 dataType: 'json',
                 url: "adminShowTime/insert",
@@ -156,6 +221,8 @@ function btnAddEvent() {
                     roomID: $("#room-id").val(),
                     duringtime: $("#during-time").val(),
                     timeStart: $("#date").val() + " " + $("#show-start").val() + ":00",
+                    seatType: selected,
+                    seatPrice: seatPrice,
                 },
                 success: function (res) {
                     Swal.fire({

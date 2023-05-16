@@ -3,13 +3,14 @@ namespace app\controller;
 use app\controller\GlobalController;
 use app\model\Movie;
 use app\model\Room;
+use app\model\SeatType;
+use app\model\ShowtimePrice;
 use core\Controller;
 use app\model\MovieCategory;
 use app\model\Cinema;
 use app\model\Showtime;
 use core\Model;
 use core\View;
-
 class AdminShowTimeController extends Controller{
     public function getAdminShowTimePage()
     {
@@ -18,12 +19,14 @@ class AdminShowTimeController extends Controller{
         $showTime = Showtime::findAll();
         $movie = Movie::findAll();
         $cinema = Cinema::query("SELECT room.roomID ,room.roomName, cinema.* FROM room , cinema WHERE room.cinemaID = cinema.cinemaID");
+        $seatList = SeatType::findAll();
         View::renderTemplate('admin/managerShowTime_page.html', [
             "navbar" => $navbar,
             "navAdmin" => $navAdmin,
             "showTimeList" => $showTime,
             "movieList" => $movie,
             "cinemaList" => $cinema,
+            "seatList" => $seatList,
         ]);
     }
     public function getMovieName()
@@ -69,7 +72,19 @@ class AdminShowTimeController extends Controller{
                 exit();
             }
         }
+        $seatType = $_POST["seatType"];
+        $seatPrice= $_POST["seatPrice"];
         Showtime::save($showtime);
+        $showtimeLastID =  Showtime::query("SELECT showtime.showID FROM showtime ORDER by showtime.showID DESC LIMIT 1");
+        for($i = 0 ; $i < count($seatType);$i++){
+            $showtimePrice = new ShowtimePrice();
+            $showtimePrice ->showID =$showtimeLastID[0] -> showID;
+            $showtimePrice ->seatType =$seatType[$i];
+            $showtimePrice ->ticketPrice =$seatPrice[$i];
+            $showtimePrice ->discountID = 1 ; 
+            $showtimePrice ->isDeleted = 0 ; 
+            ShowtimePrice::save($showtimePrice);
+        }
         $message = [];
         $message["message"] = "Thêm thành công";
         $message["status"] = "Dữ liệu đã được thêm vào cơ sở dữ liệu";
@@ -82,7 +97,7 @@ class AdminShowTimeController extends Controller{
     public function editShowTime()
     {
         $showID = $_GET["showID"];
-        $showtime = ShowTime::query("SELECT showtime.showID ,room.roomName , cinema.cinemaName , movie.movieName , movie.movieID , room.roomID,showtime.timeStart,showtime.duringTime from room , cinema , showtime ,movie WHERE room.cinemaID = cinema.cinemaID and showtime.roomID  = room.roomID AND movie.movieID = showtime.movieID AND showtime.showID =$showID");
+        $showtime = ShowTime::query("SELECT showtime.showID ,room.roomName , cinema.cinemaName , movie.movieName , movie.movieID , room.roomID,showtime.timeStart,showtime.duringTime , showtime_price.* ,seat_type.typeName FROM room , cinema , showtime ,movie , showtime_price ,seat_type WHERE showtime_price.showID = showtime.showID and room.cinemaID = cinema.cinemaID and showtime.roomID  = room.roomID AND movie.movieID = showtime.movieID AND showtime.showID =$showID AND seat_type.seatType = showtime_price.seatType; ");
         $json = json_encode($showtime);
         echo $json;
     }
@@ -119,6 +134,18 @@ class AdminShowTimeController extends Controller{
             }
         }
             Showtime::update($showtime,$showID);
+            $seatType = $_POST["seatType"];
+            $seatPrice= $_POST["seatPrice"];
+            Showtime::query("DELETE FROM showtime_price WHERE showtime_price.showID=$showID;");
+            for($i = 0 ; $i < count($seatType);$i++){
+                $showtimePrice = new ShowtimePrice();
+                $showtimePrice ->showID = $showID;
+                $showtimePrice ->seatType =$seatType[$i];
+                $showtimePrice ->ticketPrice =$seatPrice[$i];
+                $showtimePrice ->discountID = 1 ; 
+                $showtimePrice ->isDeleted = 0 ; 
+                ShowtimePrice::save($showtimePrice);
+            }
             $message = [];
             $message["message"] = "Sửa thành công";
             $message["status"] = "Dữ liệu đã được sử trong cơ sở dữ liệu";
