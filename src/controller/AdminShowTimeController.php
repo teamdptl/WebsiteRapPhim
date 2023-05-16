@@ -58,6 +58,16 @@ class AdminShowTimeController extends Controller{
         $ShowTimeStart = date("Y-m-d H:i:s", strtotime($timeStart));
         $ShowTimeEnd = date("Y-m-d H:i:s", strtotime("$timeStart + $duringtime minutes"));
         $showtimecheck = Showtime::query("SELECT showtime.* FROM showtime WHERE showtime.roomID = '$roomID' ;");
+        $movie = Movie::find(Model::UN_DELETED_OBJ,$movieID);
+        if( $showtime->duringTime < $movie->duringTime)
+        {
+            $message["message"] = "Thời gian phải lớn hơn thời lượng phim : $movie->duringTime phút";
+            $message["status"] = "Sửa thời gian phim";
+            $message["type"] = "error";
+            $json = json_encode($message);
+            echo $json;
+            exit();
+        }
         for ($i = 0; $i < count($showtimecheck); $i++) {
             $timeStartCheck = $showtimecheck[$i]->timeStart;
             $duringtimeCheck = $showtimecheck[$i]->duringTime;
@@ -118,6 +128,16 @@ class AdminShowTimeController extends Controller{
         $ShowTimeStart = date("Y-m-d H:i:s", strtotime($timeStart));
         $ShowTimeEnd = date("Y-m-d H:i:s", strtotime("$timeStart + $duringtime minutes"));
         $showtimecheck = Showtime::query("SELECT showtime.* FROM showtime WHERE showtime.roomID = '$roomID' and showtime.showID != $showID ;");
+        $movie = Movie::find(Model::UN_DELETED_OBJ,$movieID);
+        if( $showtime->duringTime < $movie->duringTime)
+        {
+            $message["message"] = "Thời gian phải lớn hơn thời lượng phim : $movie->duringTime phút";
+            $message["status"] = "Sửa thời gian phim";
+            $message["type"] = "error";
+            $json = json_encode($message);
+            echo $json;
+            exit();
+        }
         for ($i = 0; $i < count($showtimecheck); $i++) {
             $timeStartCheck = $showtimecheck[$i]->timeStart;
             $duringtimeCheck = $showtimecheck[$i]->duringTime;
