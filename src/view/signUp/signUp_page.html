@@ -56,16 +56,16 @@ Trang đăng ký
     <div id="container_right">
         <section class="slider owl-carousel owl-theme">
             {% for cinema in listCinema %}
-             <div class="slider-item" style="background-image: url('{{ cinema.url }}')">
+            <div class="slider-item" style="background-image: url('{{ cinema.posterLink }}')">
                 <div class="wraper">
                     <div class="slider-item-text">
-                        <p><span style="font-weight: bold; font-size: 40px;">Tên phim: {{ cinema.title }}</span></p> 
-                            <p style="font-weight: bold; font-size: 25px;">{{cinema.year}} | Mã phim | 2h 10m</p>
-                            <br />
-                        <p>Thể loại: giật giật, đáng ghét</p>
+                        <h3 class="text-white">{{ cinema.movieName }}</h3>
+                        <h5 class="text-white">{{cinema.dateRelease|split(' ')[0]}} | {{ cinema.tag.tagName }} | {{cinema.duringTime}} phút</h5>
+                        <br />
+                        <p style="font-size: 15px">Thể loại: {{ cinema.categoryNames|join(', ') }}</p>
                     </div>
                 </div>
-             </div>
+            </div>
             {% endfor %}
         </section>
     </div>
