@@ -18,11 +18,11 @@ $app->router->get('/hi', "example.html");
 $app->router->get('/test', ["controller"=>"BookingController", "action"=>"getBookingPage"]);
 $app->router->get('/', ["controller"=>"HomeController", "action"=>"homePageRender"]);
 $app->router->get('/name/{name:\w+}', ["controller"=>"HomeController", "action"=>"otherAction"]);
-$app->router->get('/page/{id:\d+}', function($id){ 
+$app->router->get('/page/{id:\d+}', function($id){
     echo "Bạn đang truy cập trang $id";
 });
 
-$app->router->get('/phuc', function(){ 
+$app->router->get('/phuc', function(){
     View::render('dangnhap.php', ["username"=> "Phuc"]);
 });
 
@@ -43,7 +43,18 @@ $app->router->post('/movies/{id:\d+}', ["controller" => "DetailMovieController",
 $app->router->get('/adminQuanLyPhim', ["controller" => "AdminQuanLyPhimController", "action" => "getAdminQuanLyPhim"]);
 $app->router->get('/adminQuanLyPhim/getMovieID', ["controller" => "AdminQuanLyPhimController", "action" => "getOneMovie"]);
 
+// Quản lý người dùng
 $app->router->get('/adminQuanLyTaiKhoan', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "getPage"]);
+$app->router->get('/adminQuanLyTaiKhoan/user', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "findUserBySearch"]);
+$app->router->get('/adminQuanLyTaiKhoan/getUserId', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "getUserId"]);
+$app->router->get('/adminQuanLyTaiKhoan/getAllGroup', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "getAllGroup"]);
+$app->router->post('/adminQuanLyTaiKhoan/deleteUser', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "deleteUser"]);
+$app->router->post('/adminQuanLyTaiKhoan/saveUser', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "saveUser"]);
+$app->router->post('/adminQuanLyTaiKhoan/editUser', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "editUser"]);
+$app->router->post('/adminQuanLyTaiKhoan/recovery', ["controller" => "AdminQuanLyTaiKhoanController", "action" => "accountRecovery"]);
+
+// Thống kê
+$app->router->get("/adminThongKe", ["controller" => "AdminThongKeController", "action" => "getThongKePage"]);
 
 $app->router->get('/profile', ["controller" => "UserProfileController", "action" => "getProfilePage"]);
 $app->router->get('/profile/password', ["controller" => "UserProfileController", "action" => "getProfilePassword"]);

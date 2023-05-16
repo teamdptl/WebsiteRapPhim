@@ -40,6 +40,7 @@ CREATE TABLE TAG(
     minAge INT
 );
 
+-- Lỗi nếu dateRelease không null
 CREATE TABLE MOVIE(
     movieID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     movieName CHAR(255),
@@ -50,7 +51,7 @@ CREATE TABLE MOVIE(
     movieDirectors CHAR(255),
     movieActors CHAR(255),
     duringTime INT,
-    dateRelease TIMESTAMP,
+    dateRelease TIMESTAMP NULL,
     movieLanguage CHAR(255),
     isFeatured boolean,
     tagID INT,
@@ -330,3 +331,6 @@ INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescriptio
 INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/63aaa31525d4c_1672127253.png','CGV COMBO',115000,'1 Large Popcorn + 2 Jumbo Drinks. Redeem on showing date.
 * Free upgrade flavor for Caramel *
 **Surcharge when upgrade Cheese popcorn**',1,false);
+
+
+INSERT INTO `group_permission` (`permissionID`, `groupName`) VALUES ('1', 'Người dùng'), ('2', 'Quản lý');

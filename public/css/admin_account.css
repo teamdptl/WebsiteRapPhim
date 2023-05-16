@@ -12,7 +12,7 @@
     width: 140px;
 }
 
-.admin-user-container .card, .btn{
+.admin-user-container .card, .btn, .remove-item{
     border-radius: 8px !important;
 }
 
@@ -26,4 +26,15 @@
     border-radius: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
     margin-top: 12px;
+}
+
+.hide-text{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.user-item{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border: none !important;
 }

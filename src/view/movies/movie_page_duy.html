@@ -50,13 +50,13 @@ Tìm kiếm phim - SGU Cinema
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="rate-group input-group align-items-center">
-                        <div class="mr-2">Đánh giá: </div>
-                        <select id="rating-select" class="custom-select">
-                            <option value="[0, 10]">Tất cả</option>
-                            <option value="[8, 10]">Cao (8-10)</option>
-                            <option value="[5, 8]">Trung bình (5-8)</option>
-                            <option value="[0, 5]">Thấp (0-5)</option>
+                    <div class="cinema-group input-group align-items-center">
+                        <div class="mr-2">Rạp phim: </div>
+                        <select id="cinema-select" class="custom-select">
+                            <option value="0">Tất cả</option>
+                            {% for cine in cinemas %}
+                                <option value="{{cine.cinemaID}}">{{cine.cinemaName}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="age-section d-flex align-items-center">

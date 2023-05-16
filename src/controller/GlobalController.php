@@ -7,11 +7,14 @@ use core\View;
 
 class GlobalController
 {
-
     public static function getNavbar(){
         $user = Request::$user;
         if ($user != null){
-            $user->isAdmin = false;
+            if ($user->permissionID == 2){
+                $user->isAdmin = true;
+            } else {
+                $user->isAdmin = false;
+            }
         }
         $navItems = [
             1 => [
