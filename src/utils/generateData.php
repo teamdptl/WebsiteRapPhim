@@ -2,9 +2,18 @@
 
 namespace app\utils;
 
+use app\model\Booking;
+use app\model\Food;
+use app\model\FoodBooking;
+use app\model\Movie;
 use app\model\MovieCategory;
 use app\model\Room;
 use app\model\Seat;
+use app\model\SeatShowtime;
+use app\model\SeatType;
+use app\model\Showtime;
+use app\model\ShowtimePrice;
+use app\model\User;
 use Tmdb\Model\Query\Discover\DiscoverMoviesQuery;
 use Tmdb\Repository\DiscoverRepository;
 use Tmdb\Repository\MovieRepository;
@@ -14,6 +23,99 @@ require_once dirname(__DIR__) .'/utils/apikey.php';
 
 generateMovies();
 generateSeats();
+generateShowTimes();
+generateBookings();
+
+function generateShowTimes(){
+    $topMovie = 20;
+    $movies = array_slice(Movie::findAll(), 0, $topMovie);
+    $currentDate = time();
+    $dayRange = [-10, 10];
+    $rooms = Room::findAll();
+    $roomSize = count($rooms) - 1;
+    foreach ($movies as $movie){
+        echo "Đang random cho phim ".$movie->movieName;
+        $numberOfShowTimes = rand(10 , 50);
+        for ($i=0;$i<$numberOfShowTimes;$i++){
+            $showTimes = new Showtime();
+            $showTimes->duringTime = $movie->duringTime;
+            $showTimes->roomID = $rooms[rand(0, $roomSize)]->roomID;
+            $showTimes->movieID = $movie->movieID;
+            $randomRange = rand($dayRange[0], $dayRange[1]);
+            $randomDay = strtotime("$randomRange day", $currentDate);
+            $randomTimestamp = 0;
+            if ($randomDay > $currentDate){
+                $randomTimestamp = rand($currentDate, $randomDay);
+            }
+            else {
+                $randomTimestamp = rand($randomDay, $currentDate);
+            }
+
+            $showTimes->timeStart = date("Y-m-d H:i:s", $randomTimestamp);
+            $showId = Showtime::save($showTimes);
+
+            $seatTypes = SeatType::findAll();
+            foreach ($seatTypes as $type){
+                $seatPrices = new ShowtimePrice();
+                $seatPrices->showID = $showId;
+                $seatPrices->seatType = $type->seatType;
+                if ($type->seatID == 1)
+                    $seatPrices->ticketPrice = 80000;
+                else $seatPrices->ticketPrice = 85000;
+                $seatPrices->discountID = null;
+                ShowtimePrice::save($seatPrices);
+            }
+        }
+    }
+}
+
+function generateBookings(){
+    $showTimes = Showtime::findAll();
+    $foods = Food::findAll();
+    $users = User::where("permissionID = :permissionID", [
+        "permissionID" => 1
+    ]);
+    $perMovieBookings = rand(1, 10);
+    foreach ($showTimes as $show){
+        for ($i = 0;$i<$perMovieBookings;$i++){
+            $numUser = count($users) - 1;
+            $book = new Booking();
+            $randomUser = $users[rand(0, $numUser)];
+            $book->bookName = $randomUser->fullName;
+            $book->bookEmail = $randomUser->email;
+            $book->bookTime = date("Y-m-d H:i:s");
+            $book->userID = $randomUser->userID;
+            $bookID = Booking::save($book);
+            $numberBook = rand(1, 6);
+            $randomSeatType = rand(1, 2);
+            for ($index = 0 ;$index <$numberBook;$index++){
+                $seatShow = new SeatShowtime();
+                $listSeatEmpty = Seat::query("SELECT seat.*, showtime_price.ticketPrice FROM `seat` INNER JOIN showtime ON seat.roomID = showtime.roomID INNER JOIN showtime_price ON showtime_price.seatType = seat.seatType AND showtime_price.showID = showtime.showID WHERE showtime.showID = :showID AND showtime.roomID = :roomID AND seat.seatID NOT IN ( SELECT seatID FROM seat_showtime WHERE seat_showtime.showID = :showID );", [
+                    "showID" => $show->showID,
+                    "roomID" => $show->roomID
+                ]);
+                do {
+                    $randomSeat = $listSeatEmpty[rand(0, count($listSeatEmpty) - 1)];
+                } while ($randomSeat->seatType != $randomSeatType);
+                $seatShow->showID = $show->showID;
+                $seatShow->seatID = $randomSeat->seatID;
+                $seatShow->pickedAt = date('Y-m-d H:i:s');
+                $seatShow->seatPrice = $randomSeat->ticketPrice;
+                $seatShow->userID = $randomUser->userID;
+                $seatShow->bookingID = $bookID;
+                SeatShowtime::save($seatShow);
+            }
+
+            $food = $foods[rand(0, count($foods) - 1)];
+            $foodBook = new FoodBooking();
+            $foodBook->bookingID = $bookID;
+            $foodBook->foodID = $food->foodID;
+            $foodBook->foodPrice = $food->foodPrice;
+            $foodBook->foodUnit = rand(1, 4);
+            FoodBooking::save($foodBook);
+        }
+    }
+}
 
 function generateSeats(){
     // Tạo tự động danh sách ghế

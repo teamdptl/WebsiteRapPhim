@@ -334,3 +334,4 @@ INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescriptio
 
 
 INSERT INTO `group_permission` (`permissionID`, `groupName`) VALUES ('1', 'Người dùng'), ('2', 'Quản lý');
+INSERT INTO `user` (`userID`, `fullName`, `userPassword`, `email`, `isActive`, `createAt`, `permissionID`, `isDeleted`) VALUES (NULL, 'Huỳnh Khánh Duy', '12345678', 'huykhaduy@gmail.com', '1', current_timestamp(), '1', '0'), (NULL, 'Trang Thanh Phúc', '12345678', 'trangthanhphuc91@gmail.com', '1', current_timestamp(), '1', '0'), (NULL, 'Trần Gia Lâm', '12345678', 'zzlam123@gmail.com', '1', current_timestamp(), '1', '0'), (NULL, 'Võ Minh Tuấn', '12345678', 'thao123@gmail.com', '1', current_timestamp(), '1', '0'), (NULL, 'Test User', 'test', 'test', '1', current_timestamp(), '1', '0'), (NULL, 'Test Admin', 'admin', 'admin', '1', current_timestamp(), '2', '0');
