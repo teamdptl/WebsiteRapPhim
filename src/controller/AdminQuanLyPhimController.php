@@ -28,7 +28,22 @@ class AdminQuanLyPhimController extends Controller {
 
         // $oneMovie = Movie::find(1,  $movieID );
 
-   
+        // Số lượng phim hiển thị trên mỗi trang
+        $itemsPerPage = 5;  
+        $totalItems = count($listMovie);
+        $totalPages = ceil($totalItems / $itemsPerPage);
+
+        $currentPage = $_GET['page'] ?? 1;
+        $currentPage = max(1, min($currentPage, $totalPages));
+
+        // Tính toán offset (vị trí bắt đầu của trang hiện tại)
+        $offset = ($currentPage - 1) * $itemsPerPage;
+
+        // Lấy danh sách phim cho trang hiện tại
+        $paginatedMovies = array_slice($listMovie, $offset, $itemsPerPage);
+        $navigationRange = range(max(1, $currentPage - 1), min($currentPage + 1, $totalPages));
+
+        
         
         View::renderTemplate('admin/managerFilm_page.html',[
             "navbar" => $navbar,
@@ -36,6 +51,11 @@ class AdminQuanLyPhimController extends Controller {
             "listMovie" => $listMovie,
             "listCategory" => $listCategory,
             "listTags" => $listTags,
+            "paginatedMovies" => $paginatedMovies,
+            "currentPage" => $currentPage,
+            "totalPages" => $totalPages,
+            "navigationRange" => $navigationRange
+
         ]);
 
     }

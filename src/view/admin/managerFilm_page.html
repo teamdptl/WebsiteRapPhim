@@ -31,8 +31,8 @@ Trang Admin Phim
                         </ul>
                 </div>
                 <div class="search-field">
-                    <input type="text" class="input" placeholder="Tìm kiếm">
-                    <i class='bx bx-search-alt' ></i>
+                    <input type="text" class="input" id="search-input" placeholder="Tìm kiếm">
+                    <i class='bx bx-search-alt' id="search-icon"></i>
                  
                 </div>
             </div>
@@ -55,7 +55,7 @@ Trang Admin Phim
                     </tr>
                 </thead>
                 <tbody>
-                    {% for movie in listMovie %}
+                    {% for movie in paginatedMovies %}
                     <tr >
                         <td>{{movie.movieID}}</td>
                         <td>{{movie.movieName}}</td>
@@ -77,24 +77,56 @@ Trang Admin Phim
 
         <!--Navigation-->
 
+      <!-- Navigation -->
         <nav aria-label="Page navigation example" style="display: flex; align-items: center; justify-content: center;">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
+          <ul class="pagination">
+              {% if currentPage > 1 %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page=1" aria-label="First">
+                          <span aria-hidden="true">&laquo;&laquo;</span>
+                      </a>
+                  </li>
+                  <!-- <li class="page-item">
+                      <a class="page-link" href="?page={{ currentPage - 1 }}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                      </a>
+                  </li> -->
+              {% else %}
+                  <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">&laquo;&laquo;</span>
+                  </li>
+                  <!-- <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">&laquo;</span>
+                  </li> -->
+              {% endif %}
+
+              {% for page in navigationRange %}
+                  <li class="page-item {% if page == currentPage %}active{% endif %}">
+                      <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                  </li>
+              {% endfor %}
+
+              {% if currentPage < totalPages %}
+                  <!-- <li class="page-item">
+                      <a class="page-link" href="?page={{ currentPage + 1 }}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                      </a>
+                  </li> -->
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ totalPages }}" aria-label="Last">
+                          <span aria-hidden="true">&raquo;&raquo;</span>
+                      </a>
+                  </li>
+              {% else %}
+                  <!-- <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">&raquo;</span>
+                  </li> -->
+                  <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">&raquo;&raquo;</span>
+                  </li>
+              {% endif %}
+          </ul>
         </nav>
-        
         <!-- Modal Delete-->
 
         <div class="modal modal-delete" tabindex="-1" role="dialog" >

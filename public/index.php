@@ -46,6 +46,7 @@ $app->router->get('/adminQuanLyPhim/getMovieID', ["controller" => "AdminQuanLyPh
 $app->router->get('/profile', ["controller" => "UserProfileController", "action" => "getProfilePage"]);
 $app->router->get('/profile/password', ["controller" => "UserProfileController", "action" => "getProfilePassword"]);
 
+
 $app->router->get('/{error:\S+}', function($error){
     $navBar = \app\controller\GlobalController::getNavbar();
     View::renderTemplate("/template/404.html", [
