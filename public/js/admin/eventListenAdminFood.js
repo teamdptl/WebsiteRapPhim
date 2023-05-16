@@ -82,18 +82,29 @@ function btnEditEvent() {
 }
 function btnAddEvent() {
     $("#btn-comfirm").click(function (e) {
+        
         e.preventDefault();
-        if ($("#food-name").val() == "" || $("#image").val() == "" || $("#price").val() == "" || $("#discountID").val() == "" || $("#descrip").val() == "") {
-            console.log("error")
+      
+    
+
+        if ($("#food-name").val() == "" || $("#image").val() == "" || $("#price").val() == ""  || $("#descrip").val() == "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Vui lòng nhập đủ các trường dữ liệu',
+                text: 'Something went wrong!',
+            })
+            return;
         }
         else {
+            var image = $("#image").val();
+            var imageName = image.split("fakepath\\");
             $.ajax({
                 dataType: 'json',
                 url: "adminFood/insert",
                 method: "POST",
                 data: {
                     foodName : $("#food-name").val(),
-                    image :$("#image").val(),
+                    image :imageName[1],
                     price :$("#price").val(),
                     discountID :$("#discountID").val(),
                     descrip :$("#descrip").val(),
@@ -116,3 +127,13 @@ function btnAddEvent() {
         }
     })
 }
+
+const images = document.querySelectorAll('img');
+
+images.forEach(img => {
+  img.addEventListener('error', function handleError() {
+    const defaultImage =
+      'https://bobbyhadz.com/images/blog/javascript-show-div-on-select-option/banner.webp';
+      img.setAttribute("src",defaultImage) 
+  });
+});

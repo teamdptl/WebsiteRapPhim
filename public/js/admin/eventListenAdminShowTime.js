@@ -46,7 +46,10 @@ $(".editShowTime").click(function (e) {
     })
 
 });
-$("#movie-id").focusout(function () {
+$("#movie-id").focusout(function(){
+    eventGetMovieName()
+});
+function eventGetMovieName(){
     let id = $("#movie-id").val();
     console.log(id);
     url = "/adminShowTime/getMovieName";
@@ -70,8 +73,11 @@ $("#movie-id").focusout(function () {
         },
 
     })
-})
+}
 $("#room-id").focusout(function () {
+    eventGetCinemaName();
+})
+function eventGetCinemaName(){
     let id = $("#room-id").val();
     $.ajax({
         dataType: 'json',
@@ -95,7 +101,7 @@ $("#room-id").focusout(function () {
         },
 
     })
-})
+}
 function btnExitEvent() {
     $("#btn-exit").click(function (e) {
         document.getElementById("formAdd").style.display = "none"
