@@ -27,7 +27,7 @@ class AdminFoodController extends Controller
         $food->foodName = $_POST["foodName"];
         $food->foodImage = $_POST["image"];
         $food->foodPrice = $_POST["price"];
-        $food->discountID = $_POST["discountID"];
+        $food->discountID =1;
         $food->foodDescription = $_POST["descrip"];
         $food->isDeleted = 0;
         Food::save($food);
@@ -47,7 +47,6 @@ class AdminFoodController extends Controller
     }
     public function updateFood()
     {
-
         $food = new Food();
         $foodID = $_POST["foodID"];
         $food->foodName = $_POST["foodName"];
@@ -58,7 +57,7 @@ class AdminFoodController extends Controller
             $food->foodImage = $_POST["image"];
         }
         $food->foodPrice = $_POST["price"];
-        $food->discountID = $_POST["discountID"];
+        $food->discountID = 1;
         $food->foodDescription = $_POST["descrip"];
         $food->isDeleted = 0;
         Food::update($food, $foodID);
