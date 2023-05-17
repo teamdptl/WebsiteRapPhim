@@ -34,14 +34,15 @@ class AdminQuanLyPhimController extends Controller {
         $totalPages = ceil($totalItems / $itemsPerPage);
 
         $currentPage = $_GET['page'] ?? 1;
-        $currentPage = max(1, min($currentPage, $totalPages));
+        // $currentPage = max(1, min($currentPage, $totalPages));
 
         // Tính toán offset (vị trí bắt đầu của trang hiện tại)
         $offset = ($currentPage - 1) * $itemsPerPage;
 
         // Lấy danh sách phim cho trang hiện tại
         $paginatedMovies = array_slice($listMovie, $offset, $itemsPerPage);
-        $navigationRange = range(max(1, $currentPage - 1), min($currentPage + 1, $totalPages));
+        //Lấy danh sách navigation
+        $navigationRange = range(max(1, $currentPage - 1), min($currentPage + 2, $totalPages));
 
         
         
