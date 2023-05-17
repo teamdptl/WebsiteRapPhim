@@ -168,13 +168,26 @@ class AdminShowTimeController extends Controller{
             }
             $message = [];
             $message["message"] = "Sửa thành công";
-            $message["status"] = "Dữ liệu đã được sử trong cơ sở dữ liệu";
+            $message["status"] = "Dữ liệu đã được sửa trong cơ sở dữ liệu";
+            $message["type"] = "success";
+            $json = json_encode($message);
+            echo $json;
+            exit();
+        }
+        public function delShowTime(){
+            $showID = $_POST["showID"];
+            Showtime::delete($showID);
+            ShowtimePrice::delete($showID);
+            $message = [];
+            $message["message"] = "Xóa thành công";
+            $message["status"] = "Dữ liệu đã được xóa trong cơ sở dữ liệu";
             $message["type"] = "success";
             $json = json_encode($message);
             echo $json;
             exit();
         }
     }
+   
 
 
 ?>
