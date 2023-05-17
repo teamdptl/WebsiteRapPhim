@@ -73,8 +73,8 @@ class AdminThongKeController
         return $date;
     }
 
-    public function filterBookings($timeStart, $timeEnd): array {
-        $bookings = Booking::where("bookTime >= :timeStart AND bookTime <= :timeEnd", [
+    public function filterBookings($timeStart, $timeEnd, $sortType="ASC"): array {
+        $bookings = Booking::where("bookTime >= :timeStart AND bookTime <= :timeEnd ORDER BY bookTime $sortType", [
             "timeStart" => $timeStart,
             "timeEnd" => $timeEnd
         ]);
@@ -125,7 +125,7 @@ class AdminThongKeController
                         "bookingID" => $book->bookingID,
                     ]
                 );
-                $cine->ticketNumbers = count($seatShowTimes);
+                $cine->ticketNumbers = count($seatShowTimes) ?? 0;
                 foreach($seatShowTimes as $ticket){
                     $cine->doanhThuRap += $ticket->seatPrice;
                 }

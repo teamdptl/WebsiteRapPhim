@@ -19,10 +19,16 @@
 .event-content{
     gap: 30px;
     padding: 40px 30px 25px 30px;
+    justify-content: center;
 }
 
 .event-item{
     flex-basis: calc((100% - 30*2px)/3);
+}
+
+.event-image img{
+    aspect-ratio: 16/9;
+    max-width: 330px;
 }
 
 a{

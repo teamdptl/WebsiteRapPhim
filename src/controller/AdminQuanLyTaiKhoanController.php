@@ -129,7 +129,7 @@ class AdminQuanLyTaiKhoanController
         $fullName = $_POST["fullName"] ?? "";
         $email = $_POST["email"] ?? "";
         $userPassword = $_POST["userPassword"] ?? "";
-        $isActive = $_POST["isActive"] ?? "1";
+        $isActive = isset($_POST["isActive"]) ? (int) $_POST["isActive"] : 1;
         $permissionId = $_POST["permission"] ?? "1";
         $user = new User();
         $user->userID = $userId;

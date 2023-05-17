@@ -56,6 +56,9 @@ $app->router->post('/adminQuanLyTaiKhoan/recovery', ["controller" => "AdminQuanL
 // Thống kê
 $app->router->get("/adminThongKe", ["controller" => "AdminThongKeController", "action" => "getThongKePage"]);
 
+// Quản lý đơn hàng
+$app->router->get("/adminDonHang", ["controller" => "AdminOrderController", "action" => "getOrderPage"]);
+
 $app->router->get('/profile', ["controller" => "UserProfileController", "action" => "getProfilePage"]);
 $app->router->get('/profile/password', ["controller" => "UserProfileController", "action" => "getProfilePassword"]);
 

@@ -10,65 +10,35 @@
             <i class='bx bx-menu' id="btn" ></i>
         </div>
         <ul class="nav-list">
-          <li>
-            <a href="#" class="selected">
-              <i class='bx bx-movie bx-tada bx-rotate-90' ></i>
-              <span class="links_name">Quản lý phim</span>
-            </a>
-             <span class="tooltip">Quản lý phim</span>
-          </li>
-          <li>
-           <a href="#" >
-            <i class='bx bx-calendar-week bx-tada' ></i>
-             <span class="links_name">Quản lý lịch chiếu</span>
-           </a>
-           <span class="tooltip">Quản lý lịch chiếu</span>
-         </li>
-         <li>
-           <a href="#" >
-            <i class='bx bx-food-menu bx-tada' ></i>
-             <span class="links_name">Quản lý thức ăn</span>
-           </a>
-           <span class="tooltip">Quản lý thức ăn</span>
-         </li>
-         <li>
-           <a href="#">
-            <i class='bx bx-wallet-alt bx-tada' ></i>
-             <span class="links_name">Hóa đơn, giảm giá</span>
-           </a>
-           <span class="tooltip">Quản lý hóa đơn, giảm giá</span>
-         </li>
-         <li>
-           <a href="#" >
-            <i class='bx bxs-user-account bx-tada' ></i>
-             <span class="links_name">Quản lý tài khoản</span>
-           </a>
-           <span class="tooltip">Quản lý tài khoản</span>
-         </li>
-         <li>
-           <a href="#" >
-            <i class='bx bx-group bx-tada' ></i>
-             <span class="links_name">Quản lý quyền</span>
-           </a>
-           <span class="tooltip">Quản lý quyền</span>
-         </li>
-         <li>
-           <a href="#" >
-            <i class='bx bx-pie-chart-alt-2 bx-tada' ></i>
-             <span class="links_name">Thống kê</span>
-           </a>
-           <span class="tooltip">Thống kê</span>
-         </li>
-         
+            {% for item in navItems%}
+                {% if path == item.navHref %}
+                <li>
+                    <a href="{{item.navHref}}" class="selected">
+                        <i class='{{item.icon}}' ></i>
+                        <span class="links_name">{{ item.navContent }}}</span>
+                    </a>
+                    <span class="tooltip">{{item.navContent}}</span>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{{item.navHref}}">
+                        <i class='{{item.icon}}' ></i>
+                        <span class="links_name">{{ item.navContent }}}</span>
+                    </a>
+                    <span class="tooltip">{{item.navContent}}</span>
+                </li>
+                {% endif %}
+            {% endfor %}
+
          <li class="profile">
              <div class="profile-details">
                <img src="/assets/adminImage.png" alt="profileImg">
                <div class="name_job">
-                 <div class="name">Khánh Duy</div>
-                 <div class="job">Admin</div>
+                 <div class="name">{{user.fullName}}</div>
+                 <div class="job">{{ user.isAdmin ? "Quản lý":"Khánh hàng"}}</div>
                </div>
              </div>
-             <i class='bx bx-log-out' id="log_out" ></i>
+             <i class='bx bx-log-out' id="log_out"></i>
          </li>
         </ul>
       </div>

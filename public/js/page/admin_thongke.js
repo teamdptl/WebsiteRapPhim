@@ -1,53 +1,49 @@
-// First, define your chart data
-// const chartData = {
-//     labels: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07','2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-01-07', '2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06', '2022-03-02' ],
-//     datasets: [{
-//         label: 'My Dataset',
-//         data: [10, 20, 30, 40, 50, 60, 70, 10, 20, 30, 40, 50, 60, 70, 10, 20, 30, 40, 50, 60, 70, 10, 20, 30, 40, 50, 60, 70, 10, 20, 30, 40, 50, 60, 70, 10, 20, 30, 40, 50, 60, 70, 10, 20, 30, 40, 50, 60, 70, 10, 20, 30, 40, 50, 60, 70],
-//         fill: false,
-//         borderColor: 'rgb(75, 192, 192)',
-//         tension: 0.1
-//     }]
-// };
-//
-// // Create a function to filter the data based on a date range
-// function filterDataByDateRange(chartData, startDate, endDate) {
-//     const labels = chartData.labels.filter((label) => {
-//         return label >= startDate && label <= endDate;
-//     });
-//
-//     const datasets = chartData.datasets.map((dataset) => {
-//         return {
-//             ...dataset,
-//             data: dataset.data.slice(labels.indexOf(startDate), labels.indexOf(endDate) + 1)
-//         };
-//     });
-//
-//     return {
-//         labels,
-//         datasets
-//     };
-// }
-//
-// // Set the start and end dates for the date range
-// const startDate = '2022-01-02';
-// const endDate = '2022-01-05';
-//
-// // Filter the chart data by the date range
-// const filteredData = filterDataByDateRange(chartData, startDate, endDate);
-//
-// // Create the Chart.js chart with the filtered data
-// const ctx = document.getElementById('myChart').getContext('2d');
-// const myChart = new Chart(ctx, {
-//     type: 'line',
-//     data: filteredData,
-//     options: {
-//         plugins: {
-//             scrollbar: {
-//                 enabled: true,
-//                 axis: 'x',
-//                 scrollbarMaxHeight: 10
-//             }
-//         }
-//     }
-// });
+function sortMovie(columnIndex, sortType = 2){
+    let table = document.querySelector("#tablePhim");
+    sortTable(table, columnIndex, sortType);
+}
+
+function sortRap(columnIndex, sortType = 2){
+    let table = document.querySelector("#tableRap");
+    sortTable(table, columnIndex, sortType);
+}
+
+function sortTable(table, columnIndex, sortType = 2) {
+    let rows = Array.from(table.getElementsByTagName("tr"));
+    let header = rows.shift(); // Remove the table header row from the array
+    // Determine the sorting order (ascending or descending) based on the current column state
+    let sortAscending = true;
+    if (header.children[columnIndex].dataset.sort === "asc") {
+        sortAscending = false;
+    }
+    // Sort the rows based on the column values
+    rows.sort(function(a, b) {
+        let aValue = a.children[columnIndex].innerText;
+        let bValue = b.children[columnIndex].innerText;
+        if (sortType === 1){
+            if (sortAscending) {
+                return parseInt(bValue) - parseInt(aValue);
+            } else {
+                return parseInt(aValue) - parseInt(bValue);
+            }
+        }
+        else {
+            if (sortAscending) {
+                return aValue.localeCompare(bValue);
+            } else {
+                return bValue.localeCompare(aValue);
+            }
+        }
+    });
+
+
+    // Update the table with the sorted rows
+    let tbody = table.getElementsByTagName("tbody")[0];
+    tbody.innerHTML = "";
+    rows.forEach(function(row) {
+        tbody.appendChild(row);
+    });
+
+    // Update the sort indicator in the header
+    header.children[columnIndex].dataset.sort = sortAscending ? "asc" : "desc";
+}

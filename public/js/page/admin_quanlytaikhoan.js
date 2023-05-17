@@ -128,7 +128,7 @@ $("#btnSave").click(function(){
         fullName: $("#fullName").val() ?? "",
         email: $("#email").val() ?? "",
         userPassword: $("#password").val() ?? "",
-        isActive: $("#isActive").val() ?? true,
+        isActive: $("#user-active").is(":checked"),
         permission: $("#userGroup").val(),
     }
     if (isCurrentAdd === true){

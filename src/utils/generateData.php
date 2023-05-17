@@ -24,7 +24,7 @@ require_once dirname(__DIR__) .'/utils/apikey.php';
 generateMovies();
 generateSeats();
 generateShowTimes();
-generateBookings();
+//generateBookings();
 
 function generateShowTimes(){
     $topMovie = 20;
@@ -59,7 +59,7 @@ function generateShowTimes(){
                 $seatPrices = new ShowtimePrice();
                 $seatPrices->showID = $showId;
                 $seatPrices->seatType = $type->seatType;
-                if ($type->seatID == 1)
+                if ($type->seatType == 1)
                     $seatPrices->ticketPrice = 80000;
                 else $seatPrices->ticketPrice = 85000;
                 $seatPrices->discountID = null;
