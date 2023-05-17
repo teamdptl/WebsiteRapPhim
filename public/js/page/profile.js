@@ -1,16 +1,18 @@
 function viewDetailBooking(booking){
     var bookingID = Number(booking.getAttribute('bookingID'));
+    var isPaid = booking.getAttribute('isPaid');
     
     $.ajax({
         url:'',
         method: 'POST',
         data: {
-            bookingID:bookingID
+            bookingID:bookingID,
+            isPaid:Boolean(isPaid)
         },
         success:function(respone){
             var dataJson = JSON.parse(respone);
             if(dataJson != []){
-                renderDetailBooking(dataJson);
+                renderDetailBooking(dataJson, isPaid);
             }else{
                 alert("Booking id:" +bookingID + " not exist!");
             }
@@ -18,7 +20,7 @@ function viewDetailBooking(booking){
     })
 }
 
-function renderDetailBooking(data){
+function renderDetailBooking(data, isPaid){
     var popUpContainer = document.querySelector('.popUp-container');
     var imageMovie = document.querySelector('#movie-image');
     var cinemaName = document.querySelector('#cinema-name');
@@ -30,6 +32,7 @@ function renderDetailBooking(data){
     var costSeat = document.querySelector('#ticket-cost');
     var costFood = document.querySelector('#food-cost');
     var costTotal = document.querySelector('#total-cost');
+    var statusBooking = document.querySelector('.status-booking');
 
     cinemaName.innerHTML = data['cinema']['cinemaName'];
     movieName.innerHTML = data['movie']['movieName'];
@@ -46,6 +49,12 @@ function renderDetailBooking(data){
                         <div class="food-name w-260px">${data['foodList'][i]['foodName']}</div>
                         <div class="food-quantity w-20px fl-r-center">${data['foodList'][i]['foodUnit']}</div>
                         </div>`
+    }
+
+    if(data['isPaid']){
+        statusBooking.innerHTML = "Hóa đơn đã thanh toán thành công! <i class='bx bx-check' style='color:#13e502'></i>";
+    }else{
+        statusBooking.innerHTML = "Đang chờ kiểm duyệt! <i class='bx bx-loader-circle' style='color:#f8cb08'  ></i>";
     }
     tbFood.innerHTML = htmlTbFood;
     popUpContainer.style.display = "flex";

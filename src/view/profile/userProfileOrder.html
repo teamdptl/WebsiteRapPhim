@@ -10,6 +10,7 @@
     {% else %}
         {% for booking in listBooking %}
             <div class="order-container w-100" bookingID="{{booking.bookingID}}" onclick="viewDetailBooking(this);">
+                <input type="hidden" name="ispaid-booking" id="ispaid-booking">
                 <div class="order-item">
                     <div class="left">
                         <img class="order-img" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2{{booking.movie.posterLink}}">

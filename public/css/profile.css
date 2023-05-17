@@ -143,6 +143,10 @@
     width: 260px;
 }
 
+.w-220px{
+    width: 200px;
+}
+
 .t-bd{
     border-top: 1px dotted black;
 }
@@ -157,4 +161,10 @@
 
 .mg-t-40{
     margin-top: 40px;
+}
+
+.fl-r-lf{
+    display: flex;
+    justify-content:flex-end;
+    align-items: center;
 }
