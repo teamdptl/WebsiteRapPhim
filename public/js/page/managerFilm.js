@@ -9,8 +9,8 @@ $(document).ready(function(){
         $(".dropdown ul").removeClass("active");
     });
 
-    
-  
+
+
 
     // Lắng nghe sự kiện khi click vào nút đóng (x) hoặc nút Đóng
     $('.close, .btn-secondary').click(function() {
@@ -24,10 +24,10 @@ $(document).ready(function(){
       $("#Add").toggle();
     });
 
-   
 
 
 
+    
     // Khi click bên ngoài modal, đóng modal
     $(window).on('click', function(event) {
         if ($(event.target).is('.modal')) {
@@ -276,7 +276,35 @@ $(document).ready(function(){
             },
         });
 
-      });;
+      });
+
+      $('#search-icon').click(function () {
+        performSearch();
+    });
+
+    // Bắt sự kiện nhấn Enter trong ô input
+        $('#search-input').keydown(function (event) {
+            if (event.which === 13) {
+                event.preventDefault(); // Ngăn không cho trang tải lại
+                performSearch();
+            }
+        });
+
+        // Hàm thực hiện tìm kiếm
+        function performSearch() {
+            var keyword = $('#search-input').val();
+            console.log(keyword);
+
+            $.ajax({
+                url: '/adminQuanLyPhim/TimKiem',
+                type: 'GET',
+                data: { keyword: keyword },
+                success: function (result) {
+                    // $('#search-input').val(result);
+                }
+            });
+        }
+   
     
 
 
