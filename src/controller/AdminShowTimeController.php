@@ -127,7 +127,7 @@ class AdminShowTimeController extends Controller{
         $showtime->isDeleted = "0";
         $ShowTimeStart = date("Y-m-d H:i:s", strtotime($timeStart));
         $ShowTimeEnd = date("Y-m-d H:i:s", strtotime("$timeStart + $duringtime minutes"));
-        $showtimecheck = Showtime::query("SELECT showtime.* FROM showtime WHERE showtime.roomID = '$roomID' and showtime.showID != $showID ;");
+        $showtimecheck = Showtime::query("SELECT showtime.* FROM showtime WHERE showtime.roomID = '$roomID' and showtime.showID != $showID and showtime.isDeleted = 0;");
         $movie = Movie::find(Model::UN_DELETED_OBJ,$movieID);
         if( $showtime->duringTime < $movie->duringTime)
         {
@@ -176,7 +176,7 @@ class AdminShowTimeController extends Controller{
         }
         public function delShowTime(){
             $showID = $_POST["showID"];
-            Showtime::delete(true,$showID);
+            Showtime::delete(false,$showID);
             ShowtimePrice::delete(true,$showID);
             $message = [];
             $message["message"] = "Xóa thành công";

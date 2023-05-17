@@ -8,6 +8,9 @@ $("#tableMovie tr").click(function(){
 $("#showList").click(function(){
     $("#formMovie").css("display","block")
 })
+$("#exit-formMovie").click(function(){
+    $("#formMovie").css("display","none")
+})
 
 $("#tableCinema tr").click(function(){
     var $id =$(this).closest("tr").attr("roomID")
@@ -19,4 +22,7 @@ $("#tableCinema tr").click(function(){
 $("#showListCinema").click(function(){
     $("#formCinema").css("display","block")
    
+})
+$("#exit-formCinema").click(function(){
+    $("#formCinema").css("display","none")
 })

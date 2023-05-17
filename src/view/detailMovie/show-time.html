@@ -18,7 +18,11 @@
         class="showsTime col-sm-6 col-md-8  d-flex flex-wrap flex-row align-item-center align-content-center justify-content-md-start align-items-sm-center justify-content-sm-center">
         {% for showsTime in showtimeList %}
         {% if showsTime.cinemaID == cinema.cinemaID %}
+<<<<<<< HEAD
         <button class="button  btn col-2 pd-1 m-1 ml-3" showID="{{showsTime.showID}}" onclick="sendShowIDToPHP(this);">{{showsTime.timeStart|date('H:i')}}</button>
+=======
+        <button class="button-showtime btn col-md-2 col-sm-5  pd-md-1 m-1 ml-3">{{showsTime.timeStart|date('H:i')}}</button>
+>>>>>>> 9d8a0fa4cb9da50445858c8d5fef387fc399f30e
         {% endif %}
         {% endfor %}
     </div>
