@@ -28,7 +28,8 @@ class UserProfileController
             $userID = Request::$user->userID;
             $bookingList = Booking::where("userID = :userID", ["userID" => $userID]) ?? [];
             foreach($bookingList as $booking){
-                array_push($listBookingArr, self::getInfoRelateToBooking($booking->bookingID));
+                // echo json_encode(self::getInfoRelateToBooking($booking->bookingID, $booking->isPaid));
+                array_push($listBookingArr, self::getInfoRelateToBooking($booking->bookingID, $booking->isPaid));
             }
         }
 
@@ -77,14 +78,15 @@ class UserProfileController
 
     public function detailBooking(){
         $bookingID = $_POST['bookingID'] ?? 0;
+        $isPaid = $_POST['isPaid'] ?? false;
         if($bookingID == 0){
             echo jsone_encode(array());
         }else{
-            echo json_encode(self::getInfoRelateToBooking($bookingID));
+            echo json_encode(self::getInfoRelateToBooking($bookingID, $isPaid));
         }
     }
 
-    public function getInfoRelateToBooking($bookingID){
+    public function getInfoRelateToBooking($bookingID, $isPaid){
         $seatListName = '';
         $foodList = [];
         $seatPrice = 0;
@@ -130,8 +132,9 @@ class UserProfileController
                         $total = self::formatNumberToMoney($total) ."đ";
                         $foodPrice = self::formatNumberToMoney($foodPrice) ."đ";
                         $seatPrice = self::formatNumberToMoney($seatPrice) ."đ";
-                        $time = date('H:i d/m/Y', strtotime($showtime->timeStart));  
-                        return array("movie" => $movie, "cinema" => $cinema, "room" => $room, "seatListName" => $seatListName, "time" => $time, "total" => $total, "foodList" => $foodList, "bookingID" => $bookingID, "foodPrice" => $foodPrice, "seatPrice" => $seatPrice);
+                        $time = date('H:i d/m/Y', strtotime($showtime->timeStart));
+                        json_encode($isPaid);  
+                        return array("movie" => $movie, "cinema" => $cinema, "room" => $room, "seatListName" => $seatListName, "time" => $time, "total" => $total, "foodList" => $foodList, "bookingID" => $bookingID, "isPaid" => $isPaid, "foodPrice" => $foodPrice, "seatPrice" => $seatPrice);
                     }
                 }
             }    

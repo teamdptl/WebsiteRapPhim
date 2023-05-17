@@ -284,6 +284,7 @@ class BookingController extends Controller{
             $booking->bookEmail = Request::$user->email;     
             $booking->bookTime = date('Y-m-d H:i:s');
             $booking->methodPay = $methodPay;
+            $booking->isPaid = false;
             $booking->userID = $userID;
             $booking->isDeleted = false;
             $bookingID = Booking::save($booking);
