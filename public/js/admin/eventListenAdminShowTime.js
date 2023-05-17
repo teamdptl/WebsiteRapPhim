@@ -22,8 +22,17 @@ $(".delShowTime").click(function (e) {
                     showID: showID,
                 },
                 success: function (res) {
-                   
-                  console.log(res)
+                    Swal.fire({
+                        icon: res.type,
+                        title: res.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    if (res.type == "success") {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    };
         
                 }
             })

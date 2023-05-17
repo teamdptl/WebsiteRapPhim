@@ -69,6 +69,18 @@ class AdminFoodController extends Controller
         echo $json;
         exit();
     }
+    public function delFood(){
+        $foodId = $_POST["foodID"];
+        Food::delete(true, $foodId);
+        $message = [];
+        $message["message"] = "Xóa thành công";
+        $message["status"] = "Dữ liệu đã được xóa trong cơ sở dữ liệu";
+        $message["type"] = "success";
+        $json = json_encode($message);
+        echo $json;
+        exit();
+
+    }
 }
 
 
