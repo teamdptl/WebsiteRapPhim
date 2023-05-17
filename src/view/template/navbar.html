@@ -48,7 +48,7 @@
                             <a class="dropdown-item" href="#"> Truy cập trang quản trị</a>
                             {% else %}
                             <a class="dropdown-item" href="#">Thông tin tài khoản</a>
-                            <a class="dropdown-item" href="#">Đơn hàng đã đặt</a>
+                            <a class="dropdown-item" href="/profile">Đơn hàng đã đặt</a>
                             {% endif %}
                             <div class="dropdown-divider"></div>
                             <form  id="logout" method="POST" action="/logout">
@@ -61,7 +61,7 @@
                     <button class="btn text-primary outline-primary btn-sm mr-2 font-weight-500 btn-action d-flex align-items-center p-0" style="width: 100px">
                         <a href="/signin" class="text-decoration-none w-100 py-2 px-2">Đăng nhập</a>
                     </button>
-                    <button class="btn btn-primary btn-sm font-weight-500 btn-action d-flex align-items-center p-0">
+                    <button class="btn btn-primary btn-sm font-weight-500 btn-action d-flex align-items-center p-0" style="width: 100px">
                         <a href="/signup" class="text-white text-decoration-none w-100 py-2 px-2">Đăng kí</a>
                     </button>
                     {% endif %}

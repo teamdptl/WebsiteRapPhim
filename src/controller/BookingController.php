@@ -29,8 +29,7 @@ class BookingController extends Controller{
 
         $navbar = GlobalController::getNavbar();
 
-        // $showID = $_POST['showID'];
-        $showID = 1;
+        $showID = $_GET['showID'];
         $g_showtime = Showtime::find(Model::UN_DELETED_OBJ, $showID);
         
         //Check if showtime != null
@@ -187,7 +186,7 @@ class BookingController extends Controller{
     public function handleInfoForPaymentPage(){
         $listFoodJSON = $_POST['listFood'] ?? [];
         $listSeatJSON = $_POST['listRealCheckedID'] ?? [];
-        $showID = $_POST['showID'] ?? 1;
+        $showID = $_POST['showID'] ?? 0;
         $status = 1;
         $message = 'Something went wrong!';
         $foodPrice = 0;
@@ -281,9 +280,9 @@ class BookingController extends Controller{
             //Tạo hóa đơn
             $booking = new Booking();
             $booking->bookingID = 0;
-            $booking->bookingName = '';
-            $booking->bookingEmail = Request::$user->email;     
-            $booking->bookingTime = date('Y-m-d H:i:s');
+            $booking->bookName = '';
+            $booking->bookEmail = Request::$user->email;     
+            $booking->bookTime = date('Y-m-d H:i:s');
             $booking->methodPay = $methodPay;
             $booking->userID = $userID;
             $booking->isDeleted = false;

@@ -160,6 +160,7 @@ CREATE TABLE BOOKING(
     bookEmail CHAR(255),
     bookTime TIMESTAMP,
     methodPay char(50),
+    isPaid BOOLEAN,
     userID INT,
     isDeleted boolean
 );

@@ -18,7 +18,7 @@
         style="background-color: #ededed42;border-radius: 10px;">
         {% for showsTime in showtimeList %}
         {% if showsTime.cinemaID == cinema.cinemaID %}
-        <button class="button  btn col-2 pd-1 m-1 ml-3">{{showsTime.timeStart|date('H:i')}}</button>
+        <button class="button  btn col-2 pd-1 m-1 ml-3" showID="{{showsTime.showID}}" onclick="sendShowIDToPHP(this);">{{showsTime.timeStart|date('H:i')}}</button>
         {% endif %}
         {% endfor %}
     </div>

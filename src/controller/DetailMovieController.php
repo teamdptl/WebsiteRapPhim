@@ -15,15 +15,17 @@ class DetailMovieController extends Controller
 {
     public function getDetailMoviePage($id)
     {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = date('Y/m/d', time());
+        $currentTime = date('Y/m/d H:i:s', time());
         $navbar = GlobalController::getNavbar();
         $movieDetail = Movie::find(Model::UN_DELETED_OBJ,$id);
    
         $tag =  Tag::find(Model::UN_DELETED_OBJ, $movieDetail->tagID);
-        $listCinema =  Cinema::query("SELECT DISTINCT cinema.*  FROM cinema, room, showtime WHERE cinema.cinemaID = room.cinemaID AND room.roomID = showtime.roomID AND showtime.timeStart BETWEEN '$date 00:00:00' and '$date 23:59:59' AND showtime.movieID = :id;", [
+        $listCinema =  Cinema::query("SELECT DISTINCT cinema.*  FROM cinema, room, showtime WHERE cinema.cinemaID = room.cinemaID AND room.roomID = showtime.roomID AND showtime.timeStart BETWEEN '$currentTime' and '$date 23:59:59' AND showtime.movieID = :id;", [
             "id" => $id
         ]);
-        $showtimeList =  Showtime::query("SELECT showtime.* , cinema.cinemaID FROM cinema, room, showtime WHERE cinema.cinemaID = room.cinemaID AND room.roomID = showtime.roomID  and showtime.timeStart BETWEEN '$date 00:00:00' and '$date 23:59:59' AND showtime.movieID =:id ;", [
+        $showtimeList =  Showtime::query("SELECT showtime.* , cinema.cinemaID FROM cinema, room, showtime WHERE cinema.cinemaID = room.cinemaID AND room.roomID = showtime.roomID  and showtime.timeStart BETWEEN '$currentTime' and '$date 23:59:59' AND showtime.movieID =:id ;", [
             "id" => $id]);
          
         $categoryList =  Category::query("SELECT category.* FROM movie_category ,category WHERE movieID = :id AND movie_category.categoryID = category.categoryID", [
@@ -40,12 +42,13 @@ class DetailMovieController extends Controller
         ]);
     }
     public function renderShowTime($id){
-        {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date=$_POST["date"];
-        $listCinema =  Cinema::query("SELECT DISTINCT cinema.*  FROM cinema, room, showtime WHERE cinema.cinemaID = room.cinemaID AND room.roomID = showtime.roomID AND showtime.timeStart BETWEEN '$date 00:00:00' and '$date 23:59:59' AND showtime.movieID = :id;", [
+        $currentTime = date('H:i:s', time());
+        $listCinema =  Cinema::query("SELECT DISTINCT cinema.*  FROM cinema, room, showtime WHERE cinema.cinemaID = room.cinemaID AND room.roomID = showtime.roomID AND showtime.timeStart BETWEEN '$date $currentTime' and '$date 23:59:59' AND showtime.movieID = :id;", [
             "id" => $id
         ]);
-        $showtimeList =  Showtime::query("SELECT showtime.* , cinema.cinemaID FROM cinema, room, showtime WHERE cinema.cinemaID = room.cinemaID AND room.roomID = showtime.roomID  and showtime.timeStart BETWEEN '$date 00:00:00' and '$date 23:59:59' AND showtime.movieID =:id ;", [
+        $showtimeList =  Showtime::query("SELECT showtime.* , cinema.cinemaID FROM cinema, room, showtime WHERE cinema.cinemaID = room.cinemaID AND room.roomID = showtime.roomID  and showtime.timeStart BETWEEN '$date $currentTime' and '$date 23:59:59' AND showtime.movieID =:id ;", [
             "id" => $id]);
      
         View::renderTemplate('detailMovie/show-time.html', [
@@ -53,7 +56,7 @@ class DetailMovieController extends Controller
             "listCinema" => $listCinema,
             "showtimeList" =>  $showtimeList,
         ]);
-    }
+    
     }
     
 }

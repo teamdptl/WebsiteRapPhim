@@ -114,7 +114,7 @@ function handleBooking(button){
                 // rightBtn.setAttribute('current-pos', 'choose-food');
                 // rightBtn.innerHTML = `Next
                 // <i class='bx bx-skip-next-circle bx-tada bx-rotate-270'></i>`;
-                location.href = '/booking';
+                window.location.assign(`/booking?showID=${showID}`);
             }else{
                 var flagCheckMethod = false;
                 var flagCheckAgreement = false;
@@ -424,7 +424,7 @@ function pushData(){
             var jsonData = JSON.parse(respone);
             if(jsonData['status'] == 0){
                 alert(jsonData['message']);
-                location.href('/booking');
+                window.location.assign('/booking');
             }else{
                 if(jsonData['foodPrice'] == 0){
                     comboNameContainer.style.display = "none";
@@ -459,15 +459,15 @@ function pushDataToBooking(methodPay){
             var jsonData = JSON.parse(respone);
             if(jsonData['status'] == 1){
                 alert('Booking successfully!');
-                location.href('/');
+                window.location.assign('/profile');
             }else{
                 alert(jsonData['message']);
-                location.href('/booking');
+                window.location.assign('/booking');
             }
         },
         error: function(respone){
             alert('Something went wrong! Back to home page');
-            location.href('/');
+            window.location.assign('/');
         }
 
     })
