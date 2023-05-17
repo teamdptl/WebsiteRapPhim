@@ -45,6 +45,7 @@ $app->router->get('/adminShowTime/getRoomName', ["controller" => "AdminShowTimeC
 $app->router->post('/adminShowTime/insert', ["controller" => "AdminShowTimeController", "action" => "insertShowTime"]);
 $app->router->get('/adminShowTime/edit', ["controller" => "AdminShowTimeController", "action" => "editShowTime"]);
 $app->router->post('/adminShowTime/edit', ["controller" => "AdminShowTimeController", "action" => "updateShowTime"]);
+$app->router->post('/adminShowTime/del', ["controller" => "AdminShowTimeController", "action" => "delShowTime"]);
 $app->router->get('/adminShowTime', ["controller" => "AdminShowTimeController", "action" => "getAdminShowTimePage"]);
 
 $app->router->get('/adminFood', ["controller" => "AdminFoodController", "action" => "getAdminFoodPage"]);
