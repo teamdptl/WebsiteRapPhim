@@ -176,8 +176,8 @@ class AdminShowTimeController extends Controller{
         }
         public function delShowTime(){
             $showID = $_POST["showID"];
-            Showtime::delete($showID);
-            ShowtimePrice::delete($showID);
+            Showtime::delete(true,$showID);
+            ShowtimePrice::delete(true,$showID);
             $message = [];
             $message["message"] = "Xóa thành công";
             $message["status"] = "Dữ liệu đã được xóa trong cơ sở dữ liệu";
