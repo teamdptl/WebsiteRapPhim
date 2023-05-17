@@ -180,8 +180,9 @@ background: linear-gradient(0deg, #070216 20%, rgba(255,255,255,0) 100%);
             renderItemSlide();
             renderItemSlideEvent();
             $(".item-slide").click(function () {
-
+               
                 var date = $(".date", this).attr("date")
+                console.log(date);
                 $.ajax({
                     url: "/movies/{{id}}",
                     method: "POST",
@@ -189,8 +190,7 @@ background: linear-gradient(0deg, #070216 20%, rgba(255,255,255,0) 100%);
                         date: date,
                     },
                     success: function (res) {
-                        console.log(res);
-                      
+                        
                         $("#showtime").html(res);
                     },
 
