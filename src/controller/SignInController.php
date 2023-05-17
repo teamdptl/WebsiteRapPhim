@@ -19,28 +19,13 @@ class SignInController extends Controller{
 
         $navbar = GlobalController::getNavbar();
 
-        $listCinema =[
-            [
-                "title" => "Quá đã",
-                "year" => 2023,
-                "category" => "giật giật, đáng ghét",
-                "url" => "/assets/slider1.jpg"
+        $movieController = new MoviesController();
 
-            ],
-            [
-                "title" => "Quá phê",
-                "year" => 2023, 
-                "category" => "giật giật, đáng ghét",
-                "url" => "/assets/slider2.jpg"
-            ],
-            [
-                "title" => "Quá sướng",
-                "year" => 2023,
-                "category" => "giật giật, đáng ghét",
-                "url" => "/assets/slider3.jpg"
-            ],
-            
-        ];
+
+        $listCinema = $movieController->getFeaturedMovies();
+        if ($listCinema == false){
+            $listCinema = [];
+        }
 
         View::renderTemplate('signIn/signIn_page.html',[
             "navbar" => $navbar,

@@ -1,6 +1,7 @@
 <?php 
 namespace app\controller;
 use app\model\Category;
+use app\model\Cinema;
 use app\model\Movie;
 use app\model\MovieCategory;
 use app\model\Tag;
@@ -19,7 +20,6 @@ class MoviesController extends Controller{
         View::renderTemplate('movies\movies_page.html',[
             "navbar" => $navbar,
             "listMovie" => $listMovie,
-            // "listCategory" => $listCategory,
         ]);
     }
 
@@ -28,10 +28,12 @@ class MoviesController extends Controller{
 
         $categories = Category::findAll();
         $tags = Tag::findAll();
+        $cinemas = Cinema::findAll();
         View::renderTemplate('movies\movie_page_duy.html',[
             "navbar" => $navbar,
             "categories" => $categories,
             "tags" => $tags,
+            "cinemas" => $cinemas,
         ]);
     }
 
@@ -42,63 +44,77 @@ class MoviesController extends Controller{
         $category = isset($_GET["category"]) ? (int)$_GET["category"] : 0;
         $ageMin = isset($_GET["minAge"]) ? (int)$_GET["minAge"] : 0;
         $ageMax = isset($_GET["maxAge"]) ? (int)$_GET["maxAge"] : 99;
-        $ratingMin = isset($_GET["ratingMin"]) ? (int)$_GET["ratingMin"] : 0;
-        $ratingMax = isset($_GET["ratingMax"]) ? (int)$_GET["ratingMax"] : 10;
+        $cinema = isset($_GET["cinema"]) ? (int)$_GET["cinema"] : 0;
         $futureMovie = isset($_GET["futureMovie"]) ? (int)$_GET["futureMovie"] : 0;
 
-        $exportMovies = $this->findMovieInDB($search, $category, $ageMin, $ageMax, $ratingMin, $ratingMax, $futureMovie);
+        $movies = $this->getMoviesInDB($search, $category, $ageMin, $ageMax, $cinema, $futureMovie);
 
         $resObj = new stdClass();
-        $resObj->list = array_slice($exportMovies, ($page-1)*10 , 10);
-        $resObj->maxPage = $this->maxPage($exportMovies);
+        $resObj->list = array_slice($movies, ($page-1)*10 , 10);
+        $resObj->maxPage = $this->maxPage($movies);
         $resObj->activePage = $page;
         echo json_encode($resObj);
     }
 
-    public function findMovieInDB($search, $category, $ageMin, $ageMax, $ratingMin, $ratingMax, $futureMovie){
-        $databaseMovie = Movie::findAll();
-        $exportMovies = [];
-        foreach($databaseMovie as $movie){
-            $exportMovies[] = $this->mapping($movie);
-        }
+    public function getMoviesInDB($search, $category, $ageMin, $ageMax, $cinema, $futureMovie){
+        $movies = Movie::query("SELECT movie.*, tag.tagName, tag.minAge, GROUP_CONCAT(category.cateName) AS categoryList, GROUP_CONCAT(category.categoryID) AS categoryIds FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID GROUP BY movie.movieID;");
+        foreach($movies as $key => $movie){
 
-        foreach ($exportMovies as $key => $movie){
+            // Split name
+            $movie->categoryList = explode(",", $movie->categoryList);
+            $movie->category = json_encode($movie->categoryList);
+            $movie->categoryIds = explode(",", $movie->categoryIds);
+
             if (!str_contains(strtolower($movie->movieName), strtolower($search))){
-                unset($exportMovies[$key]);
+                unset($movies[$key]);
             }
 
             if ($category != 0){
                 $isHas = false;
-                foreach ($movie->categoryList as $cate){
-                    if ($cate->categoryID == $category){
+                foreach ($movie->categoryIds as $cate){
+                    if ($cate == $category){
                         $isHas = true;
                     }
                 }
                 if (!$isHas){
-                    unset($exportMovies[$key]);
+                    unset($movies[$key]);
                 }
             }
 
-//            if ($movie->rating < $ratingMin || $movie->rating > $ratingMax){
-//                unset($exportMovies[$key]);
-//                continue;
-//            }
-
-            if ($movie->tag->minAge < $ageMin || $movie->tag->minAge > $ageMax){
-                unset($exportMovies[$key]);
+            if ($movie->minAge < $ageMin || $movie->minAge > $ageMax){
+                unset($movies[$key]);
             }
 
             $release = strtotime($movie->dateRelease);
             if ($futureMovie != 0){
                 if ($release <= time())
-                    unset($exportMovies[$key]);
+                    unset($movies[$key]);
             }
             else {
                 if ($release > time())
-                    unset($exportMovies[$key]);
+                    unset($movies[$key]);
             }
         }
-        return $exportMovies;
+
+        if ($cinema != 0){
+            $cinemaMovies = Movie::query("SELECT movie.* FROM `movie` INNER JOIN showtime ON showtime.movieID = movie.movieID INNER JOIN room ON room.roomID = showtime.roomID where room.cinemaID = :cinemaId", [
+                "cinemaId" => $cinema
+            ]);
+            foreach ($movies as $key=>$movie1){
+                $isHas = false;
+                foreach ($cinemaMovies as $movie2){
+                    if ($movie1->movieID == $movie2->movieID){
+                        $isHas = true;
+                        break;
+                    }
+                }
+                if (!$isHas){
+                    unset($movies[$key]);
+                }
+            }
+        }
+
+        return $movies;
     }
 
     public function maxPage(array $listMovie, int $perPage = 10){
@@ -116,7 +132,6 @@ class MoviesController extends Controller{
         $movie->categoryNames = $listNames;
         $movie->categoryList = $categories;
         $movie->tag = Tag::find(Model::UN_DELETED_OBJ, $movie->tagID);
-        $movie->posterLink = "https://themoviedb.org/t/p/w600_and_h900_bestv2/".$movie->posterLink;
         return $movie;
     }
 

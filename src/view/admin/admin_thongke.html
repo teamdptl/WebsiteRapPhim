@@ -1,0 +1,274 @@
+{% extends '/template/root.html' %}
+{% block title %}
+Trang thống kê
+{% endblock %}
+
+{% block header %}
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="/css/navAdmin.css">
+<link rel="stylesheet" href="/css/admin_thongke.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block body %}
+{{ navbar | raw }}
+{{ navAdmin | raw }}
+<div id="admin-thongke" class="d-flex w-100 py-4 flex-column" style="padding-left: 92px">
+    <section class="container-fluid p-4">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <div class="border-bottom pb-3 mb-3 d-lg-flex justify-content-between align-items-center">
+                    <div class="mb-3 mb-lg-0">
+                        <h2 class="mb-0 text-primary">Thống kê</h2>
+                    </div>
+                        <form class="d-flex" method="GET">
+                            <div class="input-group mr-4 d-flex align-items-center">
+                                <div class="mr-3">Từ ngày</div>
+                                {% if fromDate == false %}
+                                    <input class="form-control" type="date" name="fromDate" placeholder="Select Date">
+                                {% else %}
+                                    <input class="form-control" type="date" name="fromDate" placeholder="Select Date" value="{{ fromDate }}">
+                                {% endif %}
+
+                                <div class="mr-3 ml-3">Đến ngày</div>
+                                {% if toDate == false %}
+                                    <input class="form-control" type="date" name="toDate" placeholder="Select Date">
+                                {% else %}
+                                    <input class="form-control" type="date" name="toDate" placeholder="Select Date" value="{{ toDate }}">
+                                {% endif %}
+                            </div>
+                            <button class="btn btn-primary" type="submit" style="white-space: nowrap">Tìm kiếm</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-4">
+                <!-- card -->
+                <div class="card bg-primary text-white" style="border-radius: 16px">
+                    <!-- card body -->
+                    <div class="card-body" >
+                        <div class="row d-flex justify-content-around align-items-center">
+                            <!-- chart -->
+                            <div class="col-3 d-flex align-items-center justify-content-center">
+                                <i class='bx bx-cart-alt' style="font-size: 40px"></i>
+                            </div>
+                            <!-- col -->
+                            <div class="col-9">
+                                <span class="fw-semibold text-uppercase fs-6">Tổng đơn hàng</span>
+                                <h4 class="fw-bold mt-2 mb-0 ">{{ totalOrders }}</h4>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-4">
+                <!-- card -->
+                <div class="card bg-success text-white" style="border-radius: 16px">
+                    <!-- card body -->
+                    <div class="card-body" >
+                        <div class="row d-flex justify-content-around align-items-center">
+                            <!-- chart -->
+                            <div class="col-3 d-flex align-items-center justify-content-center">
+                                <i class='bx bx-dollar' style="font-size: 40px"></i>
+                            </div>
+                            <!-- col -->
+                            <div class="col-9">
+                                <span class="fw-semibold text-uppercase fs-6">Tổng doanh thu</span>
+                                <h4 class="fw-bold mt-2 mb-0">{{ bookingInfo.totalMoney|number_format }}đ</h4>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-4">
+                <!-- card -->
+                <div class="card bg-danger text-white" style="border-radius: 16px">
+                    <!-- card body -->
+                    <div class="card-body" >
+                        <div class="row d-flex justify-content-around align-items-center">
+                            <!-- chart -->
+                            <div class="col-3 d-flex align-items-center justify-content-center">
+                                <i class='bx bx-movie-play' style="font-size: 40px"></i>
+                            </div>
+                            <!-- col -->
+                            <div class="col-9">
+                                <span class="fw-semibold text-uppercase fs-6">Phim doanh thu cao nhất</span>
+                                <h4 class="fw-bold mt-2 mb-0 text-nowrap" data-toggle="tooltip" data-placement="bottom" title="{{movieInfo.bestMovie.movieName}}"> {{ movieInfo.bestMovie.movieName }}</h4>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-4">
+                <!-- card -->
+                <div class="card bg-dark text-white" style="border-radius: 16px">
+                    <!-- card body -->
+                    <div class="card-body" >
+                        <div class="row d-flex justify-content-around align-items-center">
+                            <!-- chart -->
+                            <div class="col-3 d-flex align-items-center justify-content-center">
+                                <i class='bx bx-building-house' style="font-size: 40px"></i>
+                            </div>
+                            <!-- col -->
+                            <div class="col-9">
+                                <span class="fw-semibold text-uppercase fs-6">Rạp doanh thu cao nhất</span>
+                                <h4 class="fw-bold mt-2 mb-0 text-nowrap" data-toggle="tooltip" data-placement="bottom" title="{{cinemaInfo.bestCinema.cinemaName }}">{{ cinemaInfo.bestCinema.cinemaName }}</h4>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-8 col-lg-12 col-md-12 col-12 mb-4 mt-3">
+                <h4 class="mb-0">Doanh thu</h4>
+                <canvas id="myChart" style="width:100%"></canvas>
+            </div>
+            <div class="col-xl-4 col-lg-12 col-md-12 col-12 mb-4 mt-3">
+                <!-- card -->
+                <div class="card h-100">
+                    <!-- card header -->
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Xếp hạng doanh thu phim</h5>
+                        <form method="get">
+                            <select class="custom-select" name="movie_size" onchange="this.form.submit()" id="movieSize">
+                                <option value="10">10</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                            </select>
+                        </form>
+                    </div>
+                    <!-- card body -->
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto">
+                        <table class="table" id="tablePhim">
+                            <thead>
+                            <tr>
+                                <th scope="col" onclick="sortMovie(0, 1)">STT</th>
+                                <th scope="col" onclick="sortMovie(1)">Tên phim</th>
+                                <th scope="col" onclick="sortMovie(2)" style="white-space: nowrap">Doanh thu</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for index, movie in movieInfo.listDoanhThu %}
+                            <tr>
+                                <th scope="row">{{ index + 1 }}</th>
+                                <td>{{ movie.movieName }}</td>
+                                <td>{{ movie.doanhThu|number_format }}đ</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-8 mb-4">
+                <h4 class="mb-4">Thống kê rạp</h4>
+                <table class="table" id="tableRap">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col" onclick="sortRap(0, 1)">Mã rạp</th>
+                        <th scope="col" onclick="sortRap(1)">Tên rạp</th>
+                        <th scope="col" onclick="sortRap(2)">Số phòng</th>
+                        <th scope="col" onclick="sortRap(3)">Vé đã bán</th>
+                        <th scope="col" onclick="sortRap(4)">Doanh thu vé</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cinema in cinemaInfo.listCinema %}
+                    <tr>
+                        <th scope="row">{{ cinema.cinemaID }}</th>
+                        <td>{{ cinema.cinemaName }}</td>
+                        <td>{{ cinema.numRooms }} phòng</td>
+                        <td>{{ cinema.ticketNumbers }} vé</td>
+                        <td>{{ cinema.doanhThuRap|number_format }}đ</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12 col-xl-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>Thức ăn bán chạy</h4>
+                    <div class="bg-primary px-2 py-1 text-white" style="border-radius: 8px">
+                        <div>Tổng doanh thu</div>
+                        <h6 class="text-center">{{ foodInfo.totalMoney|number_format }}đ</h6>
+                    </div>
+                </div>
+
+                <div class="food-container d-flex flex-column" style="max-height: 400px; overflow-y: auto; gap: 10px">
+                    {% for food in foodInfo.listFood %}
+                    <div class="food-card card px-2 py-3 d-flex flex-row align-items-center" style="border-radius: 8px">
+                        <div class="d-flex col-6 align-items-center" style="gap: 15px">
+                            <img width="50px" height="50px" src="{{food.foodImage}}">
+                            <div>{{ food.foodName }}</div>
+                        </div>
+                        <div class="col-3 text-center">
+                            <div>Đã bán</div>
+                            <h6>{{ food.units }}</h6>
+                        </div>
+                        <div class="col-3 text-center">
+                            <div>Doanh thu</div>
+                            <h6>{{ foodUnit.doanhThu|number_format }}đ</h6>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="/js/component/navAdmin.js"></script>
+<script>
+    $("#movieSize").val("{{movieSize}}");
+    let dateLabels = {{ bookingInfo.listDate|json_encode|raw }};
+    let line1 = {{ bookingInfo.listVe|json_encode|raw }};
+    let line2 = {{ bookingInfo.listDoAn|json_encode|raw }};
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    // Create the chart
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dateLabels,
+            datasets: [
+                {
+                    label: 'Vé phim',
+                    data: line1,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: false
+                },
+                {
+                    label: 'Đồ ăn',
+                    data: line2,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script src="/js/component/navAdmin.js"></script>
+<script src="/js/page/admin_thongke.js"></script>
+{% endblock %}

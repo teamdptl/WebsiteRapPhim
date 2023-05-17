@@ -40,6 +40,7 @@ CREATE TABLE TAG(
     minAge INT
 );
 
+-- Lỗi nếu dateRelease không null
 CREATE TABLE MOVIE(
     movieID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     movieName CHAR(255),
@@ -50,7 +51,7 @@ CREATE TABLE MOVIE(
     movieDirectors CHAR(255),
     movieActors CHAR(255),
     duringTime INT,
-    dateRelease TIMESTAMP,
+    dateRelease TIMESTAMP NULL,
     movieLanguage CHAR(255),
     isFeatured boolean,
     tagID INT,

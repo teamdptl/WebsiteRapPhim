@@ -12,12 +12,12 @@ class User extends Model
 
     //View property
     public int $userID = 0;
-    public string $fullName;
-    public string $userPassword;
-    public string $email;
-    public bool $isActive;
-    public string $createAt;
-    public ?int $permissionID;
+    public string $fullName = "";
+    public string $userPassword = "";
+    public string $email = "";
+    public bool $isActive = true;
+    public string $createAt = "";
+    public ?int $permissionID = null;
     public bool $isDeleted = false;
     
 }

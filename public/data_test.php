@@ -6,7 +6,13 @@ use core\Model;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-var_export(Movie::findAll());
+//var_export(Movie::findAll());
+$timestamp = 1621152000; // Your variable timestamp
+echo date('Y-m-d', $timestamp);
+$previousTimestamp = strtotime('+1 day', $timestamp);
+
+$previousDate = date('Y-m-d', $previousTimestamp);
+echo $previousDate;
 return;
 
 //$is_export = 1;

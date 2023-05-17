@@ -13,35 +13,16 @@ class SignUpController extends Controller{
     public function getSignUpPage(){
         $navbar = GlobalController::getNavbar();
 
-
         if (Request::$user != null){
             Request::redirect("/");
             return;
         }
 
-
-        $listCinema =[
-            [
-                "title" => "Quá đã",
-                "year" => 2023,
-                "category" => "giật giật, đáng ghét",
-                "url" => "/assets/slider1.jpg"
-
-            ],
-            [
-                "title" => "Quá phê",
-                "year" => 2023, 
-                "category" => "giật giật, đáng ghét",
-                "url" => "/assets/slider2.jpg"
-            ],
-            [
-                "title" => "Quá sướng",
-                "year" => 2023,
-                "category" => "giật giật, đáng ghét",
-                "url" => "/assets/slider3.jpg"
-            ],
-            
-        ];
+        $movieController = new MoviesController();
+        $listCinema = $movieController->getFeaturedMovies();
+        if ($listCinema == false){
+            $listCinema = [];
+        }
 
         View::renderTemplate('signUp/signUp_page.html',[
             "navbar" => $navbar,

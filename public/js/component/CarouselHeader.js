@@ -6,7 +6,7 @@ class CarouselHeader extends ParentHTML{
         if (this.listMove.length){
             let itemsHTML = this.listMove.map(item=>{
                 return `<a href="/movies/${item.movieID}" class="position-relative"> 
-                            <img src="https://image.tmdb.org/t/p/original/${item.landscapePoster}" class="img" alt="Image for movie">
+                            <img src="${item.landscapePoster}" class="img" alt="Image for movie">
                             <div class="position-absolute" 
                             style="bottom: 0; left: 0; right: 0; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; background-color: #09090945!important;">
                                 <h5 class="text-white px-5 pt-3">${item.movieName}</h5>

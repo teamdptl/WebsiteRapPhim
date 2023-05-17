@@ -49,7 +49,7 @@ Trang chủ - Đặt vé xem phim online
     <hr>
     <div class=" d-flex justify-content-sm-around justify-content-center flex-wrap justify-content-lg-start">
         {% for movie in listMovie %}
-        <movie-tag  link="https://image.tmdb.org/t/p/original{{ movie.posterLink }}" name="{{movie.movieName}}" tag="test" id="{{movie.movieID}}" category='["Hành động", "Hài hước"]'></movie-tag>
+        <movie-tag  link="{{ movie.posterLink }}" name="{{movie.movieName}}" tag="test" id="{{movie.movieID}}" category='["Hành động", "Hài hước"]'></movie-tag>
         {% endfor %}
     </div>
 </div>

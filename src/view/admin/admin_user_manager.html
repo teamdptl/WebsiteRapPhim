@@ -1,0 +1,140 @@
+{% extends './template/root.html' %}
+
+{% block title %}
+Trang quản lý người dùng
+{% endblock %}
+
+{% block header %}
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="/css/navAdmin.css">
+<link rel="stylesheet" href="/css/admin_account.css">
+{% endblock header %}
+
+{% block body %}
+{{ navbar | raw }}
+{{ navAdmin | raw }}
+    <div id="admin-user-manager" class="d-flex w-100 py-4" style="padding-left: 92px; min-height: 90vh">
+        <div class="admin-user-container col-8 bg-white">
+            <h5 class="mb-3">Danh sách các tài khoản</h5>
+            <div class="d-flex justify-content-between">
+                <div class="input-group " style="max-width: 400px">
+                <span class="input-group-text bg-light">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input id="text-box" type="text" name="" id="search-input" class="form-control search-box h-100" placeholder="Tìm kiếm người dùng" aria-describedby="helpId" autocomplete="off">
+                    <button type="button" class="btn btn-primary ml-2 round" id="btn-search-text">
+                        Tìm kiếm
+                    </button>
+                </div>
+                <div class="me-auto">
+                    <button class="btn btn-success" id="btnAddUser">Thêm người dùng</button>
+                </div>
+            </div>
+            <div class="d-flex justify-content-around px-3 mt-4 mb-2" style="font-weight: 500">
+                <div style="width: 50px">Mã ID</div>
+                <div style="width: 180px">Họ tên</div>
+                <div style="width: 200px">Email</div>
+                <div style="width: 150px">Trạng thái</div>
+                <div style="width: 150px">Nhóm quyền</div>
+                <div style="">Thao tác</div>
+            </div>
+            <div id="user-container" class="table-container d-flex mt-2 flex-column" style="gap: 10px">
+<!--                <div class="card d-flex flex-row justify-content-around px-3 py-2 align-items-center rounded">-->
+<!--                    <div style="max-width: 50px">1</div>-->
+<!--                    <div style="max-width: 150px">Huỳnh Khánh Duy</div>-->
+<!--                    <div style="max-width: 200px">huykhaduy@gmail.com</div>-->
+<!--                    <div style="max-width: 150px">Hoạt động</div>-->
+<!--                    <div style="max-width: 150px">Nhân viên</div>-->
+<!--                    <div class="dropdown">-->
+<!--                        <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">-->
+<!--                            <i class='bx bx-dots-vertical-rounded' ></i>-->
+<!--                        </div>-->
+<!--                        <div class="dropdown-menu dropdown-menu-right">-->
+<!--                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addUserModal"><i class='bx bx-edit-alt'></i> Sửa người dùng</a>-->
+<!--                            <a class="dropdown-item" href="#"><i class='bx bx-trash' ></i> Xóa người dùng</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </div>
+
+        <div class="col-4" style="gap: 20px">
+            <div class="admin-split-table d-flex" style="gap: 10px">
+                <div class="admin-group-container bg-primary col-6 d-flex justify-content-center align-items-center flex-column" style="height: 100px;">
+                    <h5 class="text-white">Số lượng tài khoản</h5>
+                    <h6 class="text-white" style="font-size: 20px"><i class='bx bx-user mr-2'></i>{{sizeAvailable}}</h6>
+                </div>
+                <div class="admin-group-container bg-warning col-6 d-flex justify-content-center align-items-center flex-column" style="height: 100px;">
+                    <h5 class="text-white">Tài khoản đã bị xóa</h5>
+                    <h6 class="text-white" style="font-size: 20px"><i class='bx bx-trash mr-2' ></i></i>{{sizeRemoved}}</h6>
+                </div>
+            </div>
+            <div class="admin-user-container d-flex mt-3 flex-column" style="gap: 10px; height: inherit">
+                <h5 class="text-center">Các tài khoản bị xóa</h5>
+                <div class="removed-user-list">
+                    {% for item in removeList %}
+                    <div class="remove-item px-3 py-3 d-flex justify-content-between align-items-center mb-2" style="gap: 10px;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                        <div class="hide-text">{{ item.fullName }}({{item.email}})</div>
+                        <button class="btn btn-primary" onclick="recoveryAccount('{{item.userID}}')">Khôi phục</button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+<!--    Modal thêm người dùng -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUserTitle">Thêm người dùng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" class="d-none" id="userId">
+                <div class="input-group mb-3 align-items-center">
+                    <div class="label-input">Tên người dùng</div>
+                    <input id="fullName" type="text" class="form-control" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group mb-3 align-items-center">
+                    <div class="label-input">Địa chỉ email</div>
+                    <input id="email" type="email" class="form-control" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group mb-3 align-items-center">
+                    <div class="label-input">Mật khẩu</div>
+                    <input id="password" type="password" class="form-control pr-5" aria-describedby="basic-addon3">
+                    <span id="showPassword" class="position-absolute" style="right: 10px; z-index: 10; cursor: pointer"><i class="bi bi-eye"></i></span>
+                </div>
+                <div class="input-group mb-3 align-items-center">
+                    <div class="label-input">Hoạt động</div>
+                    <div class=" d-flex align-items-center">
+                        <input type="checkbox" class="mr-2" id="user-active"> Đang hoạt động
+                    </div>
+                </div>
+                <div class="input-group mb-3 align-items-center">
+                    <div class="label-input">Vai trò</div>
+                    <div class="d-flex justify-content-around flex-wrap" style="gap: 15px">
+                        <select id="userGroup" class="form-control">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSave">Lưu người dùng</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="/js/component/navAdmin.js"></script>
+<script src="/js/page/admin_quanlytaikhoan.js"></script>
+{% endblock %}

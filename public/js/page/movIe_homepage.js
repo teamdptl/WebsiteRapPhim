@@ -38,7 +38,7 @@ const createMovieItems = (listData) => {
         return "";
     }
     let html = listData.map((movie) => {
-        return `<movie-tag id="${movie.movieID}" link="${movie.posterLink}" category='${movie.category}' name="${movie.movieName}" tag="${movie.tag.tagName}"></movie-tag>`;
+        return `<movie-tag id="${movie.movieID}" link="${movie.posterLink}" category='${movie.category}' name="${movie.movieName}" tag="${movie.tagName}"></movie-tag>`;
     })
     return html.join(" ");
 }
@@ -76,13 +76,10 @@ const context = {
     category: 0,
     minAge: 0,
     maxAge: 99,
-    ratingMin: 0,
-    ratingMax: 10,
+    cinema: 0,
     currentPage: 1,
-    futureMovie: 0
+    futureMovie: location.hash === "#futureMovie" ? 1 : 0
 }
-
-sendRequest(context);
 
 // Search handle
 const textBox = $("#btn-search-text")[0];
@@ -100,12 +97,10 @@ category.addEventListener("change", function(){
     sendRequest(context);
 })
 
-// Rating handle
-const rating = $("#rating-select")[0];
-rating.addEventListener("change", function(){
-    const ratingValue = JSON.parse(rating.value);
-    context.ratingMin = ratingValue[0] ?? 0;
-    context.ratingMax = ratingValue[1] ?? 10;
+// Cinema handle
+const cinema = $("#cinema-select")[0];
+cinema.addEventListener("change", function(){
+    context.cinema = cinema.value
     context.currentPage = 1;
     sendRequest(context);
 })
@@ -115,32 +110,48 @@ const ageMin = $("#age-pick-min")[0];
 const ageMax = $("#age-pick-max")[0];
 ageMin.addEventListener("input", function(){
     context.minAge = ageMin.value;
+    if (ageMin.value === "")
+        context.minAge = 0;
 })
 
 ageMax.addEventListener("input", function(){
     context.maxAge = ageMax.value;
+    if (ageMax.value === "")
+        context.maxAge = 99
 })
 
 // Date Release
 const movieNowBtn = $("#movie-now")[0];
 const movieFutureBtn = $("#movie-future")[0];
-movieNowBtn.addEventListener("click", function(){
+
+const movieNowHandler = () =>{
     context.futureMovie = 0;
     context.currentPage = 1;
     movieNowBtn.classList.add("active");
     movieFutureBtn.classList.remove("active");
+    location.hash = "";
     sendRequest(context);
     $("#text-title").text("Các bộ phim đang chiếu")
-})
+}
+movieNowBtn.addEventListener("click", movieNowHandler);
 
-movieFutureBtn.addEventListener("click", function(){
+const futureMovieHandler = () =>{
     context.futureMovie = 1;
     context.currentPage = 1;
     movieNowBtn.classList.remove("active");
     movieFutureBtn.classList.add("active");
+    location.hash = "#futureMovie";
     sendRequest(context);
-    $("#text-title").text("Các bộ phim sắp chiếu")
-})
+    $("#text-title").text("Các bộ phim sắp chiếu");
+}
+
+movieFutureBtn.addEventListener("click", futureMovieHandler);
+
+if (context.futureMovie){
+    futureMovieHandler();
+} else {
+    movieNowHandler();
+}
 
 // Page handle
 const handlePage = () => {
@@ -184,5 +195,5 @@ const handlePage = () => {
     }
 }
 
-handlePage();
+// handlePage();
 
