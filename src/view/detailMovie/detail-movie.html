@@ -4,10 +4,6 @@
 <link rel="stylesheet" href="/css/movieDetail.css">
 <script src="/js/component/Movies.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-<!-- <link rel="stylesheet" href="/css/carousel.css"> -->
-<link rel="stylesheet" href="/css/owl.carousel.min.css">
-<link rel="stylesheet" href="/css/owl.theme.default.min.css">
-<script src="/js/owl.carousel.min.js"></script>
 {% endblock %}
 
 {% block title %}
@@ -20,32 +16,38 @@ Trang chủ - Đặt vé xem phim online
 
     {{ navbar | raw }}
 
-    <div class="movie-name col-12 p-0 " style="background-color: black;">
-        <img style="width: 100%;filter: brightness(0.5)  ;"
+    <div class="movie-name col-12 p-0 " style="background-color: black; height: 450px;">
+        <img style="width: 100%;    filter: contrast(0.5); ;"
             src="https://image.tmdb.org/t/p/original{{movieDetail.landscapePoster}}" alt="">
-        <div class="background-radiant movie-name col-12 p-0 ">
-
-        </div>
 
     </div>
-    <div class="container-content d-flex col-10 justify-content-center">
-        <div class="w-100 flex-column flex-lg-row d-flex justify-content-center align-items-center ">
-            <div class="poster d-flex flex-column col-3">
-                <img src="https://image.tmdb.org/t/p/original{{movieDetail.posterLink}}">
-            </div>
+    <div class="boder movie-name col-12 p-0 " style="
+background: linear-gradient(0deg, #070216 20%, rgba(255,255,255,0) 100%);
+; height: 410px;">
 
-            <div class="content col-6 d-none d-lg-flex justify-content-center flex-column ">
+    </div>
+    <div class="d-flex flex-md-row flex-column col-md-10 "
+        style="position: absolute;top: 10%;right:8%;padding: 0;border-radius: 10px;">
+        <div class="w-100 d-flex justify-content-center">
+            <div class=" d-flex flex-column col-3" style="background-color: black;padding: 0;border-radius: 10px">
+                <img style="height: 100%;width:100%;border-radius: 10px;"
+                    src="https://image.tmdb.org/t/p/original{{movieDetail.posterLink}}">
+
+
+            </div>
+            <div style="color: white;margin-left: 100px;" class="col-6 d-flex justify-content-center flex-column">
                 <!-- <button type="button" class="btn btn-primary" style="width: 15%;">Rating</button> -->
 
                 <div>
-                    <h1>{{movieDetail.movieName}}</h1>
-                    <div class="d-flex justify-content-between content-item ">
+                    <h1 style="font-size: 50px;color:white;font-weight:bold">{{movieDetail.movieName}}</h1>
+                    <div style="margin-top: 20px " class="d-flex justify-content-between ">
                         <div>
-                            <div class="fa fa-star "> </div>
-                            <div class="fa fa-star "> </div>
-                            <div class="fa fa-star "> </div>
-                            <div class="fa fa-star "> </div>
-                            <div class="fa fa-star "> </div>
+
+                            <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
+                            <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
+                            <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
+                            <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
+                            <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
                         </div>
                         <div>
                             <div class="fa fa-tags"> </div>
@@ -56,70 +58,68 @@ Trang chủ - Đặt vé xem phim online
                             </label>
                         </div>
                         <div>
-                            <div class="fa fa-calendar" id="showInfo"> </div>
+                            <div class="fa fa-calendar "> </div>
                             <label>{{movieDetail.dateRelease| date("F d ,Y")}}</label>
                         </div>
+
                     </div>
-                    <p class="desMovie">{{movieDetail.movieDes}}</p>
-                    <table class="table-content">
+                    <p style="font-size: 18px;">{{movieDetail.movieDes}}</p>
+                    <table style="font-size: 18px;line-height: 35px;margin-bottom: 20px  ;width: 70%;">
                         <tr>
-                            <td class="table-title">Độ tuổi :</td>
+                            <td style="width: 35%;font-weight: bold;">Độ tuổi :</td>
+
                             {% if tag.tagID == 1 %}
                             <td> P - Phim dành cho mọi độ tuổi</td>
                             {% elseif tag.tagID == 3 %}
-                            <td style="color: rgb(255, 242, 0);"> Phim dành cho người trên 13 tuổi</td>
+                            <td> Phim dành cho người trên 13 tuổi</td>
                             {% elseif tag.tagID == 2 %}
-                            <td style="color: rgb(255, 132, 1);"> Phim dành cho người trên 16 tuổi</td>
+                            <td> Phim dành cho người trên 16 tuổi</td>
                             {% else %}
-                            <td style="color: rgb(255, 0, 0);"> Phim dành cho người trên 18 tuổi</td>
+                            <td> Phim dành cho người trên 18 tuổi</td>
                             {% endif %}
 
 
                         </tr>
                         <tr>
-                            <td class="table-title">Thời lượng : </td>
+                            <td style="font-weight: bold;">Thời lượng : </td>
                             <td>{{movieDetail.duringTime}} Phút </td>
                         </tr>
                         <tr>
-                            <td class="table-title">Đạo diễn :</td>
+                            <td style="font-weight: bold;">Đạo diễn :</td>
                             <td>{{movieDetail.movieDirectors}} </td>
                         </tr>
+
+
                     </table>
                     <div>
-                        <a href="#buyticket" class="btn btn-primary btn-buy" style="width:25%">Đặt vé</a>
-                        <a href="#trailer" class="btn btn-primary btn-buy" style="width:25%">Trailer</a>
+                        <a href="#buyticket" class="btn btn-primary"
+                            style="border:none ;background-color: rgb(0, 0, 0);color:white;font-weight: bold;font-size: 16px;">Đặt
+                            vé</a>
+                        <a href="#trailer" class="btn btn-primary"
+                            style="border:none;background-color: rgb(0, 0, 0);color:white;font-weight: bold;font-size: 16px;">Trailer</a>
                     </div>
+
+
                 </div>
 
             </div>
-            <div class="container-icon-showContent d-flex d-lg-none flex-column align-items-center" isCoplapse="true">
-                <i class="fa fa-sort-down fa-2xl  mt-5" id="icon-showContent"> </i>
-                <label class="mt-3" for="">Click here to get information </label>
-            </div>
 
-            <div style="width: 50%; text-align: center;" class="d-lg-none d-flex justify-content-center">
-                <a href="#buyticket" class="btn btn-primary btn-buy">Đặt vé</a>
-                <!-- <a href="#trailer" class="btn btn-primary"
-                    style="border:none;background-color: #0069d9;color:white;font-weight: bold;font-size: 16px;width: 40%">Trailer</a> -->
-            </div>
         </div>
 
     </div>
-    <div class="container d-lg-none d-satic" id="showContent">
-
-    </div>
     <div style="border-top:1px gray solid " class="container" id="trailer">
-        <h5 class="trailer-title">OFFICIAL TRAILER OF THIS MOVIE</h5>
+        <h5 style="padding: 40px 0;text-align: center;font-size: 28px;">OFFICIAL TRAILER OF THIS MOVIE</h5>
         <iframe width="100%" height="600" src="http://www.youtube.com/embed/{{movieDetail.trailerLink}}" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen></iframe>
     </div>
 
     <div class="container" id="buyticket">
-        <h5 class="showtime-title" class="mt-3">VUI LÒNG CHỌN RẠP VÀ GIỜ XEM </h5>
-        <div class=" d-flex silde-date owl-carousel ">
+        <h5 style="text-align:center" class="mt-3">VUI LÒNG CHỌN RẠP VÀ GIỜ XEM </h5>
+        <div class=" d-flex silde-date">
             {% for i in 0..9 %}
-            <div class="item-slide d-flex justify-content-center align-items-center flex-column items">
+            <div class="item-slide d-flex justify-content-center align-items-center flex-column"
+                style="width: 10%; height: 100px;color: white;">
                 <div class="day"></div>
                 <div class="date"></div>
             </div>
@@ -134,24 +134,21 @@ Trang chủ - Đặt vé xem phim online
             {% for cinema in listCinema %}
 
             <div class="d-flex cinema mt-5">
-                <div class="d-flex linkCinema col-md-4 col-sm-6 bg-black flex-column  ">
-                    <div class="idCinema">
+                <div class="d-flex linkCinema col-4 bg-black flex-column ">
+                    <div style="background-color: #ededed42;width: 85%;padding: 1rem 2rem;border-radius: 10px;">
                         <div>
                             <div class="fa fa-video-camera" style="color: rgb(255 233 24);display: block;"></div>
-                            <label class="cinema-name">{{cinema.cinemaName}}</label>
+                            <label style="font-size: 20px;font-weight: bold;">{{cinema.cinemaName}}</label>
                         </div>
-                        <label class="cinema-address">{{cinema.cinemaAddress}}</label>
-                        <a href="{{cinema.mapLink}}"><button class="btn btn-primary  w-100 cinema-mapLink ">Xem vị
-                            trí</button></a>
+                        <label style="font-weight: 400;line-height: 22px;">{{cinema.cinemaAddress}}</label>
+                        <button class="btn btn-primary  w-100" style="background-color:forestgreen;border: none">Xem vị
+                            trí</button>
                     </div>
                 </div>
                 <div
                     class="showsTime col-sm-6 col-md-8  d-flex flex-wrap flex-row align-item-center align-content-center justify-content-md-start align-items-sm-center justify-content-sm-center">
-                <div
-                    class="showsTime col-sm-6 col-md-8  d-flex flex-wrap flex-row align-item-center align-content-center justify-content-md-start align-items-sm-center justify-content-sm-center">
                     {% for showsTime in showtimeList %}
                     {% if showsTime.cinemaID == cinema.cinemaID %}
-                    <button class="button-showtime  btn col-md-2 col-sm-5  pd-md-1 m-1 ml-3">{{showsTime.timeStart|date('H:i')}}</button>
                     <button class="button  btn col-md-2 col-sm-5  pd-md-1 m-1 ml-3">{{showsTime.timeStart|date('H:i')}}</button>
                     {% endif %}
                     {% endfor %}
@@ -161,14 +158,14 @@ Trang chủ - Đặt vé xem phim online
 
             {% endfor %}
             {% else %}
-            <h1 class="no-movie-title"> Phim hiện không có suất chiếu </h1>
+            <h1 style="text-align: center;height: 200px;width: 100%;"> Phim hiện không có suất chiếu </h1>
             {% endif %}
 
 
 
         </div>
 
-
+        
 
 
 
@@ -180,9 +177,29 @@ Trang chủ - Đặt vé xem phim online
 
         {% block js %}
         <script>
+            $(document).ready(function () {
+                $('.owl-carousel').owlCarousel({
+                    // loop: true,
+                    margin: 10,
+                    nav: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 5
+                        },
+                        1000: {
+                            items: 10
+                        }
+                    }
+                })
+            });
+
             renderItemSlide();
             renderItemSlideEvent();
             $(".item-slide").click(function () {
+
                 var date = $(".date", this).attr("date")
                 $.ajax({
                     url: "/movies/{{id}}",
@@ -192,6 +209,7 @@ Trang chủ - Đặt vé xem phim online
                     },
                     success: function (res) {
                         console.log(res);
+                      
                         $("#showtime").html(res);
                     },
 
@@ -201,18 +219,18 @@ Trang chủ - Đặt vé xem phim online
 
             function renderItemSlideEvent() {
                 const itemSilde = document.getElementsByClassName("item-slide");
-                itemSilde[0].classList.add("active")
+                itemSilde[0].classList.add("isActiveItem")
                 for (let i = 0; i < itemSilde.length; i++) {
                     itemSilde[i].addEventListener("click", function (event) {
-                        var current = document.getElementsByClassName("active");
-                        current[0].classList.remove("active");
-                        this.classList.add("active")
+                        var current = document.getElementsByClassName("isActiveItem");
+                        current[0].classList.remove("isActiveItem");
+                        this.classList.add("isActiveItem")
                     })
                     itemSilde[i].addEventListener("mouseover", function (event) {
-                        this.classList.add("hover")
+                        this.classList.add("date-hover")
                     })
                     itemSilde[i].addEventListener("mouseout", function (event) {
-                        this.classList.remove("hover")
+                        this.classList.remove("date-hover")
                     })
                 }
             }
@@ -230,6 +248,66 @@ Trang chủ - Đặt vé xem phim online
                 }
                 document.getElementsByClassName(i)
             }
+
+            $(".container-icon-showContent").click(function () {
+                isCoplapse = $(this).attr("isCoplapse");
+
+                if (isCoplapse == "true") {
+                    $("#showContent").html(`<h1 style="font-size:3vw;color:white;font-weight:bold">{{movieDetail.movieName}}</h1>
+        <div style="margin-top: 20px " class="d-flex justify-content-between ">
+            <div>
+                <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
+                <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
+                <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
+                <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
+                <div class="fa fa-star " style="color: rgb(255 233 24);"> </div>
+            </div>
+            <div>
+                <div class="fa fa-tags"> </div>
+                <label style="font-size: 1.5vw;">
+                    {% for tag in categoryList %}
+                    {{ tag.cateName }} -
+                    {% endfor %}
+                </label>
+            </div>
+            <div>
+                <div class="fa fa-calendar" id="showInfo"> </div>
+                <label style="font-size: 1.5vw;">{{movieDetail.dateRelease| date("F d ,Y")}}</label>
+            </div>
+        </div>
+        <p style="font-size: 1.3vw;">{{movieDetail.movieDes}}</p>
+        <table style="font-size: 1.5vw;line-height: 35px;margin-bottom: 20px  ;width: 70%;">
+            <tr>
+                <td style="width: 20%;font-weight: bold;">Độ tuổi :</td>
+                {% if tag.tagID == 1 %}
+                <td> P - Phim dành cho mọi độ tuổi</td>
+                {% elseif tag.tagID == 3 %}
+                <td> Phim dành cho người trên 13 tuổi</td>
+                {% elseif tag.tagID == 2 %}
+                <td> Phim dành cho người trên 16 tuổi</td>
+                {% else %}
+                <td> Phim dành cho người trên 18 tuổi</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Thời lượng : </td>
+                <td>{{movieDetail.duringTime}} Phút </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Đạo diễn :</td>
+                <td>{{movieDetail.movieDirectors}} </td>
+            </tr>
+        </table>`)
+                    $(this).attr("isCoplapse", "false")
+
+                }
+                else {
+                    $("#showContent").html("")
+                    $(this).attr("isCoplapse", "true")
+
+                }
+
+            })
 
 
         </script>
