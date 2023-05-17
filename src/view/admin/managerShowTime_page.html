@@ -1,0 +1,429 @@
+{% extends './template/root.html' %}
+{% block header %}
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="/css/navAdmin.css">
+<link rel="stylesheet" href="/css/managerFilm.css">
+<link rel="stylesheet" href="/css/adminShowTime.css">
+<!-- <link rel="stylesheet" href="magnific-popup/magnific-popup.css"> -->
+<script src="https://cdn.tutorialjinni.com/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
+<link rel="stylesheet" type="text/css"
+    href="https://cdn.tutorialjinni.com/magnific-popup.js/1.1.0/magnific-popup.css" />
+<script src="/js/admin/search.js"></script>
+{% endblock %}
+
+{% block title %}
+Trang Admin Phim
+{% endblock %}
+
+{% block body %}
+{{ navbar | raw }}
+{{ navAdmin | raw }}
+<section id="container" class="home-section" style="display: flex;flex-direction:column ;;">
+    <!-- <div class="d-flex flex-row justify-content-center align-items-center" style="height: auto;">
+        <div class="input-group mb-3 d-flex flex-direction-row" style="width:70%;margin: 15px;height: 50px;">
+
+            <div class="input-group-prepend" style="height: 50px;">
+                <button class="btn btn-primary  dropdown-toggle" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                </div>
+            </div>
+
+            <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                style="height: 50px;border-radius: none;">
+         
+
+
+
+
+        </div>
+        <div>
+          
+        </div>
+    </div> -->
+    <div class="wrapper" style="margin: 20px 0;">
+        <div class="text-managerFilm">QUẢN LÝ LỊCH CHIẾU</div>
+        <div class="search-box">
+            <div class="dropdown">
+                <div class="default-option">ShowID</div>
+                <ul>
+                    <li id="0">ShowID</li>
+                    <li id="1">Tên Phim</li>
+                    <li id="2">Phòng</li>
+                    <li id="3">Rạp</li>
+                </ul>
+            </div>
+            <div class="search-field">
+                <input type="text" class="input" placeholder="Tìm kiếm" id="inputSearch" onkeyup="Search()">
+                <i class='bx bx-search-alt'></i>
+
+            </div>
+        </div>
+        <!-- <button class="add-film btn btn-primary">Thêm lịch chiếu</button> -->
+        <!-- <button class="add-film btn-primary btn">Thêm phim</button>
+               -->
+
+    </div>
+
+
+    <form class="container-form"
+        style="position: fixed;width : 100%;height:100%;background-color: #0000004d;display: none;z-index: 8;;"
+        id="formAdd">
+        <div class="form"
+            style="margin:50px auto  ;background-color: rgb(255, 255, 255);height: 470px;overflow-y: auto">
+            <div action="/" style="padding: 20px 50px;">
+                <h2
+                    style="margin-bottom: 30px;text-align: center;background-color: #414df5;padding: 20px;color: white;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> Thêm lịch chiếu
+                </h2>
+
+                <br>
+
+                <div class="container-input-group d-flex justify-content-between">
+                    <div class="column">
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Phim ID:</label>
+
+                            <label id="error-movie-id" style="display: none;color: red;" for="basic-url"> Mã phim
+                                không
+                                tồn tại </label>
+                            <br>
+                            <label id="showList" style="color: blue;cursor: pointer;">Duyệt danh sách phim hiện có
+                            </label>
+                            <div class="input-group mb-3 input">
+
+                                <input type="text" class="form-control" id="movie-id" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Tên phim :</label>
+                            <div class="input-group mb-3 input">
+                                <input disabled type="text" class="form-control" id="movie-name"
+                                    aria-describedby="basic-addon3">
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Ngày và giờ chiếu :</label>
+                            <div class="input-group mb-3 input">
+                                <input type="time" class="form-control" id="show-start" aria-describedby="basic-addon3"
+                                    placeholder="HH/mm">
+                                <input type="date" placeholder="dd-mm-yyyy" min="1997-01-01" max="2030-12-31"
+                                    class="form-control" id="date" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Mã Phòng:</label>
+                            <label id="error-room-id" style="display: none;color: red;" for="basic-url">Mã phòng
+                                không
+                                tồn
+                                tại</label>
+                            <br>
+                            <label id="showListCinema" style="color: blue;">Duyệt danh sách Phòng hiện có</label>
+                            <div class="input-group mb-3 input">
+                                <input type="text" class="form-control" id="room-id" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+
+
+
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Rạp:</label>
+                            <div class="input-group mb-3 input">
+                                <input style="width:30%" disabled type="text" class="form-control" id="cinema-name"
+                                    aria-describedby="basic-addon3">
+                                <input disabled type="text" class="form-control" id="room-name"
+                                    aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                        <div class="container-input">
+                            <label class="title" for="basic-url">Thời lượng:</label>
+                            <div class="input-group mb-3 input">
+                                <input type="number" class="form-control" id="during-time"
+                                    aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <h5 class="title" for="basic-url">Loại ghế và giá </h5>
+                <div class="container-input" id="seatList">
+                    <!-- <div class="container-seat" id="container-seat"> -->
+                    <!-- <label class="title" for="basic-url">Loại ghế : </label>
+                            <select>
+                                <option value="0">-----</option>
+                                {% for seat in seatList%}
+                                <option value="{{seat.seatType}}">{{seat.typeName}}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="input-group mb-3 input">
+                                <input type="number" class="form-control seat-price" aria-describedby="basic-addon3">
+                                    <i class="fa-solid fa-x remove-icon" style="margin: 12px;cursor: pointer;"
+                                        id="remove-icon"></i>
+                            </div> -->
+                    <!-- </div> -->
+                </div>
+                <h6 style="margin-left:10px;color: blue;" id="addSeat">+Thêm loại ghế</h6>
+                <div class="container-button" id="container-button" style="width: 100%; text-align: center;">
+                    <!-- <button class="btn btn-primary button" id="btn-edit"> Xác nhận </button>
+                    <button class="btn btn-danger button" id="btn-exit"> Hủy </button> -->
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+
+
+
+    <form class="container-form" id="formMovie"
+        style="position: fixed;width : 100%;height:100%;background-color: #0000004d;z-index: 9;display:none;">
+        <div class="form" style="margin:50px auto  ;background-color: rgb(255, 255, 255);height: 470px;width: 40%;">
+            <div action="/" style="padding: 20px 50px;" class="d-flex align-items-center flex-column">
+                <h2
+                    style="margin-bottom: 30px;text-align: center;background-color: #414df5;padding: 20px;color: white;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> Danh sách phim
+                </h2>
+                <div class="input-group rounded">
+                    <input id="inputSearchMovie" type="search" class="form-control rounded" placeholder="Search"
+                        aria-label="Search" onkeyup="SearchMovie()" aria-describedby="search-addon " />
+                    <span class="input-group-text border-0" id="search-addon">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+                <br>
+                <div class="table-showtime" style="width: 100%; margin: 0 auto; max-height: 200px;overflow: auto;">
+                    <table style="width:100%;min-width: 200px;" id="tableMovie">
+                        <thead>
+                            <tr>
+                                <th style="width:30%"> ID</th>
+                                <th style="width:70%">Tên Phim</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for movie in movieList %}
+                            <tr idMovie="{{movie.movieID}}">
+                                <td>{{movie.movieID}}</td>
+                                <td movieName="{{movie.movieName}}">{{movie.movieName}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <button class="btn btn-danger button"id="exit-formMovie"> Hủy </button>`;
+
+            </div>
+
+        </div>
+
+    </form>
+    <form class="container-form" id="formCinema"
+        style="position: fixed;width : 100%;height:100%;background-color: #0000004d;z-index: 9;display: none;">
+        <div class="form" style="margin:50px auto  ;background-color: rgb(255, 255, 255);height: 470px;width: 40%;">
+            <div action="/" style="padding: 20px 50px;" class="d-flex align-items-center flex-column">
+                <h2
+                    style="margin-bottom: 30px;text-align: center;background-color: #414df5;padding: 20px;color: white;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> Danh sách phim
+                </h2>
+                <!-- <div class="input-group rounded">
+                    <input  id="inputSearchMovie" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"  onkeyup="SearchMovie()" aria-describedby="search-addon " />
+                    <span class="input-group-text border-0" id="search-addon">
+                      <i class="fas fa-search"></i>
+                    </span>
+                  </div> -->
+                <br>
+                <div class="table-showtime" style="width: 100%; margin: 0 auto; max-height: 200px;overflow: auto;">
+                    <table style="width:100%;min-width: 200px;" id="tableCinema">
+                        <thead>
+                            <tr>
+                                <th style="width:20%"> ID</th>
+                                <th style="width:40%">Phòng</th>
+                                <th style="width:40%">Rạp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cinema in cinemaList %}
+                            <tr roomID="{{cinema.roomID}}">
+                                <td> {{cinema.roomID}}
+                                </td>
+                                <td>
+                                    {{cinema.roomName}}
+
+                                </td>
+                                <td>
+                                    {{cinema.cinemaName}}
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <button class="btn btn-danger button" id="exit-formCinema"> Hủy </button>`;
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+
+
+
+    <div class="table-showtime" style="width: 100%; margin: 0 auto; max-height: 400px;overflow: auto;">
+        <table style="table-layout: fixed;" id="table">
+            <thead>
+                <tr>
+                    <th>SHOW ID</th>
+                    <th>TÊN PHIM</th>
+                    <th>PHÒNG</th>
+                    <th>RẠP</th>
+                    <th>THỜI GIAN CHIẾU</th>
+                    <th>THỜI LƯỢNG</th>
+                    <th>THAO TAC</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for showTime in showTimeList %}
+                <tr>
+                    <td>{{showTime.showID}}</td>
+
+                    <td>
+                        {% for movie in movieList %}
+                        {% if movie.movieID == showTime.movieID %}
+                        {{movie.movieName}}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+
+
+                    {% for cinema in cinemaList %}
+                    {% if cinema.roomID == showTime.roomID %}
+                    <td>
+                        {{cinema.roomName}}
+
+                    </td>
+                    <td>
+                        {{cinema.cinemaName}}
+                    </td>
+                    {% endif %}
+
+                    {% endfor %}
+
+                    <td>
+                        Ngày : {{showTime.timeStart |date("d/m/Y")}}
+                        <br>
+                        Giờ : {{showTime.timeStart |date('H:i')}}
+                    </td>
+                    <td>{{showTime.duringTime}} phút</td>
+
+                    <td>
+                        <button class="btn" id="editShowTime"> <i class='bx bx-edit editShowTime'
+                                showID="{{showTime.showID}}"></i> </button>
+                        <button class="btn"> <i class='bx bxs-trash-alt delShowTime' showID="{{showTime.showID}}"></i> </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h5 style="color: blue;margin: 20px 30px;"><a href="#" id="btn-addShowtime">+ Thêm lịch chiếu </a></h5>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block js %}
+<script src="/js/admin/adminFood.js"></script>
+<script src="/js/admin/eventListenAdminShowTime.js"></script>
+<script>
+    $("#addSeat").click(function () {
+        appendSeat()
+        removeSeat()
+    })
+    function disabledSelected() {
+        $('select').on('change', function () {
+            $('option').prop('disabled', false); //reset all the disabled options on every change event
+            $('select').each(function () { //loop through all the select elements
+                var val = this.value;
+                $('select').not(this).find('option').filter(function () { //filter option elements having value as selected option
+                    return this.value === val;
+                }).prop('disabled', true); //disable those option elements
+            });
+        }).change();
+    }
+    function appendSeat() {
+        $("#seatList").append(` <div class="container-seat" id="container-seat">
+                <label class="title" for="basic-url">Loại ghế : </label>
+                <select class="selectType">
+                    <option value="0">-----</option>
+                    {% for seat in seatList%}
+                    <option value="{{seat.seatType}}">{{seat.typeName}}</option>
+                    {% endfor %}
+                  </select>
+                <div class="input-group mb-3 input">
+                    <input type="number" class="form-control seat-price"  aria-describedby="basic-addon3">
+                    <i class="fa-solid fa-x remove-icon" style="margin: 12px;cursor: pointer;" id="remove-icon"></i>
+                </div> 
+            </div>`)
+        removeSeat();
+    }
+    $("#btn-addShowtime").click(function () {
+
+        document.getElementById("formAdd").reset();
+        document.getElementById("container-button").innerHTML = `   
+            <button class="btn btn-primary button" id="btn-comfirm"> Xác nhận </button>
+            <button class="btn btn-danger button" id="btn-exit"> Hủy </button>`;
+        appendSeat();
+        checkSeatList()
+        btnAddEvent();
+        btnExitEvent();
+        document.getElementById("formAdd").style.display = "flex";
+        $.ajax({
+            url: "adminShowTime/getSeat",
+            method: "GET",
+            data: [
+
+            ],
+            success: function (res) {
+
+            }
+        })
+
+    })
+    function removeSeat() {
+        $(".remove-icon").click(function (e) {
+            $(e.target.parentElement.parentElement).remove();
+            checkSeatList();
+            disabledSelected();
+        })
+        disabledSelected();
+    }
+    function checkSeatList() {
+        if ($(".remove-icon").length == 1) {
+            $(".remove-icon").css("display", "none")
+        }
+        else {
+            $(".remove-icon").css("display", "static")
+        }
+    }
+
+
+</script>
+
+{% endblock %}

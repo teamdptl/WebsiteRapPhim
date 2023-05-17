@@ -73,13 +73,13 @@ class GlobalController
             2 => [
                 "navID" => 2,
                 "navContent" => "Quản lý Lịch Chiếu",
-                "navHref" => "/adminQuanLyLichChieu",
+                "navHref" => "/adminShowTime",
                 "icon" => "bx bx-calendar-week bx-tada"
             ],
             3 => [
                 "navID" => 3,
                 "navContent" => "Quản lý Thức Ăn",
-                "navHref" => "/adminQuanLyThucAn",
+                "navHref" => "/adminFood",
                 "icon" => "bx bx-food-menu bx-tada"
             ],
             4 => [
