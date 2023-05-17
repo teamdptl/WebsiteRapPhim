@@ -61,9 +61,12 @@ $app->router->post('/signup/otp', ["controller" => "SignUpController", "action" 
 $app->router->post('/signin/otp', ["controller" => "SignInController", "action" => "validateOTP"]);
 $app->router->post('/signin/changePassword', ["controller" => "SignInController", "action" => "validateChangePassword"]);
 $app->router->post('/moviesTest', ["controller" => "MoviesController", "action" => "searchMovie"]);
+$app->router->post('/profile', ['controller' => "UserProfileController", "action" => "detailBooking"]);
 
 $app->router->post('/adminQuanLyPhim/ThemPhim', ["controller" => "AdminQuanLyPhimController", "action" => "AddMovie"]);
 $app->router->post('/booking', ["controller"=>"BookingController", "action"=>"isAbleSeats"]);
+$app->router->post('/booking/payment', ["controller"=>"BookingController", "action"=>"handleInfoForPaymentPage"]);
+$app->router->post('/payment', ["controller"=>"BookingController", "action"=>"finalPayment"]);
 $app->router->post('/adminQuanLyPhim/XoaPhim', ["controller" => "AdminQuanLyPhimController", "action" => "DeleteMovie"]);
 $app->router->post('/adminQuanLyPhim/SuaPhim', ["controller" => "AdminQuanLyPhimController", "action" => "UpdateMovie"]);
 

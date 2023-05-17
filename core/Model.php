@@ -30,6 +30,7 @@ abstract class Model implements ICurdData {
         $containerArr = self::getWhereClauseAndRefferenceArray($ids);
         $whereClause = $containerArr["whereClause"];
         $arr = $containerArr['refArray'];
+        $numOfValidID = $containerArr['numOfAbleID'];
 
         $whereClause = self::handleWhereClause($option, $whereClause);
         $sql = "SELECT * FROM " .static::$tableName. " WHERE ".$whereClause;
@@ -37,6 +38,8 @@ abstract class Model implements ICurdData {
         $stmt = $conn->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, self::getClassName());
         $stmt->execute($arr);
+        if($numOfValidID < count(static::$primaryKey))
+            return $stmt->fetchAll();
         return $stmt->fetch();
     }
 
@@ -298,7 +301,7 @@ abstract class Model implements ICurdData {
         }
 
         $additionSQL = rtrim($additionSQL, "and ");
-        return array('whereClause' => $additionSQL, 'refArray' => $arr);
+        return array('whereClause' => $additionSQL, 'refArray' => $arr, 'numOfAbleID' => $countKey);
     }
 }
 

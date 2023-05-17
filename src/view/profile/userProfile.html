@@ -15,7 +15,7 @@ Hồ sơ người dùng
             <div class="profile-header-bg container position-relative">
                 <div class="absolute-group position-absolute d-flex">
                     <span class="profile-avatar rounded-circle bg-warning d-flex justify-content-center align-items-center">
-                        Duy
+                        {{firstName}}
                     </span>
                 </div>
 
@@ -24,9 +24,9 @@ Hồ sơ người dùng
         <div class="profile-body bg-white">
             <div class="profile-body-bg container position-relative d-flex flex-md-row flex-column">
                 <div class="col-12 col-md-3">
-                    <h5>Huỳnh Khánh Duy</h5>
-                    <p class="text-muted my-0">huykhaduy@gmail.com</p>
-                    <p>Ngày tham gia: 24/06/2021</p>
+                    <h5>{{user.fullName}}</h5>
+                    <p class="text-muted my-0">{{user.email}}</p>
+                    <p>Ngày tham gia: {{createAt}}</p>
                 </div>
                 <div class="profile-body-tab ml-md-5 ml-1 col-12 col-md-9 justify-content-center">
                     <ul class="nav nav-tabs">
@@ -85,8 +85,66 @@ Hồ sơ người dùng
             </div>
         </div>
     </div>
+
+    <div class="popUp-container" style="display: none;">
+        <div class="detail-booking">
+            <div class="left">
+                <div class="header-booking bold up-text" id="cinema-name"></div>
+                <img src="/assets/qrcode.jpg" alt="" srcset="" id="movie-image">
+            </div>
+            <div class="right">
+                <div class="movie-name">
+                    <div class="name fl-r-center w-100 bold mg-t-40" id="movie-name"></div>
+                </div>
+                <div class="room-name fl-r-sp-btw w-100 mg-t-20">
+                    <div class="title w-40px">Phòng chiếu</div>
+                    <div class="name bold w-260px" id="room-name"></div>
+                </div>
+                <div class="seats-name fl-r-sp-btw w-100">
+                    <div class="title w-40px">Ghế</div>
+                    <div class="name bold w-260px" id="seats-name"></div>
+                </div>
+                <div class="showtime fl-r-sp-btw w-100">
+                    <div class="title w-40px">Thời gian</div>
+                    <div class="name bold w-260px" id="showtime"></div>
+                </div>
+
+                <div class="container-food mg-t-20">
+                    <div class="food-header up-text bold fl-r-center w-100">Food</div>
+                    <div class="table-hearder fl-r-sp-btw">
+                        <div class="food-name tb-h bold">Tên combo</div>
+                        <div class="food-quantity tb-h bold">SL</div>
+                    </div>
+                    <div class="content-food">
+                        
+                    </div>
+                </div>
+
+                <div class="container-price w-100 t-bd-s mg-t-40">
+                    <div class="ticket-cost fl-r-sp-btw w-100">
+                        <div class="title">Tiền ghế</div>
+                        <div class="price bold" id="ticket-cost"></div>
+                    </div>
+
+                    <div class="food-cost fl-r-sp-btw w-100">
+                        <div class="title">Tiền combo</div>
+                        <div class="price bold" id="food-cost"></div>
+                    </div>
+
+                    <div class="total-cost fl-r-sp-btw w-100">
+                        <div class="title">Tổng</div>
+                        <div class="price bold" id="total-cost" style="color: red;"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
 <script src="/js/page/profile.js"></script>
+<script>
+    
+</script>
 {% endblock %}
