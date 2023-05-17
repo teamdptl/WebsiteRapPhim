@@ -52,6 +52,7 @@ $app->router->get('/adminFood', ["controller" => "AdminFoodController", "action"
 $app->router->post('/adminFood/insert', ["controller" => "AdminFoodController", "action" => "insertFood"]);
 $app->router->get('/adminFood/edit', ["controller" => "AdminFoodController", "action" => "editFood"]);
 $app->router->post('/adminFood/update', ["controller" => "AdminFoodController", "action" => "updateFood"]);
+$app->router->post('/adminFood/del', ["controller" => "AdminFoodController", "action" => "delFood"]);
     
 
 $app->router->get('/profile', ["controller" => "UserProfileController", "action" => "getProfilePage"]);
