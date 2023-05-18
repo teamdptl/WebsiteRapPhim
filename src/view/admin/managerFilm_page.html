@@ -13,6 +13,8 @@ Trang Admin Phim
 {% block body %}
 {{ navbar | raw }}
 {{ navAdmin | raw }}
+
+
     <section class="home-section">
         <!-- <div class="text">Dashboard</div> -->
 
@@ -21,22 +23,20 @@ Trang Admin Phim
         <div class="wrapper">
             <div class="text-managerFilm">QUẢN LÝ PHIM</div>
             <div class="search-box">
-                <div class="dropdown">
-                    <div class="default-option">Tất cả</div>
-                        <ul>
-                            <li onclick="searchAll()">Tất cả</li>
-                            <li onclick="searchByCategory()">Thể loại</li>
-                            <li onclick="searchByAge()">Độ tuổi</li>
-                        </ul>
-                </div>
-                <div class="search-field">
-                    <input type="text" class="input" id="search-input" placeholder="Tìm kiếm">
-                    <i class='bx bx-search-alt' id="search-icon"></i>
-                 
-                </div>
-            </div>
+                <form >
+                      <select name="searchType" class="default-option">
+                          <option value="0">Tên phim</option>
+                          <option value="1">Thể loại</option>
+                          <option value="2">Độ tuổi</option>
+                      </select>
+                
+                  <div class="search-field">
+                      <input type="text" class="input" id="searchValue" name="searchValue" placeholder="Tìm kiếm" value="{{ searchValue }}">
+                      <i class='bx bx-search-alt' id="search-icon"></i>
+                  </div>
+                </form>
+          </div>
             <button class="add-film btn-primary btn">Thêm phim</button>
-            
         </div>
         
         <!--Table-->
@@ -77,11 +77,11 @@ Trang Admin Phim
         <!--Navigation-->
 
       <!-- Navigation -->
-        <nav aria-label="Page navigation example" style="display: flex; align-items: center; justify-content: center;">
+        <nav aria-label="Page navigation example" style="display: flex; align-items: center; justify-content: center; margin-top: 10px;">
           <ul class="pagination">
               {% if currentPage > 1 %}
                   <li class="page-item">
-                      <a class="page-link" href="?page=1" aria-label="First">
+                      <a class="page-link" href="?page=1&searchType={{ searchType }}&searchValue={{ searchValue }}" aria-label="First">
                           <span aria-hidden="true">&laquo;&laquo;</span>
                       </a>
                   </li>
@@ -101,7 +101,7 @@ Trang Admin Phim
 
               {% for page in navigationRange %}
                   <li class="page-item {% if page == currentPage %}active{% endif %}">
-                      <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                      <a class="page-link" href="?page={{ page }}&searchType={{ searchType }}&searchValue={{ searchValue }}">{{ page }}</a>
                   </li>
               {% endfor %}
 
@@ -112,7 +112,7 @@ Trang Admin Phim
                       </a>
                   </li> -->
                   <li class="page-item">
-                      <a class="page-link" href="?page={{ totalPages }}" aria-label="Last">
+                      <a class="page-link" href="?page={{ totalPages }}&searchType={{ searchType }}&searchValue={{ searchValue }}" aria-label="Last">
                           <span aria-hidden="true">&raquo;&raquo;</span>
                       </a>
                   </li>
@@ -126,6 +126,8 @@ Trang Admin Phim
               {% endif %}
           </ul>
         </nav>
+
+
         <!-- Modal Delete-->
 
         <div class="modal modal-delete" tabindex="-1" role="dialog" >
@@ -165,14 +167,34 @@ Trang Admin Phim
                       </div>
                       <div class="half-input">
                             <div class="form-group">
-                              <label for="poster-link">Post Link:</label>
-                              <input type="file" accept="image/*" class="" id="poster-link" name="poster-link" placeholder="Nhập posterLink">
+                              <!-- <label for="poster-link">Post Link:</label>
+                              <br>
+                              <input type="file" accept="image/*" class="" id="poster-link" name="poster-link" placeholder="Nhập posterLink"> -->
+                              <div style="font-weight: bold;">Ảnh poster:</div>
+                              <br>
+                              <label for="poster-link"><img style="height: 300px; width: 200px;"  class="" id="poster-link-img" name="poster-link-img"></label>
+                              <input type="file" accept="image/*" class="d-none" id="poster-link" name="poster-link" placeholder="Nhập posterLink" onchange="previewImage('poster-link', 'poster-link-img')">
                             </div>
                             <div class="form-group">
-                              <label for="landscape-poster">Landscape Poster:</label>
-                              <input type="file" accept="image/*" class="" id="landscape-poster" name="landscape-poster" placeholder="Nhập poster">
+                              <!-- <label for="landscape-poster">Landscape Poster:</label>
+                              <input type="file" accept="image/*" class="" id="landscape-poster" name="landscape-poster" placeholder="Nhập poster"> -->
+                              <div style="font-weight: bold;">Ảnh Landscape:</div>
+                              <br>
+                              <label for="landscape-poster"><img style="height: 200px; width: 330px;"  class="" id="landscape-poster-img" name="landscape-poster-img"></label>
+                              <input type="file" accept="image/*" class="d-none" id="landscape-poster" name="landscape-poster" placeholder="Nhập Landspace" onchange="previewImage('landscape-poster', 'landscape-poster-img')">
                             </div>
                       </div>
+                      <!-- <div class="half-input">
+                        <div class="form-group">
+                            <label for="landscape-poster-img-add">Ảnh Poster</label>
+                            <br> 
+                            <img style="height: 300px; width: 200px;"  class="" id="poster-link-img-add" name="poster-link-img-add">
+                        </div>
+                        <div class="form-group">
+                            <label for="landscape-poster-img-add">Ảnh Landscape</label>
+                            <img style="height: 200px; width: 330px;" class="" id="landscape-poster-img-add" name="landscape-poster-img-add">
+                        </div>
+                    </div> -->
                       
                       <div class="half-input">
                             <div class="form-group">
@@ -269,15 +291,18 @@ Trang Admin Phim
                     </div>
                     <div class="half-input">
                         <div class="form-group">
-                            <label for="poster-link-edit">Post Link:</label>
-                            <input type="file" accept="image/*" class="" id="poster-link-edit" name="poster-link-edit" placeholder="Nhập posterLink">
+                            <div style="font-weight: bold;">Ảnh poster:</div>
+                            <br>
+                            <label for="poster-link-edit"><img style="height: 300px; width: 200px;"  class="" id="poster-link-img-edit" name="poster-link-img-edit"></label>
+                            <input type="file" accept="image/*" class="d-none" id="poster-link-edit" name="poster-link-edit" placeholder="Nhập posterLink" onchange="previewImage('poster-link-edit', 'poster-link-img-edit')">
                         </div>
                         <div class="form-group">
-                            <label for="landscape-poster-edit">Landscape Poster:</label>
-                            <input type="file" accept="image/*" class="" id="landscape-poster-edit" name="landscape-poster-edit" placeholder="Nhập poster">
+                          <div style="font-weight: bold;">Ảnh landscape:</div>
+                          <br>
+                          <label for="landscape-poster-edit"><img style="height: 200px; width: 330px;" class="" id="landscape-poster-img-edit" name="landscape-poster-img-edit"></label>
+                            <input type="file" accept="image/*" class="d-none" id="landscape-poster-edit" name="landscape-poster-edit" placeholder="Nhập poster" onchange="previewImage('landscape-poster-edit', 'landscape-poster-img-edit')" >
                         </div>
                     </div>
-                    
                     <div class="half-input">
                         <div class="form-group">
                             <label for="trailer-link-edit">Trailer link:</label>
@@ -369,7 +394,6 @@ Trang Admin Phim
         </div>
         </div>
     </section> -->
-
 
 
 
