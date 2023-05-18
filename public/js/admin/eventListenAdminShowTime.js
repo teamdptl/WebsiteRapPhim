@@ -1,3 +1,4 @@
+
 let showID;
 
 
@@ -10,9 +11,9 @@ $(".delShowTime").click(function (e) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        cancelButtonColor: '#d33000',
         confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
                 url: "adminShowTime/del",
@@ -33,13 +34,13 @@ $(".delShowTime").click(function (e) {
                             location.reload();
                         }, 1500);
                     };
-        
+
                 }
             })
-        
+
         }
-      })
-  
+    })
+
 });
 
 
@@ -47,7 +48,7 @@ $(".editShowTime").click(function (e) {
     document.getElementById("formAdd").style.display = "flex";
     document.getElementById("container-button").innerHTML = `   
             <button class="btn btn-primary button" id="btn-edit"> Xác nhận </button>
-            <button class="btn btn-danger button" id="btn-exit"> Hủy </button>`
+            <button class="btn btn-danger button"  id="btn-exit"> Hủy </button>`
     showID = e.target.getAttribute("showid");
     document.getElementById("formAdd").reset();
     btnEditEvent();
@@ -69,7 +70,7 @@ $(".editShowTime").click(function (e) {
             for (let i = 0; i < res.length; i++) {
                 select[i].value = res[i].seatType;
                 input[i].value = res[i].ticketPrice;
-            }; 
+            };
             const [date, showStart] = res[0].timeStart.split(' ');
             $("#movie-id").val(res[0].movieID);
             $("#movie-name").val(res[0].movieName);
@@ -84,10 +85,10 @@ $(".editShowTime").click(function (e) {
     })
 
 });
-$("#movie-id").focusout(function(){
+$("#movie-id").focusout(function () {
     eventGetMovieName()
 });
-function eventGetMovieName(){
+function eventGetMovieName() {
     let id = $("#movie-id").val();
     console.log(id);
     url = "/adminShowTime/getMovieName";
@@ -115,7 +116,7 @@ function eventGetMovieName(){
 $("#room-id").focusout(function () {
     eventGetCinemaName();
 })
-function eventGetCinemaName(){
+function eventGetCinemaName() {
     let id = $("#room-id").val();
     $.ajax({
         dataType: 'json',
@@ -201,25 +202,16 @@ function btnEditEvent() {
         }
     })
 }
-function checkSeat() {
 
-}
 function checkInput() {
     let Ischeck;
-
-
-
     $('select').each(function () {
-        // selected[$(this).val()] = $(this).find("option:selected").text();
         if (this.value == "0") {
             Ischeck = true;
-
         }
     }
     )
-    // console.log($(".seat-price"));
     $(".seat-price").each(function () {
-        // console.log($(this).val())
         if (this.value == "") {
             Ischeck = true;
         }
