@@ -77,7 +77,7 @@ function generateBookings(){
     ]);
     if (count($users) == 0)
         return;
-    $perMovieBookings = rand(1, 5);
+    $perMovieBookings = rand(0, 2);
     foreach ($showTimes as $show){
         echo "Đang tạo booking cho showtime $show->showID\n";
         for ($i = 0;$i<$perMovieBookings;$i++){
