@@ -101,6 +101,10 @@ class SignInController extends Controller{
         $password = $_POST['passwordChangePassword'];
         $passwordRecord = $_POST['passwordChangePasswordRecord'];
 
+        $emailLength = strlen($email);
+        $passwordLength = strlen($password);
+        $passwordRecordLength = strlen($passwordRecord);
+
         $patternEmail = '/^[a-z]+[a-z-_\.0-9]{2,}@[a-z]+[a-z-_\.0-9]{2,}\.[a-z]{2,}$/';
         $patternPassword = '/[\dA-Za-z]{8,255}/';
 
@@ -110,22 +114,31 @@ class SignInController extends Controller{
         $status = 0;
         $message = "Thành công";
 
-        if(!$checkEmail){
+        if($emailLength == 0) {
+            $message = "Vui lòng nhập email";
+        }
+        else if(!$checkEmail){
             $message = "Bạn nhập không đúng định dạng Email";
+        }
+        else if($passwordLength == 0){
+            $message = "Vui lòng nhập password";
         }
         else if(!$checkPassWord){
             $message = "Ít nhất phải có 8 kí tự";
+        }
+        else if($passwordRecordLength == 0){
+            $message = "Vui lòng xác nhập xác nhận lại password";
         }
         else if($password!==$passwordRecord){
             $message = "Không trùng mật khẩu";
         }
         else{
-            $users = User::where("email = :email ", compact('email'));
-            if($users !== null){
+            $users = User::where("email = :email AND isDeleted = 0 ", compact('email'));
+            if($users != null){
                 $session = new SessionManager();
 
                 if (!isset($session->signUpOTP) && time() < $session->signUpOTPTimeOut) {
-                    $randomOTP = $session->signUpOTP;
+                    $randomOTP = $session->signInOTP;
                 } else {
                     $randomOTP = $this->generateRandomString(); 
                 }
@@ -140,7 +153,7 @@ class SignInController extends Controller{
 
 
             }
-            else $message = "Email chưa được tạo";
+            else $message = "Email chưa được tạo hoặc đã bị xóa khỏi hệ thống";
 
         }
 
@@ -153,5 +166,62 @@ class SignInController extends Controller{
             "status" => $status,
             "message" => $message
         ]);
+    }
+
+    public function validateOTP(){
+        $session = new SessionManager();
+        $email = $_POST['email'];
+        $otp = $_POST["otp"];
+        // if (!isset($_SESSION["sign_up_email"]) || !isset($_SESSION["sign_up_otp"])){
+        //     $this->jsonSignUpResponse(0, "Email hoặc OTP không tồn tại!");
+        //     return;
+        // }
+        if ($session->signInEmailChangePassword == null || $session->signInOTP == null){
+            $this->jsonSignInResponse(0, "Email hoặc OTP không tồn tại!");
+            return;
+        }
+        
+        if (time() > $session->signInOTPTimeOut){
+            $this->jsonSignInResponse(4, "OTP hết hạn!");
+        }else{
+            if($session->signInOTP !== $otp){
+                $this->jsonSignInResponse(3, "OTP sai!");
+                return;
+            }
+    
+        }
+
+        
+        // if($email == $_SESSION["sign_up_email"] && time() <  $_SESSION["sign_up_timeout"] && $_SESSION["sign_up_otp"] == $otp ){
+        if($email == $session->signInEmailChangePassword && time() < $session->signInOTPTimeOut && $session->signInOTP  == $otp){
+            // $user = new User();
+            // $user->fullName = $session->signUpFullName;
+            // $user->userPassword = $session->signUpPassword;
+            // $user->email = $session->signUpEmail;
+            // $user->isActive = true;
+            // $user->createAt = date_create_from_format('m/d/Y h:i:s', date('m/d/Y h:i:s', time()))->format('Y-m-d H:i:s');
+            // $user->permissionID = NULL;
+            // User::save($user);
+
+            $email = $session->signInEmailChangePassword;
+            $users = User::where("email = :email AND isDeleted = 0 ", compact('email'));
+
+
+            $user = new User();
+            $user->fullName =  $users[0]->fullName;
+            $user->userPassword = $session->signInChangePassword;
+            $user->email = $session-> signInEmailChangePassword;
+            $user->isActive = 1;
+            $user->createAt = $users[0]->createAt;
+            $user->permissionID = null;
+            $user->isDeleted = 0;
+
+            User::update($user,  $users[0]->userID);
+            
+
+            $this->jsonSignInResponse(1, "OTP đúng! Đã thay đổi mật khẩu thành công thành công");
+            
+        }
+        
     }
 }

@@ -11,6 +11,10 @@ class SessionManager
     private string $signUpOTPTimeOut = "signUpOTPTimeOut";
     private string $signInUserID = "signInUserID";
 
+    private string $userID = "userID";
+    private string $fullNameUser = "fullNameUser";
+    private string $creatAt = "creatAt";
+
     private string $signInEmailChangePassword = "signInEmailChangePassword";
     private string $signInChangePassword = "signInChangePassword";
     private string $signInOTP = "signInOTP";

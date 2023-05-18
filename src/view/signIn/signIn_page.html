@@ -85,7 +85,7 @@ Trang đăng nhập
         <input class="input_otp" type="number" disabled />
         <input class="input_otp" type="number" disabled />
         </div>
-        <span class="input-field_otp" id="sendBackOtp" style="margin-top: 12px; display: none;">Không nhận được otp <a href="#">Gửi lại</a></span>
+        <span class="input-field_otp" id="sendBackOtp" style="margin-top: 12px; display: none;">Không nhận được otp <a href="#" id="otpAgain">Gửi lại</a></span>
         <button id="btnConfirm">Verify OTP</button>
     </form>
     </div>
@@ -100,15 +100,16 @@ Trang đăng nhập
         <div class="input-field_changePassword">
         <label for="emailChangePassword" class="login_label" >Email</label>
         <input type="text" id="emailChangePassword" name="emailChangePassword" class="login_component login_input" placeholder="Ví dụ: ThanhDanh@gmail.com">
-        <label for="passwordChangePassword" class="login_label">Mật khẩu</label>
+        <label for="passwordChangePassword" class="login_label">Nhập mật khẩu mới</label>
         <div class="hehe">
-            <input type="password" id="passwordChangePassword" name="passwordChangePassword" class="login_component login_input" placeholder="Ví dụ: 12345678">
-            <i class="fa-solid fa-eye" id="show_password"></i>
+            <input type="password" id="passwordChangePasswordQuenMK" name="passwordChangePassword" class="login_component login_input" placeholder="Ví dụ: 12345678">
+            <i class="fa-solid fa-eye" id="show_password_quenMK"></i>
+            
         </div>
         <label for="passwordChangePasswordRecord" class="login_label">Nhập lại mật khẩu</label>
         <div class="hehe">
-            <input type="password" id="passwordChangePasswordRecord" name="passwordChangePasswordRecord" class="login_component login_input" placeholder="Ví dụ: 12345678">
-            <i class="fa-solid fa-eye" id="show_password_record"></i>
+            <input type="password" id="passwordChangePasswordRecordQuenMK" name="passwordChangePasswordRecordQuenMK" class="login_component login_input" placeholder="Ví dụ: 12345678">
+            <i class="fa-solid fa-eye" id="show_password_record_quenMK"></i>
         </div>
         </div>
         <button id="btnConfirmOTP" class="login_component login_already" type="submit">Xác nhận OTP</button>
@@ -132,6 +133,7 @@ Trang đăng nhập
 {% block js %}
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/signin/otpSignIn.js"></script>
+
 <script src="/js/showpass.js"></script>
 <script>
     $(document).ready(function(){
@@ -163,11 +165,11 @@ Trang đăng nhập
 
     $('#form').submit(false);
 
-    $("btnConfirmOTP").click((e)=>{
+    $("#btnConfirmOTP, #otpAgain").click((e)=>{
         e.preventDefault();
         let emailChangePassword = $("#emailChangePassword").val();
-        let passwordChangePassword = $("#passwordChangePassword").val();
-        let passwordChangePasswordRecord = $("#passwordChangePasswordRecord").val();
+        let passwordChangePassword = $("#passwordChangePasswordQuenMK").val();
+        let passwordChangePasswordRecord = $("#passwordChangePasswordRecordQuenMK").val();
         $("#loadingModal").css("display", "flex");
 
         $.ajax({
@@ -182,6 +184,7 @@ Trang đăng nhập
                 let data = JSON.parse(res);
 
                 if(data.status == 1){
+
                     $("#myModal").css("display", "flex");
                 }
                 else {
