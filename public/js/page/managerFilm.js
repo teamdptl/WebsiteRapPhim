@@ -20,7 +20,8 @@ $(document).ready(function(){
     });
 
     //modal addFilm
-    $(".add-film").click(function() {
+    $(".add-film").click(function(e) {
+      e.preventDefault();
       $("#Add").toggle();
     });
 
@@ -40,6 +41,7 @@ $(document).ready(function(){
     });
 
     
+    
     $("#btnAddFilm").click((e) => {
         e.preventDefault();
         var formData = new FormData();
@@ -58,6 +60,9 @@ $(document).ready(function(){
         let language = $("#language").val();
         let customSwitches = $("#customSwitches").is(':checked') ? '1' : '0';
         let tagID = $("#Add select[name='tagID'] option:selected").val();
+        // $('#poster-link-img-add').attr("src","/assets/posterImgMovie/"+$("#poster-link")[0].files[0]);
+        // $('#landscape-poster-img-add').attr("src","/assets/landscapeImgMovie/"+$("#landscape-poster")[0].files[0]);
+
         console.log(tagID);
 
         formData.append('nameMovie', nameMovie);
@@ -169,14 +174,12 @@ $(document).ready(function(){
         success: function(response){
           let data =  JSON.parse(response);
 
-        
-
+          
           $.each(data.movie, function(index, movie) {
             $('#name-movie-edit').val(movie.movieName);
             $('#des-movie-edit').val(movie.movieDes);
-            // $('#landscape-poster-name').text(movie.landscapePoster);
-              // $('#poster-link-edit').attr('placeholder', movie.posterLink);
-              // $('#landscape-poster-edit').val(movie.landscapePoster );
+            $('#poster-link-img-edit').attr("src","/assets/posterImgMovie/"+movie.posterLink);
+            $('#landscape-poster-img-edit').attr("src","/assets/landscapeImgMovie/"+movie.landscapePoster);
             $('#trailer-link-edit').val(movie.trailerLink);
             $('#directors-edit').val(movie.movieDirectors);
             $('#actors-edit').val(movie.movieActors);
@@ -278,36 +281,47 @@ $(document).ready(function(){
 
       });
 
-      $('#search-icon').click(function () {
-        performSearch();
-    });
-
-    // Bắt sự kiện nhấn Enter trong ô input
-        $('#search-input').keydown(function (event) {
-            if (event.which === 13) {
-                event.preventDefault(); // Ngăn không cho trang tải lại
-                performSearch();
-            }
-        });
-
-        // Hàm thực hiện tìm kiếm
-        function performSearch() {
-            var keyword = $('#search-input').val();
-            console.log(keyword);
-
-            $.ajax({
-                url: '/adminQuanLyPhim/TimKiem',
-                type: 'GET',
-                data: { keyword: keyword },
-                success: function (result) {
-                    // $('#search-input').val(result);
-                }
-            });
-        }
-   
-    
-
+     
 
 });
 
 
+// function fetchSearchResults() {
+//   var searchType = $('select[name="searchType"]').val();
+//   var searchValue = $('input[name="searchValue"]').val();
+
+  
+
+//   console.log(searchType);
+//   console.log(searchValue);
+
+//   $.ajax({
+//       url: '/adminQuanLyPhim',
+//       method: 'GET',
+//       data: {
+//           searchType: searchType,
+//           searchValue: searchValue
+//       },
+//       success: function(response) {
+//           $('#searchResults').html(response);
+//       },
+//       error: function() {
+//           // Xử lý lỗi nếu có
+//       }
+//   });
+// }
+
+function previewImage(inputId, imgId) {
+  var input = document.getElementById(inputId);
+  var img = document.getElementById(imgId);
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      img.setAttribute("src", e.target.result);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
