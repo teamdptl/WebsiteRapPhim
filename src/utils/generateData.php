@@ -27,7 +27,7 @@ generateShowTimes();
 generateBookings();
 
 function generateShowTimes(){
-    $topMovie = 5;
+    $topMovie = 10;
     $movies = array_slice(Movie::findAll(), 0, $topMovie);
     $currentDate = time();
     $dayRange = [-10, 10];
@@ -35,7 +35,7 @@ function generateShowTimes(){
     $roomSize = count($rooms) - 1;
     foreach ($movies as $movie){
         echo "Đang random cho phim ".$movie->movieName."\n";
-        $numberOfShowTimes = rand(10 , 25);
+        $numberOfShowTimes = rand(5 , 10);
         for ($i=0;$i<$numberOfShowTimes;$i++){
             $showTimes = new Showtime();
             $showTimes->duringTime = $movie->duringTime;
@@ -185,7 +185,7 @@ function generateMovies(){
 //        ->primaryReleaseDateLte($dateEnd);
 
         $response = $repository->discoverMovies($query);
-        $maxPage = min($response->getTotalPages(), 6);
+        $maxPage = min($response->getTotalPages(), 3);
         echo ("Current page: $currentPage, maxPage: $maxPage\n");
         $currentPage++;
         foreach ($response->getIterator() as $movie) {
