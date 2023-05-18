@@ -10,12 +10,13 @@ use app\model\Movie;
 use app\model\Room;
 use app\model\SeatShowtime;
 use core\View;
+use stdClass;
 
 class AdminThongKeController
 {
     public function getThongKePage(){
-        $fromDate = $_GET['fromDate'];
-        $toDate = $_GET['toDate'];
+        $fromDate = $_GET['fromDate'] ?? false;
+        $toDate = $_GET['toDate'] ?? false;
         $movieSize = isset($_GET['movie_size']) ? (int) $_GET['movie_size'] : 10;
         $tempStart = $fromDate;
         $tempEnd = $toDate;
@@ -29,11 +30,12 @@ class AdminThongKeController
             }
         }
 
+        $bookQueryId = "SELECT bookingID from booking where bookTime >= '$tempStart' AND bookTime <= '$tempEnd' AND isPaid = true";
         $bookings = $this->filterBookings($tempStart, $tempEnd);
-        $bookingInfo = $this->getTotalInfo($bookings);
-        $movieInfo = $this->getListBookingMovie($bookings, $movieSize);
-        $cinemaInfo = $this->getListCinema($bookings);
-        $foodInfo = $this->getListFoodBooking($bookings);
+        $cinemaInfo = $this->getCinemaDataInDatabase($bookQueryId);
+        $movieInfo = $this->getListBookingMovieDatabase($bookQueryId, $movieSize);
+        $foodInfo = $this->getFoodBookingInDatabase($bookQueryId);
+        $bookGraphs = $this->getMovieGraphByBookings($bookQueryId);
         $navbar = GlobalController::getNavbar();
         $navAdmin = GlobalController::getNavAdmin();
         View::renderTemplate("/admin/admin_thongke.html",[
@@ -41,12 +43,16 @@ class AdminThongKeController
             "navAdmin" => $navAdmin,
             "fromDate" => $fromDate,
             "toDate" => $toDate,
-            "totalOrders" => count($bookings),
-            "bookingInfo" => $bookingInfo,
-            "cinemaInfo" => $cinemaInfo,
-            "movieInfo" => $movieInfo,
             "movieSize" => $movieSize,
-            "foodInfo" => $foodInfo,
+            "totalOrders" => count($bookings),
+            "totalMovieMoney" => $movieInfo["sum"],
+            "totalFoodMoney" => $foodInfo["sum"],
+            "movieList" =>  $movieInfo["list"],
+            "foodList" => $foodInfo["list"],
+            "cinemaList" => $cinemaInfo["list"],
+            "labels" => $bookGraphs["labels"],
+            "foodLine" => $bookGraphs["foodLine"],
+            "ticketLine" => $bookGraphs["ticketLine"]
         ]);
     }
 
@@ -81,6 +87,70 @@ class AdminThongKeController
         return $bookings;
     }
 
+    public function getListBookingMovieDatabase($bookQuery, $movieSize=10){
+        $movies = Movie::query("SELECT movie.movieName, COALESCE(sum(seat_showtime.seatPrice), 0) as doanhThu FROM MOVIE 
+                    INNER JOIN showtime ON showtime.movieID = movie.movieID
+					INNER JOIN seat_showtime ON seat_showtime.showID = showtime.showID
+                    WHERE seat_showtime.bookingID IN ($bookQuery) AND movie.isDeleted = false
+                    GROUP BY movie.movieID
+                    ORDER BY doanhThu DESC LIMIT $movieSize");
+        return [
+                "list"=>$movies,
+                "sum"=>array_reduce($movies, function ($sum, $obj) {
+                    return $sum += $obj->doanhThu;
+                })
+        ];
+    }
+
+    public function getFoodBookingInDatabase($bookQuery){
+        $foods = Food::query("SELECT food.foodImage, food.foodName, IFNULL(SUM(food_booking.foodUnit*food_booking.foodPrice), 0) AS doanhThu, IFNULL(SUM(food_booking.foodUnit), 0) AS soLuong FROM `food` 
+                     LEFT JOIN food_booking ON food_booking.foodID = food.foodID AND food_booking.bookingID IN ($bookQuery) 
+                     WHERE food.isDeleted = false
+                     GROUP BY food.foodID
+                     ORDER BY doanhThu DESC");
+        return [
+            "list"=>$foods,
+            "sum"=>array_reduce($foods, function($sum, $obj){
+                return $sum += $obj->doanhThu;
+            })
+        ];
+    }
+
+    public function getCinemaDataInDatabase($bookQuery){
+        $cinemas = Cinema::query("SELECT cinema.cinemaID, cinema.cinemaName, (SELECT COUNT(DISTINCT room.roomID) FROM room WHERE room.cinemaID = cinema.cinemaID) AS soPhong, count(seat_showtime.seatID) as soVe, sum(seat_showtime.seatPrice) as doanhThu FROM cinema
+	            LEFT JOIN room on cinema.cinemaID = room.cinemaID
+                LEFT JOIN seat on seat.roomID = room.roomID
+                LEFT JOIN seat_showtime on seat_showtime.seatID = seat.seatID AND seat_showtime.bookingID IN ($bookQuery) AND seat_showtime.isBooked = true
+	            GROUP BY cinemaID
+                ORDER BY doanhThu DESC");
+        return [
+            "list"=>$cinemas,
+        ];
+    }
+
+    public function getMovieGraphByBookings($bookQuery){
+        $bookingList = Booking::query("SELECT DATE(booking.bookTime) AS bookDate,
+                    SUM(IFNULL((SELECT SUM(food_booking.foodUnit * food_booking.foodPrice) FROM food_booking WHERE food_booking.bookingID = booking.bookingID), 0)) AS foodSum,
+                    SUM(IFNULL((SELECT SUM(seat_showtime.seatPrice) FROM seat_showtime WHERE seat_showtime.bookingID = booking.bookingID), 0)) AS ticketSum
+                FROM booking
+                WHERE booking.bookingID IN ($bookQuery)
+                GROUP BY bookDate
+                ORDER BY bookDate ASC");
+
+        $data = [
+            "labels"=> [],
+            "foodLine"=>[],
+            "ticketLine"=>[]
+        ];
+
+        foreach ($bookingList as $booking){
+            $data["labels"][] = date("d-m-Y", strtotime($booking->bookDate));
+            $data["foodLine"][] = $booking->foodSum;
+            $data["ticketLine"][] = $booking->ticketSum;
+        }
+        return $data;
+    }
+
     public function getTotalInfo($bookings){
         $totalMoney = 0;
         $listVe = [];
@@ -101,7 +171,7 @@ class AdminThongKeController
             $listDate[] = date('d-m-Y', strtotime($booking->bookTime));
             $listVe[] = $booking->doanhThuVe;
             $listDoAn[] = $booking->doanhThuDoAn;
-            $totalMoney += $booking->doanhThuVe + $bookings->doanhThuDoAn;
+            $totalMoney += $booking->doanhThuVe + $booking->doanhThuDoAn;
         }
         return [
             "totalMoney" => $totalMoney,
@@ -181,8 +251,10 @@ class AdminThongKeController
             $food->units = 0;
             foreach ($bookings as $booking){
                 $foodBooking = FoodBooking::find(1, $booking->bookingID, $food->foodID);
-                $food->doanhThu += $foodBooking->foodPrice * $foodBooking->foodUnit;
-                $food->units += $foodBooking->foodUnit;
+                if ($foodBooking != false){
+                    $food->doanhThu += $foodBooking->foodPrice * $foodBooking->foodUnit;
+                    $food->units += $foodBooking->foodUnit;
+                }
             }
             $totalMoney += $food->doanhThu;
         }
@@ -194,18 +266,4 @@ class AdminThongKeController
             "listFood" => $foods,
         ];
     }
-
-//    public function getBookingGraphs($bookings){
-//        usort($bookings, function ($a, $b) {
-//            return strtotime($a->bookTime) > strtotime($b->bookTime);
-//        });
-//        foreach($bookings as $booking){
-//            $listSeatBook = $booking->haveList(SeatShowtime::class);
-//            $booking->doanhThuVe = 0;
-//            $booking->doanh
-//            foreach($listSeatBook as $seatBook){
-//
-//            }
-//        }
-//    }
 }

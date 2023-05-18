@@ -91,7 +91,7 @@ class Router{
             $session = new SessionManager();
             if ($session->signInUserID != null){
                 $user = User::find(Model::UN_DELETED_OBJ,$session->signInUserID);
-                if ($user != null){
+                if ($user){
                     Request::$user = $user;
                     // echo "Ban da dang nhap voi email ".$user->email;
                 }

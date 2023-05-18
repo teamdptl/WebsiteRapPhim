@@ -24,18 +24,18 @@ require_once dirname(__DIR__) .'/utils/apikey.php';
 generateMovies();
 generateSeats();
 generateShowTimes();
-//generateBookings();
+generateBookings();
 
 function generateShowTimes(){
-    $topMovie = 20;
+    $topMovie = 5;
     $movies = array_slice(Movie::findAll(), 0, $topMovie);
     $currentDate = time();
     $dayRange = [-10, 10];
     $rooms = Room::findAll();
     $roomSize = count($rooms) - 1;
     foreach ($movies as $movie){
-        echo "Đang random cho phim ".$movie->movieName;
-        $numberOfShowTimes = rand(10 , 50);
+        echo "Đang random cho phim ".$movie->movieName."\n";
+        $numberOfShowTimes = rand(10 , 25);
         for ($i=0;$i<$numberOfShowTimes;$i++){
             $showTimes = new Showtime();
             $showTimes->duringTime = $movie->duringTime;
@@ -75,15 +75,29 @@ function generateBookings(){
     $users = User::where("permissionID = :permissionID", [
         "permissionID" => 1
     ]);
-    $perMovieBookings = rand(1, 10);
+    if (count($users) == 0)
+        return;
+    $perMovieBookings = rand(1, 5);
     foreach ($showTimes as $show){
+        echo "Đang tạo booking cho showtime $show->showID\n";
         for ($i = 0;$i<$perMovieBookings;$i++){
             $numUser = count($users) - 1;
             $book = new Booking();
             $randomUser = $users[rand(0, $numUser)];
             $book->bookName = $randomUser->fullName;
             $book->bookEmail = $randomUser->email;
-            $book->bookTime = date("Y-m-d H:i:s");
+
+            $strTime = strtotime($show->timeStart);
+            $minutes_to_subtract = rand(0, 1200);
+            $randomBookTime = strtotime("-{$minutes_to_subtract} minutes", $strTime);
+            $book->bookTime = date("Y-m-d H:i:s", $randomBookTime);
+            $book->methodPay = "Tiền mặt";
+            if (rand(0, 1) == 1){
+                $book->isPaid = true;
+            } else {
+                $book->isPaid = false;
+            }
+
             $book->userID = $randomUser->userID;
             $bookID = Booking::save($book);
             $numberBook = rand(1, 6);
@@ -99,7 +113,8 @@ function generateBookings(){
                 } while ($randomSeat->seatType != $randomSeatType);
                 $seatShow->showID = $show->showID;
                 $seatShow->seatID = $randomSeat->seatID;
-                $seatShow->pickedAt = date('Y-m-d H:i:s');
+
+                $seatShow->pickedAt = date('Y-m-d H:i:s', $randomBookTime);
                 $seatShow->seatPrice = $randomSeat->ticketPrice;
                 $seatShow->userID = $randomUser->userID;
                 $seatShow->bookingID = $bookID;
@@ -170,10 +185,9 @@ function generateMovies(){
 //        ->primaryReleaseDateLte($dateEnd);
 
         $response = $repository->discoverMovies($query);
-        $currentPage++;
         $maxPage = min($response->getTotalPages(), 6);
         echo ("Current page: $currentPage, maxPage: $maxPage\n");
-
+        $currentPage++;
         foreach ($response->getIterator() as $movie) {
             // Kiểm tra xem id này đã lưu trong database chưa nếu có rồi thì bỏ qua
             $isExist = \app\model\Movie::where("externalID = :externalID",[
