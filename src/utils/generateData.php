@@ -27,7 +27,7 @@ generateShowTimes();
 generateBookings();
 
 function generateShowTimes(){
-    $topMovie = 10;
+    $topMovie = 15;
     $movies = array_slice(Movie::findAll(), 0, $topMovie);
     $currentDate = time();
     $dayRange = [-10, 10];
