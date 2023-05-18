@@ -35,22 +35,54 @@ class SignInController extends Controller{
     }
 
     public function validateLogin(){
+
+        $status = 0;
+        $message = "Thành công";
         
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $user = User::where("email = :email AND userPassword = :password", compact('email', 'password'));
 
-        if ($user == null){
-            echo "Sai mat khau hoac ten dang nhap";
-            return;
+        $emailLength = strlen($email);
+        $passwordLength = strlen($password);
+
+        $patternEmail = '/^[a-z]+[A-Za-z-_\.0-9]{2,}@[a-z]+[a-z-_\.0-9]{2,}\.[a-z]{2,}$/';
+
+        $checkEmail = preg_match($patternEmail, $email);
+
+        if($emailLength==0){
+            $message = "Vui lòng nhập email";
+        }
+        else if(!$checkEmail){
+            $message = "Vui lòng nhập đúng định dạng email";
+        }
+        else if($passwordLength == 0) {
+            $message = "Vui lòng nhập mật khẩu";
+        }
+        else {
+            $user = User::where("email = :email AND isDeleted = 0", compact('email'));
+            if ($user) {
+                if ($user[0]->userPassword == $password) {
+                    $message = "Thành công";
+                    $session = new SessionManager();
+                    if (!isset($_SESSION["userID"])) {
+                        $session->signInUserID = $user[0]->userID;
+                    }
+                    $status = 1;
+                } else {
+                    $message = "Sai mật khẩu";
+                }
+            }else {
+                $userDeleted = User::where("email = :email AND isDeleted = 1", compact('email'));
+                if ($userDeleted) {
+                    $message = "Tài khoản đã bị xóa";
+                } else {
+                    $message = "Email chưa được tạo";
+                }
+            }
+    
         }
 
-        $session = new SessionManager();
-        if(!isset($_SESSION["userID"])){
-            // echo $_SESSION["userID"] = $user[0]["userID"];
-            $session->signInUserID = $user[0]->userID;
-        }
-        
+        $this->jsonSignInResponse($status, $message);
       
     }
 
@@ -112,11 +144,11 @@ class SignInController extends Controller{
 
         }
 
-        $this->jsonSignUpResponse($status, $message);
+        $this->jsonSignInResponse($status, $message);
 
     }
 
-    public function jsonSignUpResponse($status = 0, $message = ""){
+    public function jsonSignInResponse($status = 0, $message = ""){
         echo json_encode([
             "status" => $status,
             "message" => $message
