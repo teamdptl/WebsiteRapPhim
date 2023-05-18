@@ -28,8 +28,29 @@ class AdminQuanLyPhimController extends Controller {
 
         // $oneMovie = Movie::find(1,  $movieID );
 
+        $searchType = isset($_GET['searchType']) ? $_GET['searchType'] : 0;
+        $searchValue = isset($_GET['searchValue']) ? $_GET['searchValue'] : '';
+
+           
+
+        if ($searchType === '0') {
+            // Tìm kiếm theo ID
+            $listMovie = Movie::query("SELECT * FROM movie WHERE movie.movieName   LIKE '%$searchValue%' AND movie.isDeleted = 0");
+        } elseif ($searchType === '1') {
+            // Tìm kiếm theo thể loại
+            $listMovie = Movie::query("SELECT * FROM movie
+                                    INNER JOIN movie_category ON movie.movieID = movie_category.movieID
+                                    INNER JOIN category ON movie_category.categoryID = category.categoryID
+                                    WHERE category.cateName = '$searchValue' AND movie.isDeleted = 0");
+        } elseif ($searchType === '2') {
+            // Tìm kiếm theo độ tuổi
+            $listMovie = Movie::query("SELECT * FROM movie
+                                    INNER JOIN tag ON movie.tagID = tag.tagID
+                                    WHERE tag.minAge = $searchValue AND movie.isDeleted = 0");
+        }
+
         // Số lượng phim hiển thị trên mỗi trang
-        $itemsPerPage = 5;  
+        $itemsPerPage = 6;  
         $totalItems = count($listMovie);
         $totalPages = ceil($totalItems / $itemsPerPage);
 
@@ -55,11 +76,15 @@ class AdminQuanLyPhimController extends Controller {
             "paginatedMovies" => $paginatedMovies,
             "currentPage" => $currentPage,
             "totalPages" => $totalPages,
-            "navigationRange" => $navigationRange
+            "navigationRange" => $navigationRange,
+            "searchType" => $searchType,
+            "searchValue" => $searchValue,
 
         ]);
 
     }
+
+   
 
     public function getOneMovie(){
         if(isset( $_GET["movieID"]) && !empty($_GET["movieID"])){
@@ -69,6 +94,9 @@ class AdminQuanLyPhimController extends Controller {
             $minAge = Tag::query("SELECT tag.minAge FROM tag WHERE tag.tagID = $tagID");
                 
             $listCategory = MovieCategory::query("SELECT movie_category.categoryID FROM movie_category WHERE movie_category.movieID = $movieID");
+            $posterLink = $movie[0]->posterLink;
+            $landscapePoster =  $movie[0]->landscapePoster;
+
     
             } else {
                 echo "Missing movieID parameter";
@@ -78,7 +106,10 @@ class AdminQuanLyPhimController extends Controller {
             echo json_encode([
                 "movie" => $movie,
                 "minAge" => $minAge,
-                "listCategory" => $listCategory
+                "listCategory" => $listCategory,
+                "posterLink" => $posterLink,
+                "landscapePoster" => $landscapePoster,
+                
             ]);
             
     }
@@ -252,6 +283,10 @@ class AdminQuanLyPhimController extends Controller {
         $tagIdDone = $tagIdQuery[0]->tagID;
 
         // echo $tagIdDone;
+           //     $posterFileName = $movieFile[0]->posterLink;
+        // $landscapeFileName = $movieFile[0]->landscapePoster;
+
+
       
         if (isset($_POST["checkedIds"]) && !empty($_POST["checkedIds"])) {
             $checkedIds = explode(",", $_POST["checkedIds"]);
@@ -285,8 +320,15 @@ class AdminQuanLyPhimController extends Controller {
         $targetDirPoster = "assets/posterImgMovie/";
         $targetDirLandscape = "assets/landscapeImgMovie/";
 
-               
-   
+        $movieFile = Movie::where("movieID = :movieID", compact('movieID'));
+
+        if($posterFileName == ""){
+            $posterFileName = $movieFile[0]->posterLink;
+        }
+
+        if($landscapeFileName == ""){
+            $landscapeFileName = $movieFile[0]->landscapePoster;
+        }
         
         $maxFileSize = 5 * 1024 * 1024; // 5MB
         
@@ -299,16 +341,16 @@ class AdminQuanLyPhimController extends Controller {
         } else if ($landscapeFileName == "") {
             $message = "Vui lòng thêm ảnh landscape";
         }
-        else if (!in_array($posterFileType, array("image/png", "image/jpeg", "image/jpg")) || $posterFileSize > $maxFileSize ||
-                 !in_array($landscapeFileType, array("image/png", "image/jpeg", "image/jpg")) || $landscapeFileSize > $maxFileSize) {
-          if (file_exists($targetDirPoster . $posterFileName)) {
-            unlink($targetDirPoster . $posterFileName);
-          }
-          if (file_exists($targetDirLandscape . $landscapeFileName)) {
-            unlink($targetDirLandscape . $landscapeFileName);
-          }
-          $message = "Vui lòng thêm ảnh poster và landscape đúng định dạng và dung lượng tối đa là 5MB";
-        }
+        // else if (!in_array($posterFileType, array("image/png", "image/jpeg", "image/jpg")) || $posterFileSize > $maxFileSize ||
+        //          !in_array($landscapeFileType, array("image/png", "image/jpeg", "image/jpg")) || $landscapeFileSize > $maxFileSize) {
+        //   if (file_exists($targetDirPoster . $posterFileName)) {
+        //     unlink($targetDirPoster . $posterFileName);
+        //   }
+        //   if (file_exists($targetDirLandscape . $landscapeFileName)) {
+        //     unlink($targetDirLandscape . $landscapeFileName);
+        //   }
+        //   $message = "Vui lòng thêm ảnh poster và landscape đúng định dạng và dung lượng tối đa là 5MB";
+        // }
         else if($trailerLinkLength==0){
             $message = "Vui lòng nhập link trailer";
         }
