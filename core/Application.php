@@ -2,6 +2,7 @@
 namespace core;
 
 use Exception;
+use PDOException;
 
 class Application {
     public Router $router;
@@ -21,7 +22,14 @@ class Application {
     public function run(){
         try {
             $this->router->resolve();
-        } catch (Exception $e) {
+        }  catch(PDOException $e){
+            http_response_code(500);
+            View::renderTemplate("/template/404.html", [
+                "errorText" => "Database bị lỗi",
+                "bugTracking" => $e
+            ]);
+        }
+        catch (Exception $e) {
             View::renderTemplate("/template/404.html", [
                 "errorText" => "Lỗi lập trình",
                 "bugTracking" => $e

@@ -1,5 +1,6 @@
 <?php
 
+use app\model\Booking;
 use app\model\Movie;
 use app\utils\Database;
 use core\Model;
@@ -7,12 +8,17 @@ use core\Model;
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 //var_export(Movie::findAll());
-$timestamp = 1621152000; // Your variable timestamp
-echo date('Y-m-d', $timestamp);
-$previousTimestamp = strtotime('+1 day', $timestamp);
-
-$previousDate = date('Y-m-d', $previousTimestamp);
-echo $previousDate;
+//$timestamp = 1621152000; // Your variable timestamp
+//echo date('Y-m-d', $timestamp);
+//$previousTimestamp = strtotime('+1 day', $timestamp);
+//
+//$previousDate = date('Y-m-d', $previousTimestamp);
+//echo $previousDate;
+//$booking = new Booking();
+//$booking->hello = "duy";
+//\app\model\FoodBooking::
+$bookings =new \app\controller\AdminThongKeController();
+$bookings->getThongKePage();
 return;
 
 //$is_export = 1;
