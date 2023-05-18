@@ -42,9 +42,9 @@ Trang đặt vé
                         {% for seat in row %}
                             {% if seat.isBooked == true %}
                                 {% if seat.seatType == 1 %}
-                                    <div class="seat seat-normal seat-booked" onclick="selectedSeats(this)" zone="Normal" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                    <div class="seat seat-normal seat-booked" zone="Normal" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
                                 {% else %}
-                                    <div class="seat seat-vip seat-booked" onclick="selectedSeats(this)" zone="Vip" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
+                                    <div class="seat seat-vip seat-booked" zone="Vip" price="{{seat.price}}" id="{{seat.seatID}}">{{seat.seatRow}}{{seat.seatCol}}</div>
                                 {% endif %}
                             {% else %}
                                 {% if seat.seatType == 1 %}
@@ -252,7 +252,7 @@ Trang đặt vé
                 
                 <div class="middle-content" id="booking-content">
                     <div class="poster">
-                        <img src="{{movie.posterLink}}" alt="" srcset="">
+                        <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2{{movie.posterLink}}" alt="" srcset="">
                     </div>
                     <div class="movie-info">
 
