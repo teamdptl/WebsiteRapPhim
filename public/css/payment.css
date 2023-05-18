@@ -2,13 +2,13 @@
     width: 100%;
     margin-top: 40px;
     padding-bottom: 100px;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    box-shadow: 0px 0px 20px 0px;
     display: flex;
+    justify-content: space-between;
 }
 
 .payment-box .method-payment{
-    /* border: 1px solid black; */
+    /* border-bottom: 1px solid black; */
     width: 50%;
 }
 
@@ -23,7 +23,7 @@
     align-items: center;
     justify-content: center;
     padding: 10px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .payment-box .methods{
@@ -63,6 +63,7 @@
 .payment-box .info-payment{
     width: 50%;
     background-color: rgb(231, 231, 230);
+    /* border-bottom: 1px solid black; */
 }
 
 .info-payment .main-info{

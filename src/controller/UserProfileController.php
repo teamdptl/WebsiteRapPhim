@@ -28,6 +28,7 @@ class UserProfileController
             $userID = Request::$user->userID;
             $bookingList = Booking::where("userID = :userID", ["userID" => $userID]) ?? [];
             foreach($bookingList as $booking){
+                // echo $booking->isPaid;
                 // echo json_encode(self::getInfoRelateToBooking($booking->bookingID, $booking->isPaid));
                 array_push($listBookingArr, self::getInfoRelateToBooking($booking->bookingID, $booking->isPaid));
             }
@@ -80,9 +81,9 @@ class UserProfileController
         $bookingID = $_POST['bookingID'] ?? 0;
         $isPaid = $_POST['isPaid'] ?? false;
         if($bookingID == 0){
-            echo jsone_encode(array());
+            echo jsone_encode([]);
         }else{
-            echo json_encode(self::getInfoRelateToBooking($bookingID, $isPaid));
+            echo json_encode(self::getInfoRelateToBooking($bookingID, $isPaid=='true'));
         }
     }
 
@@ -133,8 +134,8 @@ class UserProfileController
                         $foodPrice = self::formatNumberToMoney($foodPrice) ."đ";
                         $seatPrice = self::formatNumberToMoney($seatPrice) ."đ";
                         $time = date('H:i d/m/Y', strtotime($showtime->timeStart));
-                        json_encode($isPaid);  
-                        return array("movie" => $movie, "cinema" => $cinema, "room" => $room, "seatListName" => $seatListName, "time" => $time, "total" => $total, "foodList" => $foodList, "bookingID" => $bookingID, "isPaid" => $isPaid, "foodPrice" => $foodPrice, "seatPrice" => $seatPrice);
+                        $converted_isPaid = $isPaid ? 'true' : 'false';
+                        return array("movie" => $movie, "cinema" => $cinema, "room" => $room, "seatListName" => $seatListName, "time" => $time, "total" => $total, "foodList" => $foodList, "bookingID" => $bookingID, "isPaid" => $converted_isPaid, "foodPrice" => $foodPrice, "seatPrice" => $seatPrice);
                     }
                 }
             }    

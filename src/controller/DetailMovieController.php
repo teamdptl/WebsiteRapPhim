@@ -44,7 +44,12 @@ class DetailMovieController extends Controller
     public function renderShowTime($id){
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date=$_POST["date"];
-        $currentTime = date('H:i:s', time());
+        $currentTime = date('Y/m/d', time());
+        if(strtotime($date) > strtotime($currentTime)){
+            $currentTime = '00:00:00';
+        }else{
+            $currentTime = date('H:i:s', time());
+        }
         $listCinema =  Cinema::query("SELECT DISTINCT cinema.*  FROM cinema, room, showtime WHERE cinema.cinemaID = room.cinemaID AND room.roomID = showtime.roomID AND showtime.timeStart BETWEEN '$date $currentTime' and '$date 23:59:59' AND showtime.movieID = :id;", [
             "id" => $id
         ]);

@@ -9,23 +9,27 @@ class AdminOrderController
 {
     public function getOrderPage()
     {
-        $fromDate = $_GET['fromDate'] ?? false;
-        $toDate = $_GET['toDate'] ?? false;
+        $fromDate = $_GET['fromDate'] ?? "";
+        $toDate = $_GET['toDate'] ?? "";
         $search = $_GET['search'] ?? "";
+        $arrangeBy = $_GET['arangeBy'] ?? 'bookTime';
+        $orderBy = $_GET['orderBy'] ?? 'DESC';
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $bookingSize = 30;
         $navBar = GlobalController::getNavbar();
         $navAdmin = GlobalController::getNavAdmin();
         $tempStart = $fromDate;
-        $tempEnd = $toDate;
+        $tempEnd = $toDate ." 23:59:59";
+        $tempArrange = self::arrageItem($arrangeBy);
 
+        
         $thongKeController = new AdminThongKeController();
-        if ($fromDate == false || $toDate == false){
+        if ($fromDate == "" || $toDate == ""){
             $dates = $thongKeController->getMinMaxDate();
-            if ($fromDate == false){
+            if ($fromDate == ""){
                 $tempStart = $dates["min"];
             }
-            if ($toDate == false){
+            if ($toDate == ""){
                 $tempEnd = $dates["max"];
             }
         }
@@ -46,7 +50,7 @@ class AdminOrderController
                     INNER JOIN showtime ON showtime.showID = seat_showtime.showID
                     INNER JOIN movie ON movie.movieID = showtime.movieID
                     WHERE booking.bookTime > :timeStart AND booking.bookTime <= :timeEnd
-                    GROUP BY booking.bookingID, movie.movieName, cinema.cinemaName ORDER BY booking.bookTime DESC",
+                    GROUP BY booking.bookingID, movie.movieName, cinema.cinemaName ORDER BY $tempArrange $orderBy",
             [
                 "timeStart" => $tempStart,
                 "timeEnd" => $tempEnd
@@ -54,6 +58,9 @@ class AdminOrderController
         );
 
         foreach ($bookings as $key=>$booking){
+            // echo $booking->isPaid;
+            $booking->isPaid = $booking->isPaid ? 'true' : 'false';
+            // echo $booking->isPaid;
             if (!$this->filterItem($booking, $search)){
                 unset($bookings[$key]);
             }
@@ -62,13 +69,17 @@ class AdminOrderController
         $maxPage = ceil(count($bookings)/$bookingSize);
         $activePage=  $pageStart;
         $bookings = array_slice($bookings, $pageStart, $bookingSize);
-
         View::renderTemplate("/admin/admin_order.html", [
             "navbar" => $navBar,
             "navAdmin" => $navAdmin,
             "orders" => $bookings,
             "maxPage" => $maxPage,
-            "activePage" => $activePage
+            "activePage" => $activePage,
+            "search" => $search,
+            "fromDate" => $fromDate,
+            "toDate" => $toDate,
+            "arrangeBy" => $arrangeBy,
+            "orderBy" => $orderBy
         ]);
     }
 
@@ -89,5 +100,40 @@ class AdminOrderController
             return true;
 
         return false;
+    }
+
+    public function arrageItem($arrangeBy){
+        $by = '';
+        switch ($arrangeBy) {
+            case 'bookingID':
+                $by = 'booking.bookingID';
+                break;
+
+            case 'bookName':
+                $by = 'booking.bookName';
+                break;
+
+            case 'bookEmail':
+                $by = 'booking.bookEmail';
+                break;
+
+            case 'bookTime':
+                $by = 'booking.bookTime';
+                break;
+
+            case 'bookMovie':
+                $by = 'movie.movieName';
+                break;
+
+            case 'bookCinema':
+                $by = 'cinema.cinemaName';
+                break;
+            
+            default:
+                $by = 'booking.bookTime';
+                break;
+        }
+
+        return $by;
     }
 }
