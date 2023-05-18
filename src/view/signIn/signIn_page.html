@@ -214,8 +214,23 @@ Trang đăng nhập
                 password: password,
             },
             success: function(res){
-                console.log(res);
-                location.reload();
+                // console.log(res);
+                let data =  JSON.parse(res);
+                console.log(data);
+
+                if(data.status == 1){
+                    location.reload();
+                }
+                else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Vui lòng nhập lại',
+                        text: data.message,
+                    })
+                }
+                
+
+                // 
             },
             
         })
