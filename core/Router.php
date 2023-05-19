@@ -92,11 +92,9 @@ class Router{
             $session = new SessionManager();
             if ($session->signInUserID != null){
                 $user = User::find(Model::UN_DELETED_OBJ,$session->signInUserID);
-                if ($user){
+                if ($user != null){
                     Request::$user = $user;
                     // echo "Ban da dang nhap voi email ".$user->email;
-                } else {
-                    Request::$user = null;
                 }
             }
             // Add middleware to all route

@@ -116,7 +116,7 @@ class GlobalController
         foreach ($navItems as $nav){
             $isExist = false;
             foreach ($nav["userPermission"] as $permiss){
-                if ($permiss->permissionID == Request::$user->permissionID){
+                if ($permiss->permissionID !=null && $permiss->permissionID == Request::$user->permissionID){
                     $isExist = true;
                     break;
                 }
