@@ -93,7 +93,7 @@ class AdminThongKeController extends Controller
         $movies = Movie::query("SELECT movie.movieName, COALESCE(sum(seat_showtime.seatPrice), 0) as doanhThu FROM MOVIE 
                     INNER JOIN showtime ON showtime.movieID = movie.movieID
 					INNER JOIN seat_showtime ON seat_showtime.showID = showtime.showID
-                    WHERE seat_showtime.bookingID IN ($bookQuery) AND movie.isDeleted = false
+                    WHERE seat_showtime.bookingID IN ($bookQuery)
                     GROUP BY movie.movieID
                     ORDER BY doanhThu DESC LIMIT $movieSize");
         return [

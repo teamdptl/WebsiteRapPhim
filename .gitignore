@@ -473,5 +473,3 @@ composer.lock
 *.sass.map
 *.scss.map
 .idea/
-
-Database.php

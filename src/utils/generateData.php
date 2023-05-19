@@ -70,14 +70,14 @@ function generateShowTimes(){
 }
 
 function generateBookings(){
-    $showTimes = Showtime::findAll();
+    $showTimes = array_slice(Showtime::findAll(), 0, 10);
     $foods = Food::findAll();
     $users = User::where("permissionID = :permissionID", [
         "permissionID" => 1
     ]);
     if (count($users) == 0)
         return;
-    $perMovieBookings = rand(0, 2);
+    $perMovieBookings = rand(0, 5);
     foreach ($showTimes as $show){
         echo "Đang tạo booking cho showtime $show->showID\n";
         for ($i = 0;$i<$perMovieBookings;$i++){
@@ -93,7 +93,7 @@ function generateBookings(){
             $book->bookTime = date("Y-m-d H:i:s", $randomBookTime);
             $book->methodPay = "Tiền mặt";
             if (rand(0, 1) == 1){
-                $book->isPaid = true;
+                $book->isPaid = 1;
             } else {
                 $book->isPaid = false;
             }
