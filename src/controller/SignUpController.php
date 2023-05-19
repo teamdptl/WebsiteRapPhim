@@ -1,5 +1,6 @@
 <?php 
 namespace app\controller;
+use core\Application;
 use core\Controller;
 use core\View;
 use app\model\User;
@@ -164,7 +165,7 @@ class SignUpController extends Controller{
             $user->email = $session->signUpEmail;
             $user->isActive = true;
             $user->createAt = date_create_from_format('m/d/Y h:i:s', date('m/d/Y h:i:s', time()))->format('Y-m-d H:i:s');
-            $user->permissionID = NULL;
+            $user->permissionID = Application::$user->permissionID;
             User::save($user);
             $this->jsonSignUpResponse(1, "OTP đúng! Đã tạo user thành công", $user->email, $user->userPassword);
             
