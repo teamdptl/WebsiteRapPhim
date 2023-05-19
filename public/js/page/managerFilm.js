@@ -325,3 +325,7 @@ function previewImage(inputId, imgId) {
     reader.readAsDataURL(input.files[0]);
   }
 }
+
+var today = new Date().toISOString().split('T')[0];
+document.getElementById("datepicker-edit").setAttribute('min', today);
+document.getElementById("datepicker").setAttribute('min', today);
