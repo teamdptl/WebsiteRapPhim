@@ -172,9 +172,41 @@ function btnAddEvent() {
 function btnEditEvent() {
     $("#btn-edit").click(function (e) {
         e.preventDefault();
-       if(!checkValidateFood())
+        var titleError = "";
+        var isError;
+        var foodName = $("#food-name").val()
+        var foodPrice = $("#price").val()
+        var foodDescription = $("#descrip").val()
+        var foodDescriptionNoSpace = foodDescription.replace(/ /g, '').length;
+        var foodNameNoSpace = foodName.replace(/ /g, '').length;
+        if (foodName == "" || foodPrice == ""  || foodDescription == "" ) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Vui lòng nhập đủ các trường dữ liệu',
+                text: 'Something went wrong!',
+            })
+            return false;
+        }
+        if (foodNameNoSpace < 3) {
+            titleError += "Tên thức ăn phải > 3 kí tự <br>"
+            isError = 1;
+        }
+        if (foodPrice < 0) {
+            titleError += "Giá tiền phải > 0 <br>"
+            isError = 1;
+        }
+        if (foodDescriptionNoSpace < 10) {
+            titleError += " Mô tả phải lớn hơn 10 kí tự <br>"
+            isError = 1;
+        }
+        if(isError ==1)
         {
-            return;
+            Swal.fire({
+                icon: 'error',
+                title: titleError,
+                text: 'Something went wrong!',
+            })
+            return false;
         }
         else {
             var formData = new FormData();
