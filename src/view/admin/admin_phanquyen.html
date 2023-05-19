@@ -1,0 +1,21 @@
+{% extends './template/root.html' %}
+{% block header %}
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="/css/navAdmin.css">
+{% endblock %}
+
+{% block title %}
+Trang quản lý đơn hàng
+{% endblock %}
+
+{% block body %}
+{{ navbar | raw }}
+{{ navAdmin | raw }}
+<div id="admin-phanquyen" class="d-flex w-100 py-4 flex-column" style="padding-left: 92px;">
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="/js/component/navAdmin.js"></script>
+{% endblock %}

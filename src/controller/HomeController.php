@@ -11,8 +11,8 @@ class HomeController extends Controller
         $navbar = GlobalController::getNavbar();
 
         $movieController = new MoviesController();
-        $listMovieNow = $movieController->findMovieByNow(false);
-        $listMovieFuture = $movieController->findMovieByNow(true);
+        $listMovieNow = $movieController->findMovieByNow();
+        $listMovieFuture = $movieController->findMovieByNow(1);
         $listCarousel = $movieController->getFeaturedMovies();
         View::renderTemplate("/home/home_page.html",
             [

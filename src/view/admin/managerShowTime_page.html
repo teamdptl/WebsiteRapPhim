@@ -115,10 +115,11 @@ Trang Admin Phim
                             <div class="input-group mb-3 input">
                                 <input type="time" class="form-control" id="show-start" aria-describedby="basic-addon3"
                                     placeholder="HH/mm">
-                                <input type="date" placeholder="dd-mm-yyyy" min="1997-01-01" max="2030-12-31"
+                                <input type="date" placeholder="dd-mm-yyyy"   max="2030-12-31"
                                     class="form-control" id="date" aria-describedby="basic-addon3">
                             </div>
                         </div>
+                        
                     </div>
                     <div class="column">
                         <div class="container-input">
@@ -349,13 +350,53 @@ Trang Admin Phim
 {% endblock %}
 
 {% block js %}
-<script src="/js/admin/adminFood.js"></script>
+<script src="/js/admin/adminShowTime.js"></script>
 <script src="/js/admin/eventListenAdminShowTime.js"></script>
 <script>
     $("#addSeat").click(function () {
         appendSeat()
         removeSeat()
     })
+   
+    $("#btn-addShowtime").click(function () {
+
+        document.getElementById("formAdd").reset();
+        document.getElementById("container-button").innerHTML = `   
+            <button class="btn btn-primary button" id="btn-comfirm"> Xác nhận </button>
+            <button class="btn btn-danger button" id="btn-exit"> Hủy </button>`;
+        appendSeat();
+        checkSeatList()
+        btnAddEvent();
+        btnExitEvent();
+        document.getElementById("formAdd").style.display = "flex";
+        // $.ajax({
+        //     url: "adminShowTime/getSeat",
+        //     method: "GET",
+        //     data: [
+
+        //     ],
+        //     success: function (res) {
+
+        //     }
+        // })
+
+    })
+    function removeSeat() {
+        $(".remove-icon").click(function (e) {
+            $(e.target.parentElement.parentElement).remove();
+            checkSeatList();
+            disabledSelected();
+        })
+        disabledSelected();
+    }
+    function checkSeatList() {
+        if ($(".remove-icon").length == 1) {
+            $(".remove-icon").css("display", "none")
+        }
+        else {
+            $(".remove-icon").css("display", "static")
+        }
+    }
     function disabledSelected() {
         $('select').on('change', function () {
             $('option').prop('disabled', false); //reset all the disabled options on every change event
@@ -383,47 +424,9 @@ Trang Admin Phim
             </div>`)
         removeSeat();
     }
-    $("#btn-addShowtime").click(function () {
 
-        document.getElementById("formAdd").reset();
-        document.getElementById("container-button").innerHTML = `   
-            <button class="btn btn-primary button" id="btn-comfirm"> Xác nhận </button>
-            <button class="btn btn-danger button" id="btn-exit"> Hủy </button>`;
-        appendSeat();
-        checkSeatList()
-        btnAddEvent();
-        btnExitEvent();
-        document.getElementById("formAdd").style.display = "flex";
-        $.ajax({
-            url: "adminShowTime/getSeat",
-            method: "GET",
-            data: [
-
-            ],
-            success: function (res) {
-
-            }
-        })
-
-    })
-    function removeSeat() {
-        $(".remove-icon").click(function (e) {
-            $(e.target.parentElement.parentElement).remove();
-            checkSeatList();
-            disabledSelected();
-        })
-        disabledSelected();
-    }
-    function checkSeatList() {
-        if ($(".remove-icon").length == 1) {
-            $(".remove-icon").css("display", "none")
-        }
-        else {
-            $(".remove-icon").css("display", "static")
-        }
-    }
-
-
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("date").setAttribute('min', today);
 </script>
 
 {% endblock %}

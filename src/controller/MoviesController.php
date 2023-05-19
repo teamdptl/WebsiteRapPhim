@@ -47,7 +47,7 @@ class MoviesController extends Controller{
         $cinema = isset($_GET["cinema"]) ? (int)$_GET["cinema"] : 0;
         $futureMovie = isset($_GET["futureMovie"]) ? (int)$_GET["futureMovie"] : 0;
 
-        $movies = $this->getMoviesInDB($search, $category, $ageMin, $ageMax, $cinema, $futureMovie);
+        $movies = $this->searchMovieInDB($search, $category, $ageMin, $ageMax, $cinema, $futureMovie);
 
         $resObj = new stdClass();
         $resObj->list = array_slice($movies, ($page-1)*10 , 10);
@@ -57,9 +57,8 @@ class MoviesController extends Controller{
     }
 
     public function getMoviesInDB($search, $category, $ageMin, $ageMax, $cinema, $futureMovie){
-        $movies = Movie::query("SELECT movie.*, tag.tagName, tag.minAge, GROUP_CONCAT(category.cateName) AS categoryList, GROUP_CONCAT(category.categoryID) AS categoryIds FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID GROUP BY movie.movieID;");
+        $movies = Movie::query("SELECT movie.*, tag.tagName, tag.minAge, GROUP_CONCAT(category.cateName) AS categoryList, GROUP_CONCAT(category.categoryID) AS categoryIds FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID WHERE movie.isDeleted = false GROUP BY movie.movieID;");
         foreach($movies as $key => $movie){
-
             // Split name
             $movie->categoryList = explode(",", $movie->categoryList);
             $movie->category = json_encode($movie->categoryList);
@@ -117,6 +116,44 @@ class MoviesController extends Controller{
         return $movies;
     }
 
+    public function searchMovieInDB($search = "", $category = 0, $ageMin = 0, $ageMax = 99, $cinema = 0, $futureMovie = 0, $orderBy = 1){
+//        $sql = "SELECT movie.movieID, movie.movieName, movie.posterLink, tag.tagName, (SELECT GROUP_CONCAT(category.cateName) FROM category INNER JOIN movie_category on category.categoryID = movie_category.categoryID WHERE movie_category.movieID = movie.movieID) AS categoryList FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID WHERE movie.isDeleted = false AND category.categoryID = 12 AND tag.tagID = 1 AND movie.movieID IN (SELECT movieID from showtime WHERE showtime.timeStart > NOW()) AND movie.movieName LIKE '%:search%' AND movie.movieID IN (SELECT movie.movieID FROM `movie` INNER JOIN showtime ON showtime.movieID = movie.movieID INNER JOIN room ON room.roomID = showtime.roomID where room.cinemaID = 1) AND movie.dateRelease <= NOW() GROUP BY movie.movieID;"
+//        $movies = Movie::query("SELECT movie.movieID, movie.movieName, movie.posterLink, tag.tagName, (SELECT GROUP_CONCAT(category.cateName) FROM category INNER JOIN movie_category on category.categoryID = movie_category.categoryID WHERE movie_category.movieID = movie.movieID) AS categoryList FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID WHERE movie.isDeleted = false AND category.categoryID = 12 AND tag.tagID = 1 AND movie.movieID IN (SELECT movieID from showtime WHERE showtime.timeStart > NOW()) AND movie.movieName LIKE '%kiến%' AND movie.movieID IN (SELECT movie.movieID FROM `movie` INNER JOIN showtime ON showtime.movieID = movie.movieID INNER JOIN room ON room.roomID = showtime.roomID where room.cinemaID = 1) AND movie.dateRelease <= NOW() GROUP BY movie.movieID;");
+
+        $whereClause = "SELECT DISTINCT movie.movieID, movie.movieName, movie.posterLink, tag.tagName, tag.minAge, (SELECT GROUP_CONCAT(category.cateName) FROM category INNER JOIN movie_category on category.categoryID = movie_category.categoryID WHERE movie_category.movieID = movie.movieID) AS categoryList FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID WHERE movie.isDeleted = false AND movie.movieName LIKE :search ";
+
+        if ($category != 0){
+            $whereClause .= "AND category.categoryID = $category ";
+        }
+
+        if ($ageMin != 0 && $ageMax != 99){
+            $whereClause .= "AND tag.minAge >= $ageMin AND tag.minAge <= $ageMax ";
+        }
+
+        if ($cinema != 0){
+            $whereClause .= "AND movie.movieID IN (SELECT movie.movieID FROM `movie` INNER JOIN showtime ON showtime.movieID = movie.movieID INNER JOIN room ON room.roomID = showtime.roomID where room.cinemaID = $cinema) ";
+        }
+
+        if (!$futureMovie){
+            $whereClause .= "AND movie.dateRelease <= NOW() AND movie.movieID IN (SELECT movieID from showtime WHERE showtime.timeStart > NOW()) ";
+        } else {
+            $whereClause .= "AND movie.dateRelease > NOW() ";
+        }
+
+        $movies = Movie::query($whereClause, [
+            "search"=>"%$search%"
+        ]);
+
+        foreach($movies as $key => $movie) {
+            // Split name
+            $movie->categoryList = explode(",", $movie->categoryList);
+            $movie->category = json_encode($movie->categoryList);
+            $movie->categoryIds = explode(",", $movie->categoryIds);
+        }
+
+        return $movies;
+    }
+
     public function maxPage(array $listMovie, int $perPage = 10){
         return ceil(count($listMovie)/10);
     }
@@ -135,26 +172,10 @@ class MoviesController extends Controller{
         return $movie;
     }
 
-    public function findMovieByNow($isFuture = false, $limit = 5): array
+    public function findMovieByNow($isFuture = 0, $limit = 5): array
     {
-        $movies = Movie::findAll();
-        $listReturn = [];
-        foreach ($movies as $movie){
-            if ($limit <= 0) break;
-            $release = strtotime($movie->dateRelease);
-            if (!$isFuture && $release <= time()){
-                $movie = $this->mapping($movie);
-                $listReturn[] = $movie;
-                $limit--;
-            }
-
-            if ($isFuture && $release > time()){
-                $movie = $this->mapping($movie);
-                $listReturn[] = $movie;
-                $limit--;
-            }
-        }
-        return $listReturn;
+        $movies = $this->searchMovieInDB("", 0, 0, 99, 0, $isFuture);;
+        return array_slice($movies, 0, $limit);
     }
 
     public function getFeaturedMovies(): bool|array

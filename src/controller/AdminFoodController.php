@@ -23,16 +23,20 @@ class AdminFoodController extends Controller
     }
     public function insertFood()
     {
+        $imageName = $_FILES["image"]["name"] ?? "";
+        $targetDirimage = "assets/imgFood/";
+        $imageFileTmp = $_FILES["image"]["tmp_name"] ?? "";
         $food = new Food();
         $food->foodName = $_POST["foodName"];
-        $food->foodImage = $_POST["image"];
+        $food->foodImage = "assets/imgFood/" . $imageName;
         $food->foodPrice = $_POST["price"];
-        $food->discountID =1;
+        $food->discountID = 1;
         $food->foodDescription = $_POST["descrip"];
         $food->isDeleted = 0;
         Food::save($food);
+        move_uploaded_file($imageFileTmp, $targetDirimage . $imageName);
         $message = [];
-        $message["message"] = "Thêm thành công";
+        $message["message"] = "Them thanh cong";
         $message["status"] = "Dữ liệu đã được thêm vào cơ sở dữ liệu";
         $message["type"] = "success";
         $json = json_encode($message);
@@ -48,19 +52,25 @@ class AdminFoodController extends Controller
     public function updateFood()
     {
         $food = new Food();
+        $imageName = $_FILES["image"]["name"] ?? "";
+        $targetDirimage = "assets/imgFood/";
+        $imageFileTmp = $_FILES["image"]["tmp_name"] ?? "";
         $foodID = $_POST["foodID"];
         $food->foodName = $_POST["foodName"];
-        if ($_POST["image"] == "") {
+        $isSetImg =  isset($_POST["image"]);
+        if ($isSetImg) {
             $foodFind = Food::find(Model::UN_DELETED_OBJ, $foodID);
             $food->foodImage = $foodFind->foodImage;
         } else {
-            $food->foodImage = $_POST["image"];
+            $food->foodImage = "assets/imgFood/".$imageName;
         }
+        
         $food->foodPrice = $_POST["price"];
         $food->discountID = 1;
         $food->foodDescription = $_POST["descrip"];
         $food->isDeleted = 0;
         Food::update($food, $foodID);
+        move_uploaded_file($imageFileTmp, $targetDirimage . $imageName);
         $message = [];
         $message["message"] = "Thêm thành công";
         $message["status"] = "Dữ liệu đã được thêm vào cơ sở dữ liệu";
@@ -69,7 +79,8 @@ class AdminFoodController extends Controller
         echo $json;
         exit();
     }
-    public function delFood(){
+    public function delFood()
+    {
         $foodId = $_POST["foodID"];
         Food::delete(true, $foodId);
         $message = [];

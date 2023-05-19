@@ -127,16 +127,15 @@ CREATE TABLE GROUP_PERMISSION(
 
 CREATE TABLE FEATURE(
     featureID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    featureName CHAR(255)
+    featureName CHAR(255),
+    featureGroup CHAR(255)
 );
 
 CREATE TABLE FEATURE_PERMISSION(
     permissionID INT NOT NULL,
     featureID INT NOT NULL,
-    actionName CHAR(20),
     isActive boolean,
-    webPath CHAR(255),
-    PRIMARY KEY (permissionID, featureID, actionName)
+    PRIMARY KEY (permissionID, featureID)
 );
 
 ALTER TABLE FEATURE_PERMISSION ADD CONSTRAINT FK_PERMISS FOREIGN KEY (permissionID) REFERENCES GROUP_PERMISSION(permissionID) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -315,5 +314,21 @@ INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescriptio
 
 INSERT INTO FOOD(`foodID`, `foodImage`, `foodName`, `foodPrice`, `foodDescription`, `discountID`, `isDeleted`) VALUES (null,'https://www.cgv.vn/media/concession/web/63aaa31525d4c_1672127253.png','CGV COMBO',115000,'1 Large Popcorn + 2 Jumbo Drinks. Redeem on showing date.,Free upgrade flavor for Caramel,Surcharge when upgrade Cheese popcorn',1,false);
 
-INSERT INTO `group_permission` (`permissionID`, `groupName`) VALUES ('1', 'Người dùng'), ('2', 'Quản lý');
+INSERT INTO `group_permission` (`permissionID`, `groupName`) VALUES (1, 'Người dùng'), (2, 'Quản lý'), (3, 'Admin'), (4, 'Nhân viên');
 INSERT INTO `user` (`userID`, `fullName`, `userPassword`, `email`, `isActive`, `createAt`, `permissionID`, `isDeleted`) VALUES (NULL, 'Huỳnh Khánh Duy', '12345678', 'huykhaduy@gmail.com', '1', current_timestamp(), '1', '0'), (NULL, 'Trang Thanh Phúc', '12345678', 'trangthanhphuc91@gmail.com', '1', current_timestamp(), '1', '0'), (NULL, 'Trần Gia Lâm', '12345678', 'zzlam123@gmail.com', '1', current_timestamp(), '1', '0'), (NULL, 'Võ Minh Tuấn', '12345678', 'thao123@gmail.com', '1', current_timestamp(), '1', '0'), (NULL, 'Test User', 'test', 'test', '1', current_timestamp(), '1', '0'), (NULL, 'Test Admin', 'admin', 'admin', '1', current_timestamp(), '2', '0');
+INSERT INTO `feature` (`featureID`, `featureName`, `featureGroup`) VALUES
+                                                                       (1, 'Trang chủ', 'HomeController'),
+                                                                       (2, 'Đăng nhập', 'SignInController'),
+                                                                       (3, 'Đăng kí', 'SignUpController'),
+                                                                       (4, 'Đăng xuất', 'LogoutController'),
+                                                                       (5, 'Trang phim', 'MoviesController'),
+                                                                       (6, 'Chi tiết phim', 'DetailMovieController'),
+                                                                       (7, 'Trang rạp', 'CinemaController'),
+                                                                       (8, 'Thông tin cá nhân', 'UserProfileController'),
+                                                                       (9, 'Đặt phim', 'BookingController'),
+                                                                       (10, 'Quản lý phim', 'AdminQuanLyPhimController'),
+                                                                       (11, 'Quản lý lịch chiếu', 'AdminShowTimeController'),
+                                                                       (12, 'Quản lý thức ăn', 'AdminFoodController'),
+                                                                       (13, 'Quản lý người dùng', 'AdminQuanLyTaiKhoanController'),
+                                                                       (14, 'Quản lý thống kê', 'AdminThongKeController'),
+                                                                       (15, 'Quản lý đơn hàng', 'AdminOrderController');

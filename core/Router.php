@@ -13,7 +13,7 @@ class Router{
     protected array $loginRequiredPath = [];
     protected array $adminRequiredPath = [];
 
-    public function get($path, $callback, $loginRequired = false, $adminRequired = false){
+    public function get($path, $callback, $loginRequired = true, $adminRequired = false){
         $path = $this->convertToRegex($path);
         $this->routes['get'][$path] = $callback;
         if ($loginRequired){
@@ -24,7 +24,7 @@ class Router{
         }
     }
 
-    public function post($path, $callback, $loginRequired = false, $adminRequired = false){
+    public function post($path, $callback, $loginRequired = true, $adminRequired = false){
         $path = $this->convertToRegex($path);
         $this->routes['post'][$path] = $callback;
         if ($loginRequired){
@@ -98,7 +98,7 @@ class Router{
                     
             }
             // Add middleware to all route
-            // GlobalController::checkRequire($this->isRequireLogin($path, $method), $this->isRequireAdmin($path, $method));
+            GlobalController::checkRequire($this->isRequireLogin($path, $method), $this->isRequireAdmin($path, $method));
             if (is_string($callback)){
                 $this->resolveString($callback);
             }

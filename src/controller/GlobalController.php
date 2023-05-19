@@ -33,16 +33,16 @@ class GlobalController
                 "navContent" => "Rạp",
                 "navHref" => "/cinemas"
             ],
-            4 => [
-                "navID" => 4,
-                "navContent" => "Khuyến mãi",
-                "navHref" => "/promotions"
-            ],
-            5 => [
-                "navID" => 5,
-                "navContent" => "Liên hệ",
-                "navHref" => "/contact"
-            ]
+//            4 => [
+//                "navID" => 4,
+//                "navContent" => "Khuyến mãi",
+//                "navHref" => "/promotions"
+//            ],
+//            5 => [
+//                "navID" => 5,
+//                "navContent" => "Liên hệ",
+//                "navHref" => "/contact"
+//            ]
         ];
         $path = Request::getPath();
         return View::renderTemplateStr("/template/navbar.html",
@@ -84,7 +84,7 @@ class GlobalController
             ],
             4 => [
                 "navID" => 4,
-                "navContent" => "Quản lý hóa đơn giảm giá",
+                "navContent" => "Quản lý hóa đơn",
                 "navHref" => "/adminDonHang",
                 "icon" => "bx bx-wallet-alt bx-tada"
             ],
@@ -130,7 +130,6 @@ class GlobalController
         if ($isPathLogin){
             $isLogined = self::isUserLogin();
             if ($isLogined == false){
-                echo "redirect";
                 Request::redirect("/signin");
             }
         }
@@ -138,8 +137,7 @@ class GlobalController
         if ($isPathAdmin){
             $isAdmin = self::isUserAdmin();
             if ($isAdmin == false){
-                echo "redirect";
-                Request::redirect("/signin");
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
             }
         }
     }
@@ -156,5 +154,9 @@ class GlobalController
         if (Request::$user->permissionID == 2)
             return true;
         return false;
+    }
+
+    public function checkUserRight($featureGroup){
+        $user = Request::$user;
     }
 }
