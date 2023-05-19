@@ -9,10 +9,12 @@ use app\model\FoodBooking;
 use app\model\Movie;
 use app\model\Room;
 use app\model\SeatShowtime;
+use core\Application;
+use core\Controller;
 use core\View;
 use stdClass;
 
-class AdminThongKeController
+class AdminThongKeController extends Controller
 {
     public function getThongKePage(){
         $fromDate = $_GET['fromDate'] ?? false;
@@ -265,5 +267,10 @@ class AdminThongKeController
             "totalMoney"=> $totalMoney,
             "listFood" => $foods,
         ];
+    }
+
+    public function hasAuthority(): array
+    {
+        return [Application::$quanly];
     }
 }

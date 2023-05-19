@@ -1,5 +1,6 @@
 <?php
 namespace app\controller;
+use core\Application;
 use core\Controller;
 use core\Request;
 use core\Model;
@@ -366,4 +367,9 @@ class BookingController extends Controller{
         ]);
     }
 
+    public function hasAuthority(): array
+    {
+        // TODO: Implement hasAuthority() method.
+        return [Application::$user];
+    }
 }

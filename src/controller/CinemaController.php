@@ -4,9 +4,10 @@ namespace app\controller;
 
 use app\model\Cinema;
 use app\model\Province;
+use core\Controller;
 use core\View;
 
-class CinemaController
+class CinemaController extends Controller
 {
     public function getCinemaPage(){
         $navbar = GlobalController::getNavbar();
@@ -41,5 +42,11 @@ class CinemaController
             "cinemas" => $cinemas,
             "isAllSelected" => $isAllSelected,
         ]);
+    }
+
+    public function hasAuthority(): array
+    {
+        // TODO: Implement hasAuthority() method.
+        return [];
     }
 }

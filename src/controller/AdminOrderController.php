@@ -3,9 +3,11 @@
 namespace app\controller;
 
 use app\model\Booking;
+use core\Application;
+use core\Controller;
 use core\View;
 
-class AdminOrderController
+class AdminOrderController extends Controller
 {
     public function getOrderPage()
     {
@@ -173,31 +175,37 @@ class AdminOrderController
         return $by;
     }
 
-    public function updateIsPaidBooking(){
+    public function updateIsPaidBooking()
+    {
         $isPaid = $_POST['isPaid'] ?? 'false';
         $bookingID = $_POST['bookingID'] ?? 0;
         $isPaid = ($isPaid == 'true');
         $status = 1;
         $message = '';
-        if($bookingID == 0){
+        if ($bookingID == 0) {
             $status = 0;
             $message = "Không tìm thấy hóa đơn số $bookingID";
-        }else{
-            $booking = Booking::find(1,$bookingID);
-            if($booking == null){
+        } else {
+            $booking = Booking::find(1, $bookingID);
+            if ($booking == null) {
                 $status = 0;
                 $message = "Không tìm thấy hóa đơn số $bookingID";
-            }else{
+            } else {
                 $booking->isPaid = $isPaid;
-                if(Booking::update($booking, $bookingID)){
+                if (Booking::update($booking, $bookingID)) {
                     $status = 1;
                     $message = 'Cập nhật thành công';
-                }else{
+                } else {
                     $status = 0;
                     $message = 'Cập nhật thất bại';
                 }
             }
         }
         echo json_encode(array("status" => $status, "message" => $message));
+    }
+    
+    public function hasAuthority(): array
+    {
+        return [Application::$quanly];
     }
 }

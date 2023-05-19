@@ -1,5 +1,6 @@
 <?php
 namespace app\controller;
+use core\Application;
 use core\Controller;
 use core\Model;
 use core\View;
@@ -455,6 +456,8 @@ class AdminQuanLyPhimController extends Controller {
     }
 
 
-
-
-}   
+    public function hasAuthority(): array
+    {
+        return [Application::$quanly, Application::$nhanvien];
+    }
+}

@@ -154,4 +154,9 @@ class SignInController extends Controller{
             "message" => $message
         ]);
     }
+
+    public function hasAuthority(): array
+    {
+        return [];
+    }
 }

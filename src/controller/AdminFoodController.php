@@ -2,6 +2,7 @@
 namespace app\controller;
 
 use app\model\Food;
+use core\Application;
 use core\Controller;
 use core\Model;
 use core\View;
@@ -91,6 +92,11 @@ class AdminFoodController extends Controller
         echo $json;
         exit();
 
+    }
+
+    public function hasAuthority(): array
+    {
+        return [Application::$quanly, Application::$nhanvien];
     }
 }
 

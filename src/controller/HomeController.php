@@ -44,4 +44,8 @@ class HomeController extends Controller
 //        ];
 //        return $arr;
 //    }
+    public function hasAuthority(): array
+    {
+        return [];
+    }
 }
