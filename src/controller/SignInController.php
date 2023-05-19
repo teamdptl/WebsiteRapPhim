@@ -207,16 +207,10 @@ class SignInController extends Controller{
             $users = User::where("email = :email AND isDeleted = 0 ", compact('email'));
 
 
-            $user = new User();
-            $user->fullName =  $users[0]->fullName;
-            $user->userPassword = $session->signInChangePassword;
-            $user->email = $session-> signInEmailChangePassword;
-            $user->isActive = 1;
-            $user->createAt = $users[0]->createAt;
-            $user->permissionID = null;
-            $user->isDeleted = 0;
 
-            User::update($user,  $users[0]->userID);
+            $users[0]->userPassword = $session->signInChangePassword;
+
+            User::update($users[0],  $users[0]->userID);
             
 
             $this->jsonSignInResponse(1, "OTP đúng! Đã thay đổi mật khẩu thành công thành công");
