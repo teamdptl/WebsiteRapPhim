@@ -222,7 +222,7 @@ class SignInController extends Controller{
             $this->jsonSignInResponse(1, "OTP đúng! Đã thay đổi mật khẩu thành công thành công");
             
         }
-        
+    }
     public function hasAuthority(): array
     {
         return [];
