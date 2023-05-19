@@ -95,8 +95,9 @@ class Router{
                 if ($user){
                     Request::$user = $user;
                     // echo "Ban da dang nhap voi email ".$user->email;
+                } else {
+                    Request::$user = null;
                 }
-                    
             }
             // Add middleware to all route
             // GlobalController::checkRequire($this->isRequireLogin($path, $method), $this->isRequireAdmin($path, $method));
