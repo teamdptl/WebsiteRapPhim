@@ -62,6 +62,12 @@ inputs.forEach((input, index1) => {
         myModalChangePassword.style.display = "none";
       }
     }
+    modal.addEventListener('click', function(event) {
+      // Check if the clicked element is the modal or its child elements
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
 
     
     const getOTPString = () =>{
@@ -69,4 +75,52 @@ inputs.forEach((input, index1) => {
       inputs.forEach(item => otp += item.value);
       return otp;
     }
+    
+
+    $("#btnConfirm").click((e)=>{
+      e.preventDefault();
+      $.ajax({
+        url: "/signin/otp",
+        method: "POST",
+        data: {
+          otp: getOTPString(),
+          email: $("#emailChangePassword").val()
+        },
+        success: function(response) {
+          console.log(JSON.parse(response));
+          let data =  JSON.parse(response);
+    
+          if(data.status == 3 ){
+            Swal.fire({
+              icon: 'error',
+              title: 'Vui lòng nhập lại',
+              text: data.message,
+          })
+          }
+    
+          if(data.status == 1){
+            inputs.forEach((input) => { 
+              input.value = "";
+              const nextInput = input.nextElementSibling;
+              if (nextInput) {
+                nextInput.disabled = true;
+              }
+            });
+            btnConfirm.classList.remove("active");
+            modal.style.display = "none";
+           
+            location.reload();
+          }
+    
+          if(data.status == 4 ){
+            Swal.fire({
+              icon: 'error',
+              title: 'Vui lòng nhấn gửi lại OTP',
+              text: data.message,
+          });
+          sendBackOtp.style.display = 'flex';
+          }
+        }
+      })
+    })
     

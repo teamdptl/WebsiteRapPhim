@@ -5,6 +5,25 @@ var passwordRecordInput = document.getElementById('password_record');
 var passwordChangePassword = document.getElementById('passwordChangePassword');
 var passwordChangePasswordRecord = document.getElementById('passwordChangePasswordRecord');
 
+var showPasswordBtnQuenMK = document.getElementById('show_password_quenMK');
+var passwordInputQuenMK = document.getElementById('passwordChangePasswordQuenMK');
+
+var showPasswordRecordBtnQuenMK = document.getElementById('show_password_record_quenMK');
+var passwordInputRecordQuenMK = document.getElementById('passwordChangePasswordRecordQuenMK');
+
+if(showPasswordRecordBtnQuenMK){
+  showPasswordRecordBtnQuenMK.addEventListener('click', function () {
+    if (passwordInputRecordQuenMK.type === 'password') {
+      passwordInputRecordQuenMK.type = 'text';
+      showPasswordRecordBtnQuenMK.classList.remove('fa-eye');
+      showPasswordRecordBtnQuenMK.classList.add('fa-eye-slash');
+    } else {
+      passwordInputRecordQuenMK.type = 'password';
+      showPasswordRecordBtnQuenMK.classList.remove('fa-eye-slash');
+      showPasswordRecordBtnQuenMK.classList.add('fa-eye');
+    }
+  });
+}
 
 
 showPasswordBtn.addEventListener('click', function () {
@@ -29,6 +48,20 @@ if (showPasswordRecordBtn){
       passwordRecordInput.type = 'password';
       showPasswordRecordBtn.classList.remove('fa-eye-slash');
       showPasswordRecordBtn.classList.add('fa-eye');
+    }
+  });
+}
+
+if(showPasswordBtnQuenMK){
+  showPasswordBtnQuenMK.addEventListener('click', function () {
+    if (passwordInputQuenMK.type === 'password') {
+      passwordInputQuenMK.type = 'text';
+      showPasswordBtnQuenMK.classList.remove('fa-eye');
+      showPasswordBtnQuenMK.classList.add('fa-eye-slash');
+    } else {
+      passwordInputQuenMK.type = 'password';
+      showPasswordBtnQuenMK.classList.remove('fa-eye-slash');
+      showPasswordBtnQuenMK.classList.add('fa-eye');
     }
   });
 }

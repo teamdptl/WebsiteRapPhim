@@ -178,8 +178,8 @@ $(document).ready(function(){
           $.each(data.movie, function(index, movie) {
             $('#name-movie-edit').val(movie.movieName);
             $('#des-movie-edit').val(movie.movieDes);
-            $('#poster-link-img-edit').attr("src","/assets/posterImgMovie/"+movie.posterLink);
-            $('#landscape-poster-img-edit').attr("src","/assets/landscapeImgMovie/"+movie.landscapePoster);
+            $('#poster-link-img-edit').attr("src",movie.posterLink);
+            $('#landscape-poster-img-edit').attr("src",movie.landscapePoster);
             $('#trailer-link-edit').val(movie.trailerLink);
             $('#directors-edit').val(movie.movieDirectors);
             $('#actors-edit').val(movie.movieActors);
