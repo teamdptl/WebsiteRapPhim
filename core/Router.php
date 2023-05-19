@@ -5,6 +5,7 @@ use app\controller\GlobalController;
 use core\Request;
 use app\model\User;
 use app\utils\SessionManager;
+use mysql_xdevapi\Exception;
 
 class Router{
 
@@ -98,7 +99,7 @@ class Router{
                     
             }
             // Add middleware to all route
-            GlobalController::checkRequire($this->isRequireLogin($path, $method), $this->isRequireAdmin($path, $method));
+            // GlobalController::checkRequire($this->isRequireLogin($path, $method), $this->isRequireAdmin($path, $method));
             if (is_string($callback)){
                 $this->resolveString($callback);
             }
@@ -128,6 +129,18 @@ class Router{
         $controller = "\app\controller\\".$controller;
         if (class_exists($controller)){
             $controller_object = new $controller($this->params);
+
+            // Run hasAuthority method
+            try{
+                $hasAuthority = "hasAuthority";
+                $authorityArr = $controller_object->$hasAuthority();
+                GlobalController::checkAuthority($authorityArr);
+            } catch (\Exception $e){
+                // Do nothing because this function this not implement hasAuthority
+                throw new \Exception("Method checkAuthority has error in class " .get_class($this));
+            }
+
+            // Run method of controller
             try{
                 $controller_object->$action(...$this->params);
             } catch (\ArgumentCountError $e){

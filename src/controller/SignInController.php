@@ -223,5 +223,8 @@ class SignInController extends Controller{
             
         }
         
+    public function hasAuthority(): array
+    {
+        return [];
     }
 }

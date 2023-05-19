@@ -4,11 +4,13 @@ namespace app\controller;
 
 use app\model\GroupPermission;
 use app\model\User;
+use core\Application;
+use core\Controller;
 use core\Model;
 use core\View;
 use mysql_xdevapi\Exception;
 
-class AdminQuanLyTaiKhoanController
+class AdminQuanLyTaiKhoanController extends Controller
 {
     public function getPage(){
         $navbar = GlobalController::getNavbar();
@@ -152,5 +154,10 @@ class AdminQuanLyTaiKhoanController
             $status = 1;
         }
         echo json_encode(compact("status"));
+    }
+
+    public function hasAuthority(): array
+    {
+        return [Application::$quanly, Application::$admin];
     }
 }

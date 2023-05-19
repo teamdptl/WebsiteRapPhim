@@ -1,5 +1,6 @@
 <?php
 namespace app\controller;
+use core\Application;
 use core\Controller;
 use core\Request;
 use core\Model;
@@ -277,10 +278,11 @@ class BookingController extends Controller{
             $status = 0;
         }else{
             $userID = Request::$user->userID;
+            $userName = Request::$user->fullName;
             //Tạo hóa đơn
             $booking = new Booking();
             $booking->bookingID = 0;
-            $booking->bookName = '';
+            $booking->bookName = $userName;
             $booking->bookEmail = Request::$user->email;     
             $booking->bookTime = date('Y-m-d H:i:s');
             $booking->methodPay = $methodPay;
@@ -365,4 +367,9 @@ class BookingController extends Controller{
         ]);
     }
 
+    public function hasAuthority(): array
+    {
+        // TODO: Implement hasAuthority() method.
+        return [Application::$user];
+    }
 }

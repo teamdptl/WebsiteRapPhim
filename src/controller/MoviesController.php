@@ -148,7 +148,6 @@ class MoviesController extends Controller{
             // Split name
             $movie->categoryList = explode(",", $movie->categoryList);
             $movie->category = json_encode($movie->categoryList);
-            $movie->categoryIds = explode(",", $movie->categoryIds);
         }
 
         return $movies;
@@ -189,5 +188,11 @@ class MoviesController extends Controller{
             }
         }
         return $listReturn;
+    }
+
+    public function hasAuthority(): array
+    {
+        // TODO: Implement hasAuthority() method.
+        return [];
     }
 }

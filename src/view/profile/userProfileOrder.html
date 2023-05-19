@@ -8,7 +8,7 @@
             <p class="text-center">Bạn chưa có đơn hàng nào cả</p>
         </div>
     {% else %}
-        {% for booking in listBooking %}
+        {% for booking in listBooking | reverse %}
             <div class="order-container w-100" bookingID="{{booking.bookingID}}" isPaid="{{booking.isPaid}}" onclick="viewDetailBooking(this);">
                 <div class="order-item">
                     <div class="left">

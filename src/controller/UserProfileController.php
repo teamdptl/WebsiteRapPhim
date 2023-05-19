@@ -2,6 +2,8 @@
 
 namespace app\controller;
 
+use core\Application;
+use core\Controller;
 use core\Request;
 use core\View;
 use core\Model;
@@ -16,7 +18,7 @@ use app\model\Food;
 use app\model\FoodBooking;
 
 
-class UserProfileController
+class UserProfileController extends Controller
 {
     public function getProfilePage(){
         $navBar = GlobalController::getNavbar();
@@ -141,5 +143,10 @@ class UserProfileController
             }    
         }
         return [];
+    }
+
+    public function hasAuthority(): array
+    {
+        return [Application::$user, Application::$quanly];
     }
 }
