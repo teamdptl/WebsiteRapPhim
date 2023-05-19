@@ -23,7 +23,11 @@ function viewDetailBooking(booking){
             if(dataJson != []){
                 renderDetailBooking(dataJson);
             }else{
-                alert("Booking id:" +bookingID + " not exist!");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi hệ thống',
+                    text: `Không tìm thấy ${{bookingID}}`,
+                })
             }
         }
     })
