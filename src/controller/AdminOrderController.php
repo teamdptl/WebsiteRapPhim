@@ -105,14 +105,18 @@ class AdminOrderController extends Controller
         }
 
         $maxPage = ceil(count($bookings)/$bookingSize);
-        $activePage=  $pageStart;
+        if ($page >= $maxPage){
+            $page = $maxPage;
+        } else if ($page <= 1) {
+            $page = 1;
+        }
         $bookings = array_slice($bookings, $pageStart, $bookingSize);
         View::renderTemplate("/admin/admin_order.html", [
             "navbar" => $navBar,
             "navAdmin" => $navAdmin,
             "orders" => $bookings,
             "maxPage" => $maxPage,
-            "activePage" => $activePage,
+            "activePage" => $page,
             "search" => $search,
             "fromDate" => $fromDate,
             "toDate" => $toDate,

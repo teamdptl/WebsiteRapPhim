@@ -287,7 +287,7 @@ class AdminQuanLyPhimController extends Controller {
            //     $posterFileName = $movieFile[0]->posterLink;
         // $landscapeFileName = $movieFile[0]->landscapePoster;
 
-
+       
       
         if (isset($_POST["checkedIds"]) && !empty($_POST["checkedIds"])) {
             $checkedIds = explode(",", $_POST["checkedIds"]);
@@ -303,6 +303,8 @@ class AdminQuanLyPhimController extends Controller {
         $datePickerLength = strlen($datePicker);
 
 
+
+      
 
         
         $posterFileName = $_FILES["posterLink"]["name"] ?? "" ;
@@ -321,14 +323,31 @@ class AdminQuanLyPhimController extends Controller {
         $targetDirPoster = "assets/posterImgMovie/";
         $targetDirLandscape = "assets/landscapeImgMovie/";
 
+        // $movie = new Movie();
+
+
+        // $isSetImgPoster =  isset($_POST["posterLink"]);
+        // if ($isSetImgPoster) {
+        //     $movieFind = Movie::find(Model::UN_DELETED_OBJ, $movieID);
+        //     $movie->posterLink = $movieFind->posterLink;
+        // } else {
+        //     $movie->posterLink = "assets/posterImgMovie/".$posterFileName;
+        // }
+
+
         $movieFile = Movie::where("movieID = :movieID", compact('movieID'));
 
         if($posterFileName == ""){
             $posterFileName = $movieFile[0]->posterLink;
+        }else{
+            $posterFileName = "assets/posterImgMovie/".$posterFileName;
         }
 
         if($landscapeFileName == ""){
             $landscapeFileName = $movieFile[0]->landscapePoster;
+        }else{
+            $landscapeFileName = "assets/landscapeImgMovie/".$landscapeFileName;
+
         }
         
         $maxFileSize = 5 * 1024 * 1024; // 5MB
@@ -382,8 +401,8 @@ class AdminQuanLyPhimController extends Controller {
             $movie = new Movie();
             $movie -> movieName = $nameMovie;
             $movie -> movieDes = $desMovie;
-            $movie -> posterLink = $targetDirPoster.$posterFileName;
-            $movie -> landscapePoster = $targetDirLandscape.$landscapeFileName;
+            $movie -> posterLink = $posterFileName;
+            $movie -> landscapePoster = $landscapeFileName;
             $movie -> trailerLink = $trailerLink;
             $movie -> movieDirectors = $directors;
             $movie -> movieActors = $actors;
