@@ -59,7 +59,7 @@ class SignInController extends Controller{
             $message = "Vui lòng nhập mật khẩu";
         }
         else {
-            $user = User::where("email = :email AND isDeleted = 0", compact('email'));
+            $user = User::where("email = :email AND isDeleted = 0 AND isActive = true", compact('email'));
             if ($user) {
                 if ($user[0]->userPassword == $password) {
                     $message = "Thành công";
@@ -72,9 +72,9 @@ class SignInController extends Controller{
                     $message = "Sai mật khẩu";
                 }
             }else {
-                $userDeleted = User::where("email = :email AND isDeleted = 1", compact('email'));
+                $userDeleted = User::where("email = :email AND (isDeleted = 1 OR isActive = false)", compact('email'));
                 if ($userDeleted) {
-                    $message = "Tài khoản đã bị xóa";
+                    $message = "Tài khoản đã bị khóa hoặc bị xóa";
                 } else {
                     $message = "Email chưa được tạo";
                 }
