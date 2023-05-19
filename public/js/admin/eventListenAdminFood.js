@@ -36,7 +36,7 @@ $(".edit").click(function (e) {
         },
         success: function (res) {
             $("#food-name").val(res.foodName)
-            $("#imageFood").attr("src","assets/imgFood/"+ res.foodImage)
+            $("#imageFood").attr("src", res.foodImage)
             $("#price").val(res.foodPrice)
             $("#descrip").val(res.foodDescription)
             $("#discountID").val(res.discountID)
