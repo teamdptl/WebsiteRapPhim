@@ -100,7 +100,7 @@ function eventGetMovieName() {
             id: id,
         },
         success: function (res) {
-            console.log(res);
+
             if (Object.keys(res).length == 0) {
                 $("#error-movie-id").css("display", "inline-block");
                 $("#movie-name").val("");
@@ -110,6 +110,9 @@ function eventGetMovieName() {
                 $("#movie-name").val(res.movieName);
             }
         },
+        error: function (res) {
+            $("#movie-name").val("");
+        }
 
     })
 }
@@ -138,6 +141,10 @@ function eventGetCinemaName() {
                 $("#cinema-name").val(res[0].cinemaName);
             }
         },
+        error: function (res) {
+            $("#room-name").val("");
+            $("#cinema-name").val("");
+        }
 
     })
 }
