@@ -31,7 +31,7 @@ class AdminFoodController extends Controller
         $food->foodName = $_POST["foodName"];
         $food->foodImage = "assets/imgFood/" . $imageName;
         $food->foodPrice = $_POST["price"];
-        $food->discountID = 1;
+        $food->discountID = null;
         $food->foodDescription = $_POST["descrip"];
         $food->isDeleted = 0;
         Food::save($food);
@@ -67,7 +67,7 @@ class AdminFoodController extends Controller
         }
         
         $food->foodPrice = $_POST["price"];
-        $food->discountID = 1;
+        $food->discountID = null;
         $food->foodDescription = $_POST["descrip"];
         $food->isDeleted = 0;
         Food::update($food, $foodID);
