@@ -46,8 +46,9 @@ class MoviesController extends Controller{
         $ageMax = isset($_GET["maxAge"]) ? (int)$_GET["maxAge"] : 99;
         $cinema = isset($_GET["cinema"]) ? (int)$_GET["cinema"] : 0;
         $futureMovie = isset($_GET["futureMovie"]) ? (int)$_GET["futureMovie"] : 0;
+        $sortBy = isset($_GET["sortBy"]) ? (int)$_GET["sortBy"] : 0;
 
-        $movies = $this->searchMovieInDB($search, $category, $ageMin, $ageMax, $cinema, $futureMovie);
+        $movies = $this->searchMovieInDB($search, $category, $ageMin, $ageMax, $cinema, $futureMovie, $sortBy);
 
         $resObj = new stdClass();
         $resObj->list = array_slice($movies, ($page-1)*10 , 10);
@@ -116,11 +117,11 @@ class MoviesController extends Controller{
         return $movies;
     }
 
-    public function searchMovieInDB($search = "", $category = 0, $ageMin = 0, $ageMax = 99, $cinema = 0, $futureMovie = 0, $orderBy = 1){
+    public function searchMovieInDB($search = "", $category = 0, $ageMin = 0, $ageMax = 99, $cinema = 0, $futureMovie = 0, $sortBy = 0){
 //        $sql = "SELECT movie.movieID, movie.movieName, movie.posterLink, tag.tagName, (SELECT GROUP_CONCAT(category.cateName) FROM category INNER JOIN movie_category on category.categoryID = movie_category.categoryID WHERE movie_category.movieID = movie.movieID) AS categoryList FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID WHERE movie.isDeleted = false AND category.categoryID = 12 AND tag.tagID = 1 AND movie.movieID IN (SELECT movieID from showtime WHERE showtime.timeStart > NOW()) AND movie.movieName LIKE '%:search%' AND movie.movieID IN (SELECT movie.movieID FROM `movie` INNER JOIN showtime ON showtime.movieID = movie.movieID INNER JOIN room ON room.roomID = showtime.roomID where room.cinemaID = 1) AND movie.dateRelease <= NOW() GROUP BY movie.movieID;"
 //        $movies = Movie::query("SELECT movie.movieID, movie.movieName, movie.posterLink, tag.tagName, (SELECT GROUP_CONCAT(category.cateName) FROM category INNER JOIN movie_category on category.categoryID = movie_category.categoryID WHERE movie_category.movieID = movie.movieID) AS categoryList FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID WHERE movie.isDeleted = false AND category.categoryID = 12 AND tag.tagID = 1 AND movie.movieID IN (SELECT movieID from showtime WHERE showtime.timeStart > NOW()) AND movie.movieName LIKE '%kiến%' AND movie.movieID IN (SELECT movie.movieID FROM `movie` INNER JOIN showtime ON showtime.movieID = movie.movieID INNER JOIN room ON room.roomID = showtime.roomID where room.cinemaID = 1) AND movie.dateRelease <= NOW() GROUP BY movie.movieID;");
 
-        $whereClause = "SELECT DISTINCT movie.movieID, movie.movieName, movie.posterLink, tag.tagName, tag.minAge, (SELECT GROUP_CONCAT(category.cateName) FROM category INNER JOIN movie_category on category.categoryID = movie_category.categoryID WHERE movie_category.movieID = movie.movieID) AS categoryList FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID WHERE movie.isDeleted = false AND movie.movieName LIKE :search ";
+        $whereClause = "SELECT DISTINCT movie.movieID, movie.movieName, movie.posterLink, tag.tagName, tag.minAge, movie.dateRelease, (SELECT GROUP_CONCAT(category.cateName) FROM category INNER JOIN movie_category on category.categoryID = movie_category.categoryID WHERE movie_category.movieID = movie.movieID) AS categoryList FROM `movie` INNER JOIN movie_category ON movie_category.movieID = movie.movieID INNER JOIN tag ON tag.tagID = movie.tagID INNER JOIN category ON category.categoryID = movie_category.categoryID WHERE movie.isDeleted = false AND movie.movieName LIKE :search ";
 
         if ($category != 0){
             $whereClause .= "AND category.categoryID = $category ";
@@ -138,6 +139,16 @@ class MoviesController extends Controller{
             $whereClause .= "AND movie.dateRelease <= NOW() AND movie.movieID IN (SELECT movieID from showtime WHERE showtime.timeStart > NOW()) ";
         } else {
             $whereClause .= "AND movie.dateRelease > NOW() ";
+        }
+
+        if ($sortBy == 1){
+            $whereClause .= "ORDER BY tag.minAge ASC ";
+        } else if ($sortBy == 2){
+            $whereClause .= "ORDER BY tag.minAge DESC ";
+        } else if ($sortBy == 3){
+            $whereClause .= "ORDER BY movie.dateRelease ASC ";
+        } else if ($sortBy == 4){
+            $whereClause .= "ORDER BY movie.dateRelease DESC ";
         }
 
         $movies = Movie::query($whereClause, [

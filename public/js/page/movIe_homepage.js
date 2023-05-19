@@ -78,7 +78,8 @@ const context = {
     maxAge: 99,
     cinema: 0,
     currentPage: 1,
-    futureMovie: location.hash === "#futureMovie" ? 1 : 0
+    futureMovie: location.hash === "#futureMovie" ? 1 : 0,
+    sortBy: 0,
 }
 
 // Search handle
@@ -110,14 +111,23 @@ const ageMin = $("#age-pick-min")[0];
 const ageMax = $("#age-pick-max")[0];
 ageMin.addEventListener("input", function(){
     context.minAge = ageMin.value;
+    context.currentPage = 1;
     if (ageMin.value === "")
         context.minAge = 0;
 })
 
 ageMax.addEventListener("input", function(){
     context.maxAge = ageMax.value;
+    context.currentPage = 1;
     if (ageMax.value === "")
         context.maxAge = 99
+})
+
+const sortBtn = $("#sort-select")[0];
+sortBtn.addEventListener("change", function(){
+    context.sortBy = sortBtn.value;
+    context.currentPage = 1;
+    sendRequest(context);
 })
 
 // Date Release
