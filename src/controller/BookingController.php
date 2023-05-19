@@ -277,10 +277,11 @@ class BookingController extends Controller{
             $status = 0;
         }else{
             $userID = Request::$user->userID;
+            $userName = Request::$user->fullName;
             //Tạo hóa đơn
             $booking = new Booking();
             $booking->bookingID = 0;
-            $booking->bookName = '';
+            $booking->bookName = $userName;
             $booking->bookEmail = Request::$user->email;     
             $booking->bookTime = date('Y-m-d H:i:s');
             $booking->methodPay = $methodPay;
