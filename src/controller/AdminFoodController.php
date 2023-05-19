@@ -28,7 +28,7 @@ class AdminFoodController extends Controller
         $imageFileTmp = $_FILES["image"]["tmp_name"] ?? "";
         $food = new Food();
         $food->foodName = $_POST["foodName"];
-        $food->foodImage = $imageName;
+        $food->foodImage = "assets/imgFood/" . $imageName;
         $food->foodPrice = $_POST["price"];
         $food->discountID = 1;
         $food->foodDescription = $_POST["descrip"];
@@ -62,7 +62,7 @@ class AdminFoodController extends Controller
             $foodFind = Food::find(Model::UN_DELETED_OBJ, $foodID);
             $food->foodImage = $foodFind->foodImage;
         } else {
-            $food->foodImage = $imageName;
+            $food->foodImage = "assets/imgFood/".$imageName;
         }
         
         $food->foodPrice = $_POST["price"];
