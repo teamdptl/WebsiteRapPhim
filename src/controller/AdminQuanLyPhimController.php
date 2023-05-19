@@ -217,8 +217,8 @@ class AdminQuanLyPhimController extends Controller {
             $movie = new Movie();
             $movie -> movieName = $nameMovie;
             $movie -> movieDes = $desMovie;
-            $movie -> posterLink = $posterFileName;
-            $movie -> landscapePoster = $landscapeFileName;
+            $movie -> posterLink = $targetDirPoster.$posterFileName;
+            $movie -> landscapePoster = $targetDirLandscape.$landscapeFileName;
             $movie -> trailerLink = $trailerLink;
             $movie -> movieDirectors = $directors;
             $movie -> movieActors = $actors;
@@ -381,8 +381,8 @@ class AdminQuanLyPhimController extends Controller {
             $movie = new Movie();
             $movie -> movieName = $nameMovie;
             $movie -> movieDes = $desMovie;
-            $movie -> posterLink = $posterFileName;
-            $movie -> landscapePoster = $landscapeFileName;
+            $movie -> posterLink = $targetDirPoster.$posterFileName;
+            $movie -> landscapePoster = $targetDirLandscape.$landscapeFileName;
             $movie -> trailerLink = $trailerLink;
             $movie -> movieDirectors = $directors;
             $movie -> movieActors = $actors;
