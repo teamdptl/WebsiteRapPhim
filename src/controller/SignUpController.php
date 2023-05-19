@@ -173,8 +173,9 @@ class SignUpController extends Controller{
     }
 
 
-
-   
-
-    
+    public function hasAuthority(): array
+    {
+        // TODO: Implement hasAuthority() method.
+        return [];
+    }
 }

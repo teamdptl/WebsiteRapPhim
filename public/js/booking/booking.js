@@ -58,11 +58,19 @@ function handleBooking(button){
                                     rehandleDataForFoodBooking();
                                 }else{
                                     if(jsonData['announcement'] === 'booked'){
-                                        alert('Your seats were booked');
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Lỗi người dùng',
+                                            text: 'Ghế bạn muốn đã có người mua!',
+                                        })
                                         handleBookedSeatAfterCheck(jsonData.listBookedID);
                                     }else{
                                         if(jsonData['announcement'] === 'login'){
-                                            alert('Please login first');
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Lỗi đăng nhập',
+                                                text: 'Vui lòng đăng nhập trước!',
+                                            })
                                             location.href = '/signin';
                                         }else alert(jsonData['announcement']); 
                                     }
@@ -131,11 +139,23 @@ function handleBooking(button){
                     pushDataToBooking(methodPay);
                 }else{
                     if(!flagCheckAgreement && !flagCheckMethod){
-                        alert('You must choose a method to pay and agree with our condition');
+                        Swal.fire({
+                            icon: 'annouce',
+                            title: 'Thông báo',
+                            text: 'Vui lòng chọn phương thức thanh toán và đồng ý với các điều khoản của chúng tôi',
+                        })
                     }else{
                         if(!flagCheckAgreement){
-                            alert('You must agree with Terms and Condition');
-                        }else alert('You must choose a method to pay');
+                            Swal.fire({
+                                icon: 'annouce',
+                                title: 'Thông báo',
+                                text: 'Vui lòng đồng ý với các điều khoản của chúng tôi',
+                            })
+                        }else Swal.fire({
+                            icon: 'annouce',
+                            title: 'Thông báo',
+                            text: 'Vui lòng chọn phương thức thanh toán!',
+                        })
                     }
                 }
             }   
@@ -458,9 +478,18 @@ function pushDataToBooking(methodPay){
         success: function(respone){
             var jsonData = JSON.parse(respone);
             if(jsonData['status'] == 1){
-                alert('Booking successfully!');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Đã đặt vé thành công!',
+                })
                 window.location.assign('/profile');
             }else{
+                Swal.fire({
+                    icon: 'fail',
+                    title: 'Thất bại',
+                    text: jsonData['message'],
+                })
                 alert(jsonData['message']);
                 window.location.assign('/booking');
             }

@@ -10,5 +10,11 @@ class GroupPermission extends Model{
 
     public int $permissionID;
     public string $groupName;
+
+    public static function findByGroupName($name){
+        return $group = GroupPermission::where("groupName = :groupName", [
+            "groupName" => $name
+        ])[0] ?? null;
+    }
     
 }

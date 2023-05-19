@@ -5,6 +5,7 @@ use app\model\Movie;
 use app\model\Room;
 use app\model\SeatType;
 use app\model\ShowtimePrice;
+use core\Application;
 use core\Controller;
 use app\model\MovieCategory;
 use app\model\Cinema;
@@ -186,7 +187,12 @@ class AdminShowTimeController extends Controller{
             echo $json;
             exit();
         }
+
+    public function hasAuthority(): array
+    {
+        return [Application::$quanly, Application::$nhanvien];
     }
+}
    
 
 

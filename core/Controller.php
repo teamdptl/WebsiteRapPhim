@@ -16,4 +16,6 @@ abstract class Controller{
             throw new \Exception("Method $methodName not found in ".get_class($this));
         }
     }
+
+    public abstract function hasAuthority():array;
 }
