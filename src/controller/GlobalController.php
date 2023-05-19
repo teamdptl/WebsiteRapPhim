@@ -112,11 +112,17 @@ class GlobalController
             ]
         ];
 
+        if (Request::$user == null){
+            return [];
+        }
+
         $listNav = [];
+
         foreach ($navItems as $nav){
             $isExist = false;
-            foreach ($nav["userPermission"] as $permiss){
-                if ($permiss->permissionID !=null && $permiss->permissionID == Request::$user->permissionID){
+            $permissions = $nav["userPermission"] ?? [];
+            foreach ($permissions as $permiss){
+                if ($permiss !=null && $permiss->permissionID == Request::$user->permissionID){
                     $isExist = true;
                     break;
                 }
