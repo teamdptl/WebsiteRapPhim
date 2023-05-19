@@ -92,7 +92,7 @@ class AdminShowTimeController extends Controller{
             $showtimePrice ->showID =$showtimeLastID[0] -> showID;
             $showtimePrice ->seatType =$seatType[$i];
             $showtimePrice ->ticketPrice =$seatPrice[$i];
-            $showtimePrice ->discountID = 1 ; 
+            $showtimePrice ->discountID = null ; 
             $showtimePrice ->isDeleted = 0 ; 
             ShowtimePrice::save($showtimePrice);
         }
@@ -163,7 +163,7 @@ class AdminShowTimeController extends Controller{
                 $showtimePrice ->showID = $showID;
                 $showtimePrice ->seatType =$seatType[$i];
                 $showtimePrice ->ticketPrice =$seatPrice[$i];
-                $showtimePrice ->discountID = 1 ; 
+                $showtimePrice ->discountID = null ; 
                 $showtimePrice ->isDeleted = 0 ; 
                 ShowtimePrice::save($showtimePrice);
             }
